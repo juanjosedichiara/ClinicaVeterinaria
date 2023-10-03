@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="UMLVeterinaria">
+  <ClassDiagramComponents>
+    <Class name="Cliente" package="" visibility="public" xPosition="9.0" yPosition="12.0">
+      <Fields>
+        <Field name="documento" type="Int" visibility="private"/>
+        <Field name="apellido" type="String" visibility="private"/>
+        <Field name="nombre" type="String" visibility="private"/>
+        <Field name="direccion" type="String" visibility="private"/>
+        <Field name="telefono" type="Int" visibility="private"/>
+        <Field name="contacto" type="String" visibility="private"/>
+        <Field name="mascota" type="Mascota" visibility="private"/>
+        <Field name="estadoCliente" type="Boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="AltaCliente" returnType="void" visibility="public"/>
+        <Method name="BajaCliente" returnType="void" visibility="public">
+          <Argument type="Int" name="documento"/>
+        </Method>
+        <Method name="ModificacionCliente" returnType="Mascota" visibility="public">
+          <Argument type="Mascota" name="mascota"/>
+        </Method>
+        <Method name="ConsultaCliente" returnType="int" visibility="public">
+          <Argument type="int" name="documento"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Mascota" package="" visibility="public" xPosition="274.0" yPosition="12.0">
+      <Fields>
+        <Field name="alias" type="String" visibility="private"/>
+        <Field name="codigo" type="Int" visibility="private"/>
+        <Field name="sexo" type="String" visibility="private"/>
+        <Field name="especie" type="String" visibility="private"/>
+        <Field name="raza" type="String" visibility="private"/>
+        <Field name="color" type="String" visibility="private"/>
+        <Field name="nacimiento" type="LocalDate" visibility="private"/>
+        <Field name="pesoPromedio" type="Double" visibility="private"/>
+        <Field name="pesoActual" type="Double" visibility="private"/>
+        <Field name="estadoMascota" type="Boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="calcularPesoPromedio" returnType="double" visibility="public"/>
+        <Method name="actualizarPesoPromedio" returnType="void" visibility="public"/>
+        <Method name="altaMascota" returnType="Mascota" visibility="public"/>
+        <Method name="eliminarMascota" returnType="void" visibility="public">
+          <Argument type="int" name="codigo"/>
+        </Method>
+        <Method name="modificarMascota" returnType="Mascota" visibility="public">
+          <Argument type="Mascota" name="mascota"/>
+        </Method>
+        <Method name="consultarMascota" returnType="int" visibility="public">
+          <Argument type="int" name="codigo"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Visita" package="" visibility="public" xPosition="609.0" yPosition="304.0">
+      <Fields>
+        <Field name="fechaVisita" type="LocalDate" visibility="private"/>
+        <Field name="formaPago" type="String" visibility="private"/>
+        <Field name="sintomas" type="String" visibility="private"/>
+        <Field name="afeccion" type="String" visibility="private"/>
+        <Field name="pesoActual" type="Double" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="registrarVisita" returnType="void" visibility="public"/>
+        <Method name="consultarVisitasMascota" returnType="Mascota" visibility="public">
+          <Argument type="Mascota" name="mascota"/>
+        </Method>
+        <Method name="determinarEstadoMascota" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Tratamiento " package="" visibility="public" isStatic="true" xPosition="762.0" yPosition="50.0">
+      <Fields>
+        <Field name="idTratamiento" type="Int" visibility="private"/>
+        <Field name="tipo" type="String" visibility="private"/>
+        <Field name="descripcion" type="String" visibility="private"/>
+        <Field name="importe" type="Double" visibility="private"/>
+        <Field name="estadoTratamiento" type="Boolean" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="altaTratamiento" returnType="Boolean" visibility="public">
+          <Argument type="int" name="idTratamiento"/>
+          <Argument type="String" name="tipo"/>
+          <Argument type="String" name="descripcion"/>
+          <Argument type="Double" name="importe"/>
+          <Argument type="Boolean" name="estadoTratamiento"/>
+        </Method>
+        <Method name="bajaTratamiento" returnType="Tratamiento" visibility="public">
+          <Argument type="Tratamiento" name="tratamiento"/>
+        </Method>
+        <Method name="modificacionTratamiento" returnType="Tratamiento" visibility="public">
+          <Argument type="Int" name="idTratamiento"/>
+        </Method>
+        <Method name="cambiarEstado" returnType="Tratamiento" visibility="public">
+          <Argument type="Tratamiento" name="tratamiento"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="Obtiene una:" source="Mascota" target="Visita" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
+    <HasRelation name="Titular de:" source="Cliente" target="Mascota" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
+    <HasRelation name="Obtiene" source="Visita" target="Tratamiento " type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
