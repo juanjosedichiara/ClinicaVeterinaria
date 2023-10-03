@@ -2,6 +2,7 @@ package clinicaveterinaria.entidades;
 
 public class Cliente {
 
+   int idCliente;
    int documento;
    String apellido;
    String nombre;
@@ -15,7 +16,8 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
+    public Cliente(int idCliente,int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
+        this.idCliente= idCliente;
         this.documento = documento;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -24,6 +26,14 @@ public class Cliente {
         this.contacto = contacto;
         this.mascota = mascota;
         this.estadoCliente = estadoCliente;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
     public int getDocumento() {
@@ -92,8 +102,9 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "documento=" + documento + ", apellido=" + apellido + ", nombre=" + nombre + ", direccion=" + direccion + ", telefono=" + telefono + ", contacto=" + contacto + ", mascota=" + mascota + ", estadoCliente=" + estadoCliente + '}';
+        return "Cliente{" + "idCliente=" + idCliente + ", documento=" + documento + ", apellido=" + apellido + ", nombre=" + nombre + ", direccion=" + direccion + ", telefono=" + telefono + ", contacto=" + contacto + ", mascota=" + mascota + ", estadoCliente=" + estadoCliente + '}';
     }
 
+    
     
 }

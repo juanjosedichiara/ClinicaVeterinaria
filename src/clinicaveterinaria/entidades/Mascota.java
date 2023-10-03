@@ -3,7 +3,7 @@ package clinicaveterinaria.entidades;
 import java.time.LocalDate;
 
 public class Mascota {
-
+    int idMascota;
     String alias;
     int codigo;
     String sexo;
@@ -18,7 +18,8 @@ public class Mascota {
     public Mascota() {
     }
 
-    public Mascota(String alias, int codigo, String sexo, String especie, String raza, String color, LocalDate nacimiento, Double pesoPromedio, Double pesoActual, Boolean estadoMascota) {
+    public Mascota(int idMascota,String alias, int codigo, String sexo, String especie, String raza, String color, LocalDate nacimiento, Double pesoPromedio, Double pesoActual, Boolean estadoMascota) {
+        this.idMascota= idMascota;
         this.alias = alias;
         this.codigo = codigo;
         this.sexo = sexo;
@@ -29,6 +30,14 @@ public class Mascota {
         this.pesoPromedio = pesoPromedio;
         this.pesoActual = pesoActual;
         this.estadoMascota = estadoMascota;
+    }
+
+    public int getIdMascota() {
+        return idMascota;
+    }
+
+    public void setIdMascota(int idMascota) {
+        this.idMascota = idMascota;
     }
 
     public String getAlias() {
@@ -113,8 +122,7 @@ public class Mascota {
 
     @Override
     public String toString() {
-        return "Mascota{" + "alias=" + alias + ", codigo=" + codigo + ", sexo=" + sexo + ", especie=" + especie + ", raza=" + raza + ", color=" + color + ", nacimiento=" + nacimiento + ", pesoPromedio=" + pesoPromedio + ", pesoActual=" + pesoActual + ", estadoMascota=" + estadoMascota + '}';
+        return "Mascota{" + "idMascota=" + idMascota + ", alias=" + alias + ", codigo=" + codigo + ", sexo=" + sexo + ", especie=" + especie + ", raza=" + raza + ", color=" + color + ", nacimiento=" + nacimiento + ", pesoPromedio=" + pesoPromedio + ", pesoActual=" + pesoActual + ", estadoMascota=" + estadoMascota + '}';
     }
 
-   
 }

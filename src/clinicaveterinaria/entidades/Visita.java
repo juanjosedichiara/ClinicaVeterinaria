@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class Visita {
     
+    int idVisita;
     LocalDate fechaVisita;
     String formaPago;
     String sintomas;
@@ -14,12 +15,21 @@ public class Visita {
     public void registrarVisita() {
     }
 
-    public Visita(LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, Double pesoActual) {
+    public Visita(int idVisita,LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, Double pesoActual) {
+        this.idVisita = idVisita;
         this.fechaVisita = fechaVisita;
         this.formaPago = formaPago;
         this.sintomas = sintomas;
         this.afeccion = afeccion;
         this.pesoActual = pesoActual;
+    }
+
+    public int getIdVisita() {
+        return idVisita;
+    }
+
+    public void setIdVisita(int idVisita) {
+        this.idVisita = idVisita;
     }
 
     public LocalDate getFechaVisita() {
@@ -64,7 +74,7 @@ public class Visita {
 
     @Override
     public String toString() {
-        return "Visita{" + "fechaVisita=" + fechaVisita + ", formaPago=" + formaPago + ", sintomas=" + sintomas + ", afeccion=" + afeccion + ", pesoActual=" + pesoActual + '}';
+        return "Visita{" + "idVisita=" + idVisita + ", fechaVisita=" + fechaVisita + ", formaPago=" + formaPago + ", sintomas=" + sintomas + ", afeccion=" + afeccion + ", pesoActual=" + pesoActual + '}';
     }
 
     
