@@ -10,12 +10,12 @@ public class Visita {
     String formaPago;
     String sintomas;
     String afeccion;
-    Double pesoActual;
+    double pesoActual;
 
     public void registrarVisita() {
     }
 
-    public Visita(int idVisita,LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, Double pesoActual) {
+    public Visita(int idVisita,LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual) {
         this.idVisita = idVisita;
         this.fechaVisita = fechaVisita;
         this.formaPago = formaPago;
@@ -68,7 +68,7 @@ public class Visita {
         return pesoActual;
     }
 
-    public void setPesoActual(Double pesoActual) {
+    public void setPesoActual(double pesoActual) {
         this.pesoActual = pesoActual;
     }
 
