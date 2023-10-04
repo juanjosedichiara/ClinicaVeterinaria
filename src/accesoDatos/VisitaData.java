@@ -4,10 +4,16 @@
  */
 package accesoDatos;
 
+import java.sql.Connection;
+
 /**
  *
  * @author Usuario
  */
 public class VisitaData {
+    private Connection con = null;
     
+    public VisitaData(){
+        con = Conexion.getConexion();
+    }
 }

@@ -16,6 +16,18 @@ public class Cliente {
     public Cliente() {
     }
 
+    public Cliente(int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
+        this.documento = documento;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.contacto = contacto;
+        this.mascota = mascota;
+        this.estadoCliente = estadoCliente;
+    }
+    
+    
     public Cliente(int idCliente,int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
         this.idCliente= idCliente;
         this.documento = documento;
@@ -105,6 +117,4 @@ public class Cliente {
         return "Cliente{" + "idCliente=" + idCliente + ", documento=" + documento + ", apellido=" + apellido + ", nombre=" + nombre + ", direccion=" + direccion + ", telefono=" + telefono + ", contacto=" + contacto + ", mascota=" + mascota + ", estadoCliente=" + estadoCliente + '}';
     }
 
-    
-    
 }

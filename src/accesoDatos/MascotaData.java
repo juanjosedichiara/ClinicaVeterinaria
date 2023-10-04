@@ -4,10 +4,16 @@
  */
 package accesoDatos;
 
+import java.sql.Connection;
+
 /**
  *
  * @author Usuario
  */
 public class MascotaData {
+    private Connection con = null;
     
+    public MascotaData(){
+        con = Conexion.getConexion();
+    }
 }

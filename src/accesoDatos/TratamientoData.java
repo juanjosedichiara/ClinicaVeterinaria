@@ -4,10 +4,16 @@
  */
 package accesoDatos;
 
+import java.sql.Connection;
+
 /**
  *
  * @author Usuario
  */
 public class TratamientoData {
+    private Connection con = null;
     
+    public TratamientoData(){
+         con = Conexion.getConexion();
+    }
 }

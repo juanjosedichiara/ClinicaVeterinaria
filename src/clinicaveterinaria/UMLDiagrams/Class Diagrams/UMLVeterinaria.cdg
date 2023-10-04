@@ -2,7 +2,7 @@
 
 <ClassDiagram name="UMLVeterinaria">
   <ClassDiagramComponents>
-    <Class name="Cliente" package="" visibility="public" xPosition="9.0" yPosition="12.0">
+    <Class name="Cliente" package="" visibility="public" xPosition="-1.0" yPosition="50.0">
       <Fields>
         <Field name="documento" type="Int" visibility="private"/>
         <Field name="apellido" type="String" visibility="private"/>
@@ -22,8 +22,8 @@
         <Method name="BajaCliente" returnType="void" visibility="public">
           <Argument type="Int" name="documento"/>
         </Method>
-        <Method name="ModificacionCliente" returnType="Mascota" visibility="public">
-          <Argument type="Mascota" name="mascota"/>
+        <Method name="ModificacionCliente" returnType="Cliente" visibility="public">
+          <Argument type="Cliente" name="cliente"/>
         </Method>
         <Method name="ConsultaCliente" returnType="int" visibility="public">
           <Argument type="int" name="documento"/>
@@ -114,8 +114,8 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="Obtiene" source="Visita" target="Tratamiento " type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
     <HasRelation name="Obtiene una:" source="Mascota" target="Visita" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
     <HasRelation name="Titular de:" source="Cliente" target="Mascota" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
+    <HasRelation name="Obtiene" source="Visita" target="Tratamiento " type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
   </ClassDiagramRelations>
 </ClassDiagram>
