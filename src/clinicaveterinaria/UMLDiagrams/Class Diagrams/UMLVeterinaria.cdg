@@ -30,7 +30,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Mascota" package="" visibility="public" xPosition="274.0" yPosition="12.0">
+    <Class name="Mascota" package="" visibility="public" xPosition="337.0" yPosition="6.0">
       <Fields>
         <Field name="alias" type="String" visibility="private"/>
         <Field name="idMascota" type="Int" visibility="private"/>
@@ -61,7 +61,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Visita" package="" visibility="public" xPosition="559.0" yPosition="323.0">
+    <Class name="Visita" package="" visibility="public" xPosition="655.0" yPosition="382.0">
       <Fields>
         <Field name="fechaVisita" type="LocalDate" visibility="private"/>
         <Field name="formaPago" type="String" visibility="private"/>
@@ -84,7 +84,7 @@
         <Method name="determinarEstadoMascota" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Tratamiento " package="" visibility="public" isStatic="true" xPosition="762.0" yPosition="50.0">
+    <Class name="Tratamiento " package="" visibility="public" isStatic="true" xPosition="655.0" yPosition="17.0">
       <Fields>
         <Field name="idTratamiento" type="Int" visibility="private"/>
         <Field name="tipo" type="String" visibility="private"/>
@@ -114,8 +114,8 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <HasRelation name="Obtiene una:" source="Mascota" target="Visita" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
     <HasRelation name="Titular de:" source="Cliente" target="Mascota" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
+    <HasRelation name="Obtiene una:" source="Mascota" target="Visita" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
     <HasRelation name="Obtiene" source="Visita" target="Tratamiento " type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="ArrayList"/>
   </ClassDiagramRelations>
 </ClassDiagram>
