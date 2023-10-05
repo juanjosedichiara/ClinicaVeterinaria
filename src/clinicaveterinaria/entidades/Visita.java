@@ -1,10 +1,9 @@
 package clinicaveterinaria.entidades;
 
-
 import java.time.LocalDate;
 
 public class Visita {
-    
+
     int idVisita;
     LocalDate fechaVisita;
     String formaPago;
@@ -12,10 +11,18 @@ public class Visita {
     String afeccion;
     double pesoActual;
 
-    public void registrarVisita() {
+    public Visita() {
     }
 
-    public Visita(int idVisita,LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual) {
+    public Visita(LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual) {
+        this.fechaVisita = fechaVisita;
+        this.formaPago = formaPago;
+        this.sintomas = sintomas;
+        this.afeccion = afeccion;
+        this.pesoActual = pesoActual;
+    }
+
+    public Visita(int idVisita, LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual) {
         this.idVisita = idVisita;
         this.fechaVisita = fechaVisita;
         this.formaPago = formaPago;
@@ -77,5 +84,4 @@ public class Visita {
         return "Visita{" + "idVisita=" + idVisita + ", fechaVisita=" + fechaVisita + ", formaPago=" + formaPago + ", sintomas=" + sintomas + ", afeccion=" + afeccion + ", pesoActual=" + pesoActual + '}';
     }
 
-    
 }
