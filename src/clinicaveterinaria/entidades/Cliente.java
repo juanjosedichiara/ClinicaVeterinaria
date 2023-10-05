@@ -2,17 +2,16 @@ package clinicaveterinaria.entidades;
 
 public class Cliente {
 
-   int idCliente;
-   int documento;
-   String apellido;
-   String nombre;
-   String direccion;
-   int telefono;
-   String contacto;
-   Mascota mascota;
-   Boolean estadoCliente;
+    int idCliente;
+    int documento;
+    String apellido;
+    String nombre;
+    String direccion;
+    int telefono;
+    String contacto;
+    Mascota mascota;
+    Boolean estadoCliente;
 
-   
     public Cliente() {
     }
 
@@ -26,10 +25,9 @@ public class Cliente {
         this.mascota = mascota;
         this.estadoCliente = estadoCliente;
     }
-    
-    
-    public Cliente(int idCliente,int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
-        this.idCliente= idCliente;
+
+    public Cliente(int idCliente, int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
+        this.idCliente = idCliente;
         this.documento = documento;
         this.apellido = apellido;
         this.nombre = nombre;

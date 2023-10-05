@@ -2,7 +2,8 @@ package clinicaveterinaria.entidades;
 
 import java.time.LocalDate;
 
-public class Tratamiento  {
+public class Tratamiento {
+
     int idTratamiento;
     String tipo;
     String descripcion;
@@ -10,21 +11,29 @@ public class Tratamiento  {
     LocalDate fechaFin;
     double importe;
     boolean estadoTratamiento;
-    
 
     public Tratamiento() {
     }
 
-    public Tratamiento(int idTratamiento, String tipo, String descripcion, LocalDate fechaInicio,LocalDate fechaFin, double importe, boolean estadoTratamiento) {
+    public Tratamiento(int idTratamiento, String tipo, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, double importe, boolean estadoTratamiento) {
         this.idTratamiento = idTratamiento;
         this.tipo = tipo;
         this.descripcion = descripcion;
-        this.fechaInicio= fechaInicio;
-        this.fechaFin= fechaFin;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
         this.importe = importe;
         this.estadoTratamiento = estadoTratamiento;
     }
 
+    public Tratamiento(String tipo, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, double importe, boolean estadoTratamiento) {
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.importe = importe;
+        this.estadoTratamiento = estadoTratamiento;
+    }
+    
     public int getIdTratamiento() {
         return idTratamiento;
     }
@@ -65,7 +74,6 @@ public class Tratamiento  {
         this.fechaFin = fechaFin;
     }
 
-    
     public double getImporte() {
         return importe;
     }
@@ -87,5 +95,4 @@ public class Tratamiento  {
         return "Tratamiento{" + "idTratamiento=" + idTratamiento + ", tipo=" + tipo + ", descripcion=" + descripcion + ", importe=" + importe + ", estadoTratamiento=" + estadoTratamiento + '}';
     }
 
-  
 }
