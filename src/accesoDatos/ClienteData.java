@@ -21,7 +21,7 @@ public class ClienteData {
     //Cargar un nuevo cliente en la base de datos 
     public void altaCliente(Cliente cliente) {
         String sql = "INSERT INTO cliente (documento, apellido, nombre, direccion, telefono, contacto, estadoCliente)"
-                + "+  VALUES (?,?,?,?,?,?,?)";
+                + " VALUES (?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -34,10 +34,13 @@ public class ClienteData {
             ps.setString(6, cliente.getContacto());
             ps.setBoolean(7, cliente.getEstadoCliente());
 
+            ps.executeUpdate();
+
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 // 1(uno): refiere a la columna de los id.
                 cliente.setIdCliente(rs.getInt(1));
+                System.out.println("Cliente Agregado Exitosamente");
             }
         } catch (SQLException ex) {
             //registra el error en la consola
@@ -57,6 +60,8 @@ public class ClienteData {
 
             if (elimCliente == 1) {
                 System.out.println("Cliente eliminado exitosamente.");
+            } else {
+                System.out.println("Cliente No encontrado en la BD");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -66,25 +71,25 @@ public class ClienteData {
 
     //Modifica los datos de un cliente en la base de datos.
     public void modificarCliente(Cliente cliente) {
-        String sql = "UPDATE cliente SET documento = ?, apellido = ?, nombre = ?, "
-                + "direccion = ?, telefono = ?, contacto = ?, id_mascota = ?, estadoCliente = ? WHERE idCliente = ?";
+        String sql = "UPDATE cliente SET apellido =?, nombre =?, "
+                + "direccion =?, telefono =?, contacto =?, estadoCliente =? WHERE documento =?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setInt(1, cliente.getDocumento());
-            ps.setString(2, cliente.getApellido());
-            ps.setString(3, cliente.getNombre());
-            ps.setString(4, cliente.getDireccion());
-            ps.setInt(5, cliente.getTelefono());
-            ps.setString(6, cliente.getContacto());
-            ps.setBoolean(7, cliente.getEstadoCliente());
-            ps.setInt(8, cliente.getIdCliente());
+            ps.setString(1, cliente.getApellido());
+            ps.setString(2, cliente.getNombre());
+            ps.setString(3, cliente.getDireccion());
+            ps.setInt(4, cliente.getTelefono());
+            ps.setString(5, cliente.getContacto());
+            ps.setBoolean(6, cliente.getEstadoCliente());
+            ps.setInt(7, cliente.getDocumento());
+
 
             int filasActualizadas = ps.executeUpdate();
             if (filasActualizadas == 1) {
                 System.out.println("Datos del cliente modificados exitosamente.");
-            }
+            }else System.out.println("Cliente no encontrado en la BD");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

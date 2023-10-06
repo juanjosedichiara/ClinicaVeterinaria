@@ -10,7 +10,7 @@ public class Conexion {
     private static final String URL = "jdbc:mariadb://localhost/";
     private static final String DB = "clinicaveterinaria";
     private static final String USUARIO = "root";
-    private static final String PASSWORD = " ";
+    private static final String PASSWORD = "";
     private static Connection connection;
 
     private Conexion() {
@@ -21,11 +21,12 @@ public class Conexion {
             try {
                 Class.forName("org.mariadb.jdbc.Driver");
                 connection = DriverManager.getConnection(URL + DB, USUARIO, PASSWORD);
+                System.out.println("Conexión Exitosa a BD");
 
             } catch (ClassNotFoundException ex) {
-                JOptionPane.showConfirmDialog(null, "No se pueden cargar los drivers");
+                JOptionPane.showMessageDialog(null, "No se pueden cargar los drivers");
             } catch (SQLException ex) {
-                JOptionPane.showConfirmDialog(null, "No se puede conectar a la base de datos");
+                JOptionPane.showMessageDialog(null, "No se puede conectar a la base de datos");
             }
         }
         return connection;
