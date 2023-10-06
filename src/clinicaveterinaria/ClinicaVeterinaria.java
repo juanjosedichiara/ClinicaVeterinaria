@@ -15,7 +15,7 @@ public class ClinicaVeterinaria {
 
         ClienteData cliData = new ClienteData();
         Mascota mascota = new Mascota("Coti", "Femenino", "Gatuna", "Siames", "Marron", LocalDate.of(2022, Month.FEBRUARY, 12), 0.0, 2.4, true);
-        Cliente cliente = new Cliente(32665123, "Lucero Medina", "Juan Manuel", "San Martin 489", 261456777, "Maria Rosa Olguin 261545766", mascota, true);
+        Cliente cliente = new Cliente(45789666, "Miranda", "Juan Carlos", "San Martin 457", 45666, "Maria Rosa Olguin 261545766", mascota, true);
         //cliData.altaCliente(cliente); //Prueba para Agregar un Nuevo Cliente
 
         //cliData.eliminarCliente(2); //Prueba para Eliminar el cliente con ID 2

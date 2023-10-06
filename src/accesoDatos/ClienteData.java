@@ -1,6 +1,7 @@
 package accesoDatos;
 
 import clinicaveterinaria.entidades.Cliente;
+import clinicaveterinaria.entidades.Mascota;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,6 +41,7 @@ public class ClienteData {
             if (rs.next()) {
                 // 1(uno): refiere a la columna de los id.
                 cliente.setIdCliente(rs.getInt(1));
+                System.out.println(cliente.getIdCliente());
                 System.out.println("Cliente Agregado Exitosamente");
             }
         } catch (SQLException ex) {
@@ -68,6 +70,11 @@ public class ClienteData {
             ex.printStackTrace();
         }
     }
+    
+    
+    public void eliminarClienteConMascota(Cliente cliente, Mascota mascota){
+        //HACER METODO PARA ELIMINAR CLIENTE CON MASCOTA
+    }
 
     //Modifica los datos de un cliente en la base de datos.
     public void modificarCliente(Cliente cliente) {
@@ -84,7 +91,6 @@ public class ClienteData {
             ps.setString(5, cliente.getContacto());
             ps.setBoolean(6, cliente.getEstadoCliente());
             ps.setInt(7, cliente.getDocumento());
-
 
             int filasActualizadas = ps.executeUpdate();
             if (filasActualizadas == 1) {
