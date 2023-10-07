@@ -27,21 +27,183 @@ public class VeterinarioInternalFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        comboCliente = new javax.swing.JComboBox<>();
+        comboAtencion = new javax.swing.JComboBox<>();
+        menuVeterinario = new javax.swing.JMenuBar();
+        menuPacientes = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        menuModificarMascota = new javax.swing.JMenuItem();
+        menuEliminarMascota = new javax.swing.JMenuItem();
+        menuAltaMascota = new javax.swing.JMenuItem();
+        menuConfiguracion = new javax.swing.JMenu();
+        menuAtencion = new javax.swing.JMenu();
+        menuAgregarAtencion = new javax.swing.JMenuItem();
+        menuEliminarAtencion = new javax.swing.JMenuItem();
+        menuModificarAtencion = new javax.swing.JMenuItem();
+        menuTratamiento = new javax.swing.JMenu();
+        menuNuevoTratamiento = new javax.swing.JMenuItem();
+        menuModificarTratamiento = new javax.swing.JMenuItem();
+        menuEliminarTratamiento = new javax.swing.JMenuItem();
+        menuCerrarSesion = new javax.swing.JMenu();
+
+        setClosable(true);
+        setTitle("VETERINARIO- Clinica veterinaria");
+
+        jDesktopPane1.setBackground(new java.awt.Color(204, 255, 204));
+        jDesktopPane1.setLayout(new java.awt.CardLayout());
+
+        comboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        comboAtencion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        menuPacientes.setText("Pacientes");
+
+        jMenu1.setText("Mis pacientes");
+
+        menuModificarMascota.setText("Modificar datos");
+        menuModificarMascota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuModificarMascotaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuModificarMascota);
+
+        menuEliminarMascota.setText("Baja paciente");
+        jMenu1.add(menuEliminarMascota);
+
+        menuPacientes.add(jMenu1);
+
+        menuAltaMascota.setText("Alta paciente");
+        menuPacientes.add(menuAltaMascota);
+
+        menuVeterinario.add(menuPacientes);
+
+        menuConfiguracion.setText("Configuracion");
+
+        menuAtencion.setText("Atencion");
+
+        menuAgregarAtencion.setText("Alta atencion");
+        menuAgregarAtencion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAgregarAtencionActionPerformed(evt);
+            }
+        });
+        menuAtencion.add(menuAgregarAtencion);
+
+        menuEliminarAtencion.setText("Baja atencion");
+        menuAtencion.add(menuEliminarAtencion);
+
+        menuModificarAtencion.setText("Modificar atencion");
+        menuAtencion.add(menuModificarAtencion);
+
+        menuConfiguracion.add(menuAtencion);
+
+        menuTratamiento.setText("Tratamiento");
+
+        menuNuevoTratamiento.setText("Alta tratamiento");
+        menuNuevoTratamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNuevoTratamientoActionPerformed(evt);
+            }
+        });
+        menuTratamiento.add(menuNuevoTratamiento);
+
+        menuModificarTratamiento.setText("Modificar tratamiento");
+        menuModificarTratamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuModificarTratamientoActionPerformed(evt);
+            }
+        });
+        menuTratamiento.add(menuModificarTratamiento);
+
+        menuEliminarTratamiento.setText("Baja tratamiento");
+        menuEliminarTratamiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEliminarTratamientoActionPerformed(evt);
+            }
+        });
+        menuTratamiento.add(menuEliminarTratamiento);
+
+        menuConfiguracion.add(menuTratamiento);
+
+        menuVeterinario.add(menuConfiguracion);
+
+        menuCerrarSesion.setText("Salir");
+        menuVeterinario.add(menuCerrarSesion);
+
+        setJMenuBar(menuVeterinario);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jDesktopPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(comboCliente, 0, 241, Short.MAX_VALUE)
+                    .addComponent(comboAtencion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comboAtencion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void menuAgregarAtencionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAgregarAtencionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuAgregarAtencionActionPerformed
+
+    private void menuNuevoTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoTratamientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuNuevoTratamientoActionPerformed
+
+    private void menuEliminarTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEliminarTratamientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuEliminarTratamientoActionPerformed
+
+    private void menuModificarTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuModificarTratamientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuModificarTratamientoActionPerformed
+
+    private void menuModificarMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuModificarMascotaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuModificarMascotaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> comboAtencion;
+    private javax.swing.JComboBox<String> comboCliente;
+    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem menuAgregarAtencion;
+    private javax.swing.JMenuItem menuAltaMascota;
+    private javax.swing.JMenu menuAtencion;
+    private javax.swing.JMenu menuCerrarSesion;
+    private javax.swing.JMenu menuConfiguracion;
+    private javax.swing.JMenuItem menuEliminarAtencion;
+    private javax.swing.JMenuItem menuEliminarMascota;
+    private javax.swing.JMenuItem menuEliminarTratamiento;
+    private javax.swing.JMenuItem menuModificarAtencion;
+    private javax.swing.JMenuItem menuModificarMascota;
+    private javax.swing.JMenuItem menuModificarTratamiento;
+    private javax.swing.JMenuItem menuNuevoTratamiento;
+    private javax.swing.JMenu menuPacientes;
+    private javax.swing.JMenu menuTratamiento;
+    private javax.swing.JMenuBar menuVeterinario;
     // End of variables declaration//GEN-END:variables
 }
