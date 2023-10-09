@@ -3,7 +3,9 @@ package clinicaveterinaria.entidades;
 import java.time.LocalDate;
 
 public class Mascota {
+
     int idMascota;
+    int idCliente;
     String alias;
     String sexo;
     String especie;
@@ -29,9 +31,9 @@ public class Mascota {
         this.estadoMascota = estadoMascota;
     }
 
-    
-    public Mascota(int idMascota,String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, Double pesoPromedio, Double pesoActual, Boolean estadoMascota) {
-        this.idMascota= idMascota;
+    public Mascota(int idMascota, int idCliente, String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, Double pesoPromedio, Double pesoActual, Boolean estadoMascota) {
+        this.idMascota = idMascota;
+        this.idCliente = idCliente;
         this.alias = alias;
         this.sexo = sexo;
         this.especie = especie;
@@ -51,6 +53,14 @@ public class Mascota {
         this.idMascota = idMascota;
     }
 
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
     public String getAlias() {
         return alias;
     }
@@ -58,7 +68,6 @@ public class Mascota {
     public void setAlias(String alias) {
         this.alias = alias;
     }
-
 
     public String getSexo() {
         return sexo;

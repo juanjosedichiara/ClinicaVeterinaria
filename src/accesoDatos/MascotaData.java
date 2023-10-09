@@ -21,13 +21,13 @@ public class MascotaData {
     public MascotaData() {
         con = Conexion.getConexion();
     }
-    //REVISAR ESTE METODO PORQUE NO FUNCIONA
+
     public void altaMascota(Mascota mascota, Cliente cliente) {
         String sql = "INSERT INTO mascota (idCliente, alias, sexo, especie, raza, color, nacimiento, "
                 + "pesoPromedio, pesoActual, estadoMascota) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+            System.out.println("ID Cli: " + cliente.getIdCliente());
             ps.setInt(1, cliente.getIdCliente());
             ps.setString(2, mascota.getAlias());
             ps.setString(3, mascota.getSexo());
@@ -91,6 +91,48 @@ public class MascotaData {
             ex.printStackTrace();
         }
 
+    }
+
+    public Mascota consultarMascotaPorId(int idMascota) {
+        Mascota mascota = new Mascota();
+
+        String sql = "SELECT * FROM mascota WHERE idMascota = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMascota);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                mascota.setIdMascota(rs.getInt("idMascota"));
+                mascota.setIdCliente(rs.getInt("idCliente"));
+                mascota.setAlias(rs.getString("alias"));
+                mascota.setSexo(rs.getString("sexo"));
+                mascota.setEspecie(rs.getString("especie"));
+                mascota.setRaza(rs.getString("raza"));
+                mascota.setColor(rs.getString("color"));
+                mascota.setNacimiento(rs.getDate("nacimiento").toLocalDate());
+                mascota.setPesoPromedio(rs.getDouble("pesoPromedio"));
+                mascota.setPesoActual(rs.getDouble("pesoActual"));
+                mascota.setEstadoMascota(rs.getBoolean("estadoMascota"));
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return mascota;
+    }
+    //FALTA TERMINAR ESTE METODO
+    public Double calcularPesoPromedio(){
+        Double pesoPromedio=0.0;
+        
+        return pesoPromedio;
+        
+    }
+    //FALTA TERMINAR ESTE METODO
+    public void actualizarPesoPromedio(){
+        
     }
 
 }

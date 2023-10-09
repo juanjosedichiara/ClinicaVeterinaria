@@ -73,8 +73,8 @@ public class ClienteData {
             ex.printStackTrace();
         }
     }
-
-    //Elimina un cliente de la BD y cambia estado a false en tabla Mascota
+    //REVISAR ESTE METODO PORQUE NO FUNCIONA
+    //Elimina un cliente de la BD y cambia estado a false en tabla Mascota 
     public void eliminarClienteConMascota(Cliente cliente, Mascota mascota) {
         String sql = "DELETE FROM cliente WHERE idCliente = ?";
         String sql1 = "UPDATE mascota SET estadoMascota= false WHERE idMascota= ? AND idCliente= ?";
@@ -89,21 +89,27 @@ public class ClienteData {
 
             confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea eliminar las mascotas asociadas al cliente?");
 
-            if (confirmacion == 0) {
-                ps.executeUpdate();
-                ps1.executeUpdate();
-                System.out.println("Se eliminó al Cliente y a sus Mascotas exitosamente.");
-                ps.close();
-                ps1.close();
-            } else if (confirmacion == 1) {
-                ps.executeUpdate();
-                System.out.println("Cliente eliminado exitosamente. No se eliminaron las mascotas asociadas");
-                ps.close();
-                ps1.close();
-            } else if (confirmacion == 2) {
-                return;
-            } else {
-                System.out.println("Cliente No encontrado en la BD");
+            switch (confirmacion) {
+                case 0:
+                    ps.executeUpdate();
+                    ps1.executeUpdate();
+                    System.out.println("ID: " + cliente.getIdCliente());
+                    System.out.println("ID Masc: "+ mascota.getIdMascota());
+                    System.out.println("Se eliminó al Cliente y a sus Mascotas exitosamente.");
+                    ps.close();
+                    ps1.close();
+                    break;
+                case 1:
+                    ps.executeUpdate();
+                    System.out.println("Cliente eliminado exitosamente. No se eliminaron las mascotas asociadas");
+                    ps.close();
+                    ps1.close();
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Cliente No encontrado en la BD");
+                    break;
             }
 
             ps.close();
@@ -141,8 +147,10 @@ public class ClienteData {
     }
 
     //Consulta clientes por número de DNI.
-    public List<Cliente> consultarClientesPorDNI(int dni) {
-        List<Cliente> clientesEncontrados = new ArrayList<>();
+    public Cliente consultarClientesPorDNI(int dni) {
+        
+        Cliente cliente = new Cliente();
+        
         String sql = "SELECT * FROM cliente WHERE documento = ?";
 
         try {
@@ -151,7 +159,6 @@ public class ClienteData {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Cliente cliente = new Cliente();
                 cliente.setIdCliente(rs.getInt("idCliente"));
                 cliente.setDocumento(rs.getInt("documento"));
                 cliente.setApellido(rs.getString("apellido"));
@@ -161,14 +168,14 @@ public class ClienteData {
                 cliente.setContacto(rs.getString("contacto"));
                 cliente.setEstadoCliente(rs.getBoolean("estadoCliente"));
 
-                clientesEncontrados.add(cliente);
             }
+            
             rs.close();
             ps.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return clientesEncontrados;
+        return cliente;
     }
 
     //Consulta clientes por nombre y apellido 
