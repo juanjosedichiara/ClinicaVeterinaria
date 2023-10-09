@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 //MÉTODOS PARA INTERACTUAR CON LA BASE DE DATOS DE CLIENTE
 public class ClienteData {
@@ -44,6 +45,8 @@ public class ClienteData {
                 System.out.println(cliente.getIdCliente());
                 System.out.println("Cliente Agregado Exitosamente");
             }
+            ps.close();
+
         } catch (SQLException ex) {
             //registra el error en la consola
             ex.printStackTrace();
@@ -70,10 +73,44 @@ public class ClienteData {
             ex.printStackTrace();
         }
     }
-    
-    
-    public void eliminarClienteConMascota(Cliente cliente, Mascota mascota){
-        //HACER METODO PARA ELIMINAR CLIENTE CON MASCOTA
+
+    //Elimina un cliente de la BD y cambia estado a false en tabla Mascota
+    public void eliminarClienteConMascota(Cliente cliente, Mascota mascota) {
+        String sql = "DELETE FROM cliente WHERE idCliente = ?";
+        String sql1 = "UPDATE mascota SET estadoMascota= false WHERE idMascota= ? AND idCliente= ?";
+        int confirmacion;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps1 = con.prepareStatement(sql1);
+            ps.setInt(1, cliente.getIdCliente());
+            ps1.setInt(1, mascota.getIdMascota());
+            ps1.setInt(2, cliente.getIdCliente());
+
+            confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea eliminar las mascotas asociadas al cliente?");
+
+            if (confirmacion == 0) {
+                ps.executeUpdate();
+                ps1.executeUpdate();
+                System.out.println("Se eliminó al Cliente y a sus Mascotas exitosamente.");
+                ps.close();
+                ps1.close();
+            } else if (confirmacion == 1) {
+                ps.executeUpdate();
+                System.out.println("Cliente eliminado exitosamente. No se eliminaron las mascotas asociadas");
+                ps.close();
+                ps1.close();
+            } else if (confirmacion == 2) {
+                return;
+            } else {
+                System.out.println("Cliente No encontrado en la BD");
+            }
+
+            ps.close();
+            ps1.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     //Modifica los datos de un cliente en la base de datos.
@@ -95,7 +132,9 @@ public class ClienteData {
             int filasActualizadas = ps.executeUpdate();
             if (filasActualizadas == 1) {
                 System.out.println("Datos del cliente modificados exitosamente.");
-            }else System.out.println("Cliente no encontrado en la BD");
+            } else {
+                System.out.println("Cliente no encontrado en la BD");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
