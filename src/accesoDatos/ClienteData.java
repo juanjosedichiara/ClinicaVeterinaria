@@ -53,9 +53,9 @@ public class ClienteData {
         }
     }
 
-    //Elimina un cliente de la base de datos por su ID.
+    //Elimina un cliente de la base de datos por su ID. (BORRADO LÓGICO)
     public void eliminarCliente(int idCliente) {
-        String sql = "DELETE FROM cliente WHERE idCliente = ?";
+        String sql = "UPDATE cliente SET estadoCliente= false WHERE idCliente = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -73,12 +73,11 @@ public class ClienteData {
             ex.printStackTrace();
         }
     }
-    //REVISAR ESTE METODO SE HIZO CAMBIOS, HAY QUE PROBARLO.
-    
-    //Elimina un cliente de la BD y cambia estado a false en tabla Mascota 
+
+    //Elimina una Mascota de la BD y cambia estado a false en tabla Cliente 
     public void eliminarClienteConMascota(Cliente cliente, Mascota mascota) {
-        String sql = "DELETE FROM cliente WHERE idCliente = ?";
-        String sql1 = "UPDATE mascota SET estadoMascota= false WHERE idCliente= ?";
+        String sql = "UPDATE cliente SET estadoCliente= false WHERE idCliente = ?";
+        String sql1 = "DELETE FROM mascota WHERE idMascota= ?";
 //        int confirmacion;
 //
 //        try {
@@ -86,13 +85,13 @@ public class ClienteData {
 //
 //            if (confirmacion == 0) { 
 //                // Si el usuario confirma
-//                // Elimina al cliente
+//                // Elimina al cliente (Borrado Logico)
 //                PreparedStatement ps = con.prepareStatement(sql);
 //                ps.setInt(1, cliente.getIdCliente());
 //                ps.executeUpdate();
 //                ps.close();
 //
-//                // Cambia el estado de las mascotas asociadas al cliente
+//                // Elimina las mascotas asociadas al cliente
 //                PreparedStatement ps1 = con.prepareStatement(sql1);
 //                ps1.setInt(1, cliente.getIdCliente());
 //                ps1.executeUpdate();
@@ -117,31 +116,30 @@ public class ClienteData {
 //        } catch (SQLException ex) {
 //            ex.printStackTrace();
 //        }
-        
+
         // CREO QUE DEBEMOS USAR ESTE METODO
         // LA CONFIRMACION DEBERIAMOS AGREGARLA EN LOS BOTONES DE VISTAS. 
-           //POR ESO COMENTE EL ANTERIOR CODIGO.. PROBAR AMBOS.
+        //POR ESO COMENTE EL ANTERIOR CODIGO.. PROBAR AMBOS.
         try {
-         // Elimina al cliente
+            // Elimina al cliente (Borrado Logico)
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, cliente.getIdCliente());
             ps.executeUpdate();
             ps.close();
 
-        // Cambia el estado de las mascotas asociadas al cliente
+            // Elimina una Mascota (DELETE)
             PreparedStatement ps1 = con.prepareStatement(sql1);
-            ps1.setInt(1, cliente.getIdCliente());
+            ps1.setInt(1, mascota.getIdMascota());
             ps1.executeUpdate();
             ps1.close();
 
-                System.out.println("Se eliminó al Cliente y se cambió el estado de sus Mascotas exitosamente.");
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            System.out.println("Se eliminó al Cliente y se cambió el estado de sus Mascotas exitosamente.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
 
     }
-    
-    
+
     //Modifica los datos de un cliente en la base de datos.
     public void modificarCliente(Cliente cliente) {
         String sql = "UPDATE cliente SET apellido =?, nombre =?, "
@@ -171,9 +169,9 @@ public class ClienteData {
 
     //Consulta clientes por número de DNI.
     public Cliente consultarClientesPorDNI(int dni) {
-        
+
         Cliente cliente = new Cliente();
-        
+
         String sql = "SELECT * FROM cliente WHERE documento = ?";
 
         try {
@@ -192,7 +190,7 @@ public class ClienteData {
                 cliente.setEstadoCliente(rs.getBoolean("estadoCliente"));
 
             }
-            
+
             rs.close();
             ps.close();
         } catch (SQLException ex) {

@@ -26,7 +26,7 @@ public class MascotaData {
                 + "pesoPromedio, pesoActual, estadoMascota) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            System.out.println("ID Cli: " + cliente.getIdCliente());
+
             ps.setInt(1, cliente.getIdCliente());
             ps.setString(2, mascota.getAlias());
             ps.setString(3, mascota.getSexo());
@@ -55,7 +55,8 @@ public class MascotaData {
     }
 
     public void modificarMascota(Mascota mascota) {
-        String sql = "UPDATE `mascota` SET `alias`=? ,sexo=?, especie=?, raza=?, color=?, nacimientro=?, presoPromedio=?, pesoActual=?, estadoMascota=? WHERE idMascota=?";
+        String sql = "UPDATE `mascota` SET `alias`=? ,sexo=?, especie=?, raza=?, color=?, "
+                + "nacimiento=?, presoPromedio=?, pesoActual=?, estadoMascota=? WHERE idMascota=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, mascota.getAlias());
@@ -69,10 +70,19 @@ public class MascotaData {
             ps.setBoolean(9, mascota.getEstadoMascota());
             ps.setInt(10, mascota.getIdMascota());
 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Modificacion de mascota exitosa");
-        }
+            int modificar = ps.executeUpdate();
 
+            if (modificar == 1) {
+                System.out.println("Modificación de Mascota exitosa");
+            } else {
+                System.out.println("No se pudo realizar la modificación");
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error en la conexion con la tabla mascota");
+        }
     }
 
     public void eliminarMascota(int idMascota) {
@@ -84,6 +94,8 @@ public class MascotaData {
 
             if (elimMascota == 1) {
                 System.out.println("Mascota eliminada exitosamente.");
+            } else {
+                System.out.println("Error al intentar eliminar la mascota");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -122,20 +134,18 @@ public class MascotaData {
         }
         return mascota;
     }
-    
 
-    
     public List<Mascota> obtenerMascotasPorIdCliente(int idCliente) {
-    List<Mascota> mascotas = new ArrayList<>();
+        List<Mascota> mascotas = new ArrayList<>();
 
-    String sql = "SELECT * FROM mascota WHERE idCliente = ?";
+        String sql = "SELECT * FROM mascota WHERE idCliente = ?";
 
-    try {
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, idCliente);
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idCliente);
 
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 Mascota mascota = new Mascota();
                 mascota.setIdMascota(rs.getInt("idMascota"));
                 mascota.setIdCliente(rs.getInt("idCliente"));
@@ -149,7 +159,7 @@ public class MascotaData {
                 mascota.setPesoActual(rs.getDouble("pesoActual"));
                 mascota.setEstadoMascota(rs.getBoolean("estadoMascota"));
                 mascotas.add(mascota);
-        }
+            }
             rs.close();
             ps.close();
         } catch (SQLException ex) {
@@ -158,13 +168,12 @@ public class MascotaData {
         return mascotas;
     }
 
-    
     public double calcularDiferenciaDePeso(int idMascota, LocalDate fechaConsulta) {
-    double diferenciaPeso = 0.0;
-    LocalDate fechaConsultaAnterior = null;
-    double pesoConsultaAnterior = 0.0;
+        double diferenciaPeso = 0.0;
+        LocalDate fechaConsultaAnterior = null;
+        double pesoConsultaAnterior = 0.0;
 
-    String sql = "SELECT fechaVisita, pesoActual FROM visitas WHERE idMascota = ? AND fechaVisita < ? ORDER BY fechaVisita DESC LIMIT 1";
+        String sql = "SELECT fechaVisita, pesoActual FROM visitas WHERE idMascota = ? AND fechaVisita < ? ORDER BY fechaVisita DESC LIMIT 1";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -191,6 +200,47 @@ public class MascotaData {
         }
 
         return diferenciaPeso;
+    }
+
+    //Actualiza el peso promedio de la mascota
+    public double actualizarPesoPromedio(int idMascota) {
+        MascotaData mascotaData = new MascotaData();
+        Mascota masc = mascotaData.consultarMascotaPorId(idMascota); //Se crea una nueva mascota con los datos de la tabla
+
+        double pesoPromedio = masc.getPesoPromedio(); // La variable almacena el peso promedio contenido en la tabla
+        double pesoActual = masc.getPesoActual(); //La var pesoActual almacena el peso cargado en la tabla mascota
+        double nuevoPesoPromedio = (pesoActual + pesoPromedio) / 2;
+
+        String sql = "UPDATE mascota SET pesoPromedio = ? WHERE idMascota= ?";
+        String sql1 = "SELECT pesoActual FROM visitas WHERE idMascota= ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps1 = con.prepareStatement(sql1);
+
+            ps.setDouble(1, nuevoPesoPromedio);
+            ps.setInt(2, idMascota);
+
+            ps1.setInt(1, idMascota);
+
+            ps.executeUpdate();
+            ResultSet rs = ps1.executeQuery();
+            
+            if(rs.next()){
+                List <Double> pesos = new ArrayList();
+                pesos.add(rs.getDouble("pesoActual"));
+                int cantidadDePesos= pesos.size();
+                
+                ///FALTA TERMINAR Y CORREGIR EL CODIGO DEFINITIVO
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            System.out.println("No se pudo conectar a la tabla Mascota" + ex);
+        }
+
+        return pesoPromedio;
     }
 
 }

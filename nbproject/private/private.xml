@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/borch/OneDrive/Desktop/ULP-Equipo%2015/Equipo15-Tema3/ClinicaVeterinaria/src/clinicaveterinaria/vistas/HomeView.java</file>
-            <file>file:/C:/Users/borch/OneDrive/Desktop/ULP-Equipo%2015/Equipo15-Tema3/ClinicaVeterinaria/src/clinicaveterinaria/vistas/VeterinarioInternalFrame.java</file>
-            <file>file:/C:/Users/borch/OneDrive/Desktop/ULP-Equipo%2015/Equipo15-Tema3/ClinicaVeterinaria/src/clinicaveterinaria/vistas/FormularioPacientes.java</file>
+            <file>file:/C:/Users/Juan%20José/Documents/GitHub/ClinicaVeterinaria/src/accesoDatos/MascotaData.java</file>
+            <file>file:/C:/Users/Juan%20José/Documents/GitHub/ClinicaVeterinaria/src/clinicaveterinaria/entidades/Cliente.java</file>
+            <file>file:/C:/Users/Juan%20José/Documents/GitHub/ClinicaVeterinaria/src/accesoDatos/ClienteData.java</file>
+            <file>file:/C:/Users/Juan%20José/Documents/GitHub/ClinicaVeterinaria/src/clinicaveterinaria/ClinicaVeterinaria.java</file>
         </group>
     </open-files>
 </project-private>
