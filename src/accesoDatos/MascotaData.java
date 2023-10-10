@@ -8,10 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class MascotaData {
@@ -123,16 +122,75 @@ public class MascotaData {
         }
         return mascota;
     }
-    //FALTA TERMINAR ESTE METODO
-    public Double calcularPesoPromedio(){
-        Double pesoPromedio=0.0;
-        
-        return pesoPromedio;
-        
+    
+
+    
+    public List<Mascota> obtenerMascotasPorIdCliente(int idCliente) {
+    List<Mascota> mascotas = new ArrayList<>();
+
+    String sql = "SELECT * FROM mascota WHERE idCliente = ?";
+
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idCliente);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+                Mascota mascota = new Mascota();
+                mascota.setIdMascota(rs.getInt("idMascota"));
+                mascota.setIdCliente(rs.getInt("idCliente"));
+                mascota.setAlias(rs.getString("alias"));
+                mascota.setSexo(rs.getString("sexo"));
+                mascota.setEspecie(rs.getString("especie"));
+                mascota.setRaza(rs.getString("raza"));
+                mascota.setColor(rs.getString("color"));
+                mascota.setNacimiento(rs.getDate("nacimiento").toLocalDate());
+                mascota.setPesoPromedio(rs.getDouble("pesoPromedio"));
+                mascota.setPesoActual(rs.getDouble("pesoActual"));
+                mascota.setEstadoMascota(rs.getBoolean("estadoMascota"));
+                mascotas.add(mascota);
+        }
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return mascotas;
     }
-    //FALTA TERMINAR ESTE METODO
-    public void actualizarPesoPromedio(){
-        
+
+    
+    public double calcularDiferenciaDePeso(int idMascota, LocalDate fechaConsulta) {
+    double diferenciaPeso = 0.0;
+    LocalDate fechaConsultaAnterior = null;
+    double pesoConsultaAnterior = 0.0;
+
+    String sql = "SELECT fechaVisita, pesoActual FROM visitas WHERE idMascota = ? AND fechaVisita < ? ORDER BY fechaVisita DESC LIMIT 1";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMascota);
+            ps.setDate(2, Date.valueOf(fechaConsulta));
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                fechaConsultaAnterior = rs.getDate("fechaVisita").toLocalDate();
+                pesoConsultaAnterior = rs.getDouble("pesoActual");
+            }
+
+            if (fechaConsultaAnterior != null) {
+                // Calcular la diferencia de peso si se encontró una consulta anterior
+                diferenciaPeso = pesoConsultaAnterior - consultarMascotaPorId(idMascota).getPesoActual();
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return diferenciaPeso;
     }
 
 }

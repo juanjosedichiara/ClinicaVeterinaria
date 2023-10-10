@@ -73,52 +73,75 @@ public class ClienteData {
             ex.printStackTrace();
         }
     }
-    //REVISAR ESTE METODO PORQUE NO FUNCIONA
+    //REVISAR ESTE METODO SE HIZO CAMBIOS, HAY QUE PROBARLO.
+    
     //Elimina un cliente de la BD y cambia estado a false en tabla Mascota 
     public void eliminarClienteConMascota(Cliente cliente, Mascota mascota) {
         String sql = "DELETE FROM cliente WHERE idCliente = ?";
-        String sql1 = "UPDATE mascota SET estadoMascota= false WHERE idMascota= ? AND idCliente= ?";
-        int confirmacion;
-
+        String sql1 = "UPDATE mascota SET estadoMascota= false WHERE idCliente= ?";
+//        int confirmacion;
+//
+//        try {
+//            confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea eliminar las mascotas asociadas al cliente?");
+//
+//            if (confirmacion == 0) { 
+//                // Si el usuario confirma
+//                // Elimina al cliente
+//                PreparedStatement ps = con.prepareStatement(sql);
+//                ps.setInt(1, cliente.getIdCliente());
+//                ps.executeUpdate();
+//                ps.close();
+//
+//                // Cambia el estado de las mascotas asociadas al cliente
+//                PreparedStatement ps1 = con.prepareStatement(sql1);
+//                ps1.setInt(1, cliente.getIdCliente());
+//                ps1.executeUpdate();
+//                ps1.close();
+//
+//                 System.out.println("Se eliminó al Cliente y se cambió el estado de sus Mascotas exitosamente.");
+//            
+//            } else if (confirmacion == 1) { 
+//                // Si el usuario no desea eliminar las mascotas
+//                // Solo elimina al cliente
+//                PreparedStatement ps = con.prepareStatement(sql);
+//                ps.setInt(1, cliente.getIdCliente());
+//                ps.executeUpdate();
+//                ps.close();
+//
+//                System.out.println("Cliente eliminado exitosamente. No se eliminaron las mascotas asociadas.");
+//            
+//            } else {
+//                System.out.println("Operación cancelada.");
+//            }
+//        
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+        
+        // CREO QUE DEBEMOS USAR ESTE METODO
+        // LA CONFIRMACION DEBERIAMOS AGREGARLA EN LOS BOTONES DE VISTAS. 
+           //POR ESO COMENTE EL ANTERIOR CODIGO.. PROBAR AMBOS.
         try {
+         // Elimina al cliente
             PreparedStatement ps = con.prepareStatement(sql);
-            PreparedStatement ps1 = con.prepareStatement(sql1);
             ps.setInt(1, cliente.getIdCliente());
-            ps1.setInt(1, mascota.getIdMascota());
-            ps1.setInt(2, cliente.getIdCliente());
+            ps.executeUpdate();
+            ps.close();
 
-            confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea eliminar las mascotas asociadas al cliente?");
+        // Cambia el estado de las mascotas asociadas al cliente
+            PreparedStatement ps1 = con.prepareStatement(sql1);
+            ps1.setInt(1, cliente.getIdCliente());
+            ps1.executeUpdate();
+            ps1.close();
 
-            switch (confirmacion) {
-                case 0:
-                    ps.executeUpdate();
-                    ps1.executeUpdate();
-                    System.out.println("ID: " + cliente.getIdCliente());
-                    System.out.println("ID Masc: "+ mascota.getIdMascota());
-                    System.out.println("Se eliminó al Cliente y a sus Mascotas exitosamente.");
-                    ps.close();
-                    ps1.close();
-                    break;
-                case 1:
-                    ps.executeUpdate();
-                    System.out.println("Cliente eliminado exitosamente. No se eliminaron las mascotas asociadas");
-                    ps.close();
-                    ps1.close();
-                    break;
-                case 2:
-                    return;
-                default:
-                    System.out.println("Cliente No encontrado en la BD");
-                    break;
+                System.out.println("Se eliminó al Cliente y se cambió el estado de sus Mascotas exitosamente.");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
 
-            ps.close();
-            ps1.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
-
+    
+    
     //Modifica los datos de un cliente en la base de datos.
     public void modificarCliente(Cliente cliente) {
         String sql = "UPDATE cliente SET apellido =?, nombre =?, "

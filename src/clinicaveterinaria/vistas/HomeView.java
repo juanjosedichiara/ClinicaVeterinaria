@@ -5,8 +5,6 @@
  */
 package clinicaveterinaria.vistas;
 
-import clinicaveterinaria.vistas.VeterinarioInternalFrame;
-import clinicaveterinaria.vistas.EmpleadoInternalFrame;
 import javax.swing.JOptionPane;
 /**
  *
@@ -31,15 +29,30 @@ public class HomeView extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopHome = new javax.swing.JDesktopPane();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         labelUsuario = new javax.swing.JLabel();
         fieldUsuario = new javax.swing.JTextField();
         bIniciarSesion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Clinica Veterinaria");
+        setLocationByPlatform(true);
+        setPreferredSize(new java.awt.Dimension(500, 500));
 
-        desktopHome.setBackground(new java.awt.Color(204, 255, 204));
+        desktopHome.setBackground(new java.awt.Color(255, 204, 204));
 
-        labelUsuario.setText("Usuario");
+        jLayeredPane1.setBackground(new java.awt.Color(204, 255, 204));
+        jLayeredPane1.setForeground(new java.awt.Color(255, 255, 0));
+
+        labelUsuario.setText("USUARIO: ");
+        labelUsuario.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        fieldUsuario.setBorder(null);
+        fieldUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldUsuarioActionPerformed(evt);
+            }
+        });
 
         bIniciarSesion.setText("Iniciar Sesion");
         bIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -48,35 +61,56 @@ public class HomeView extends javax.swing.JFrame {
             }
         });
 
-        desktopHome.setLayer(labelUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        desktopHome.setLayer(fieldUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        desktopHome.setLayer(bIniciarSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(labelUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(fieldUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(bIniciarSesion, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(fieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bIniciarSesion))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(fieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bIniciarSesion)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        desktopHome.setLayer(jLayeredPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout desktopHomeLayout = new javax.swing.GroupLayout(desktopHome);
         desktopHome.setLayout(desktopHomeLayout);
         desktopHomeLayout.setHorizontalGroup(
             desktopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(desktopHomeLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(labelUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-                .addComponent(fieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
-            .addGroup(desktopHomeLayout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(bIniciarSesion)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(488, Short.MAX_VALUE))
         );
         desktopHomeLayout.setVerticalGroup(
             desktopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(desktopHomeLayout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addGroup(desktopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelUsuario)
-                    .addComponent(fieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(bIniciarSesion)
-                .addContainerGap(220, Short.MAX_VALUE))
+                .addGap(65, 65, 65)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -89,9 +123,7 @@ public class HomeView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(desktopHome)
         );
 
         pack();
@@ -100,23 +132,27 @@ public class HomeView extends javax.swing.JFrame {
     private void bIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bIniciarSesionActionPerformed
         // TODO add your handling code here:
          String usuario = fieldUsuario.getText();
- 
-    boolean esVeterinario = true; 
+         
+        boolean esVeterinario = true; 
                 
-    if (usuario.equals("veterinario@clinicaveterinaria.com")) {
-        VeterinarioInternalFrame veterinarioFrame = new VeterinarioInternalFrame();
-        desktopHome.add(veterinarioFrame);
-        veterinarioFrame.setVisible(true);
-    }
-    else if (usuario.equals("empleado@clinicaveterinaria.com")) {
-        EmpleadoInternalFrame empleadoFrame = new EmpleadoInternalFrame();
-        desktopHome.add(empleadoFrame);
-        empleadoFrame.setVisible(true);
-    }
-    else {
-        JOptionPane.showMessageDialog(this, "Usuario no válido", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+        if (usuario.equals("@Veterinario")) {
+            VeterinarioInternalFrame veterinarioFrame = new VeterinarioInternalFrame();
+            desktopHome.add(veterinarioFrame);
+            veterinarioFrame.setVisible(true);
+        }
+        else if (usuario.equals("@Empleado")) {
+            EmpleadoInternalFrame empleadoFrame = new EmpleadoInternalFrame();
+            desktopHome.add(empleadoFrame);
+            empleadoFrame.setVisible(true);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Usuario no válido", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_bIniciarSesionActionPerformed
+
+    private void fieldUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,8 +191,9 @@ public class HomeView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bIniciarSesion;
-    private javax.swing.JDesktopPane desktopHome;
+    public static javax.swing.JDesktopPane desktopHome;
     private javax.swing.JTextField fieldUsuario;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLabel labelUsuario;
     // End of variables declaration//GEN-END:variables
 }
