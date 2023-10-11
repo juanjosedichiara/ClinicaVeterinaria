@@ -8,10 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class MascotaData {
 
@@ -168,79 +168,125 @@ public class MascotaData {
         return mascotas;
     }
 
-    public double calcularDiferenciaDePeso(int idMascota, LocalDate fechaConsulta) {
-        double diferenciaPeso = 0.0;
-        LocalDate fechaConsultaAnterior = null;
-        double pesoConsultaAnterior = 0.0;
-
-        String sql = "SELECT fechaVisita, pesoActual FROM visitas WHERE idMascota = ? AND fechaVisita < ? ORDER BY fechaVisita DESC LIMIT 1";
+    public Mascota buscarMascotaPorAlias(String aliasMascota, int idCliente) {
+    String sql = "SELECT * FROM mascota WHERE alias = ? AND idCliente = ?";
+    Mascota mascota = null;
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idMascota);
-            ps.setDate(2, Date.valueOf(fechaConsulta));
+            ps.setString(1, aliasMascota);
+            ps.setInt(2, idCliente);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                fechaConsultaAnterior = rs.getDate("fechaVisita").toLocalDate();
-                pesoConsultaAnterior = rs.getDouble("pesoActual");
-            }
-
-            if (fechaConsultaAnterior != null) {
-                // Calcular la diferencia de peso si se encontró una consulta anterior
-                diferenciaPeso = pesoConsultaAnterior - consultarMascotaPorId(idMascota).getPesoActual();
+                mascota = new Mascota();
+                mascota.setIdMascota(rs.getInt("idMascota"));
+                mascota.setIdCliente(rs.getInt("idCliente"));
+                mascota.setAlias(rs.getString("alias"));
+                mascota.setSexo(rs.getString("sexo"));
+                mascota.setEspecie(rs.getString("especie"));
+                mascota.setRaza(rs.getString("raza"));
+                mascota.setColor(rs.getString("color"));
+                mascota.setNacimiento(rs.getDate("nacimiento").toLocalDate());
+                mascota.setPesoPromedio(rs.getDouble("pesoPromedio"));
+                mascota.setPesoActual(rs.getDouble("pesoActual"));
+                mascota.setEstadoMascota(rs.getBoolean("estadoMascota"));
             }
 
             rs.close();
             ps.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return diferenciaPeso;
+        return mascota;
     }
 
-    //Actualiza el peso promedio de la mascota
     public double actualizarPesoPromedio(int idMascota) {
-        MascotaData mascotaData = new MascotaData();
-        Mascota masc = mascotaData.consultarMascotaPorId(idMascota); //Se crea una nueva mascota con los datos de la tabla
-
-        double pesoPromedio = masc.getPesoPromedio(); // La variable almacena el peso promedio contenido en la tabla
-        double pesoActual = masc.getPesoActual(); //La var pesoActual almacena el peso cargado en la tabla mascota
-        double nuevoPesoPromedio = (pesoActual + pesoPromedio) / 2;
-
-        String sql = "UPDATE mascota SET pesoPromedio = ? WHERE idMascota= ?";
-        String sql1 = "SELECT pesoActual FROM visitas WHERE idMascota= ?";
-
+    // Paso 1: Obtener todos los pesos registrados en las visitas para la mascota
+    List<Double> pesosConsulta = new ArrayList<>();
+    String sql = "SELECT pesoActual FROM visitas WHERE idMascota = ?";
+    
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            PreparedStatement ps1 = con.prepareStatement(sql1);
+            ps.setInt(1, idMascota);
+            ResultSet rs = ps.executeQuery();
 
-            ps.setDouble(1, nuevoPesoPromedio);
-            ps.setInt(2, idMascota);
-
-            ps1.setInt(1, idMascota);
-
-            ps.executeUpdate();
-            ResultSet rs = ps1.executeQuery();
-            
-            if(rs.next()){
-                List <Double> pesos = new ArrayList();
-                pesos.add(rs.getDouble("pesoActual"));
-                int cantidadDePesos= pesos.size();
-                
-                ///FALTA TERMINAR Y CORREGIR EL CODIGO DEFINITIVO
+            while (rs.next()) {
+                double pesoConsulta = rs.getDouble("pesoActual");
+                pesosConsulta.add(pesoConsulta);
             }
 
             ps.close();
-
         } catch (SQLException ex) {
-            System.out.println("No se pudo conectar a la tabla Mascota" + ex);
+            ex.printStackTrace();
         }
 
-        return pesoPromedio;
+        // Paso 2: Calcular el nuevo peso promedio
+        double pesoActualMascota = consultarMascotaPorId(idMascota).getPesoActual();
+        double nuevoPesoPromedio = calcularPesoPromedio(pesosConsulta, pesoActualMascota);
+
+        // Paso 3: Actualizar el valor del campo "pesoPromedio" en la tabla de mascotas
+        String sqlActualizar = "UPDATE mascota SET pesoPromedio = ? WHERE idMascota = ?";
+
+        try {
+            PreparedStatement psActualizar = con.prepareStatement(sqlActualizar);
+            psActualizar.setDouble(1, nuevoPesoPromedio);
+            psActualizar.setInt(2, idMascota);
+            psActualizar.executeUpdate();
+            psActualizar.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return nuevoPesoPromedio;
+    }
+
+    // Método para calcular el peso promedio
+    private double calcularPesoPromedio(List<Double> pesosConsulta, double pesoActualMascota) {
+        if (pesosConsulta.isEmpty()) {
+            return pesoActualMascota;
+        }
+
+        double sumaPesos = pesoActualMascota;
+        for (Double pesoConsulta : pesosConsulta) {
+            sumaPesos += pesoConsulta;
+        }
+
+        return sumaPesos / (pesosConsulta.size() + 1);
+    }
+
+
+ 
+    public DefaultTableModel obtenerTratamientosDeMascota(int idMascota) {
+        String[] columnas = {"Fecha", "Tratamiento", "Detalles", "Inicio", "Fin", "Importe"};
+        DefaultTableModel model = new DefaultTableModel(columnas, 0);
+        String sql = "SELECT v.fechaVisita, t.tipo, t.descripcion, t.fechaInicio, t.fechaFin, t.importe " +
+                     "FROM visita v " +
+                     "JOIN tratamiento t ON v.idTratamiento = t.idTratamiento " +
+                     "WHERE v.idMascota = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMascota);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String fecha = rs.getDate("fechaVisita").toString();
+                String tratamiento = rs.getString("tipo");
+                String detalles = rs.getString("descripcion");
+                String inicio = rs.getDate("fechaInicio").toString();
+                String fin = rs.getDate("fechaFin").toString();
+                String importe = rs.getString("importe");
+
+                model.addRow(new String[]{fecha, tratamiento, detalles, inicio, fin, importe});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return model;
     }
 
 }

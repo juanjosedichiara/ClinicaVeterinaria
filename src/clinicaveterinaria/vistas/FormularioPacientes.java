@@ -5,10 +5,15 @@
  */
 package clinicaveterinaria.vistas;
 
+import javax.swing.JDesktopPane;
+
 import accesoDatos.ClienteData;
 import accesoDatos.MascotaData;
+
 import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
+import java.awt.BorderLayout;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -20,15 +25,22 @@ import javax.swing.JOptionPane;
  */
 public class FormularioPacientes extends javax.swing.JInternalFrame {
 
+    
     ClienteData clienteData = new ClienteData();
     MascotaData mascotaData = new MascotaData();
     
     /**
-     * Creates new form FormularioPacientes
+     * 
+     *Creates new form FormularioPacientes
+     * @param desktopHome
      */
-    public FormularioPacientes() {
+    public FormularioPacientes(JDesktopPane desktopHome) {
         initComponents();
+        FormularioPacientes formulario = new FormularioPacientes(desktopHome);
+
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -183,14 +195,15 @@ public class FormularioPacientes extends javax.swing.JInternalFrame {
 
     //Conectar en metodo alta y modificar mascota.. 
     private void buttonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarActionPerformed
+        
         try {
-        String dniClienteText = txtDNICliente.getText();
-        String alias = fieldAlias.getText();
-        String sexo = fieldSexo.getText();
-        String especie = fieldEspecie.getText();
-        String raza = fieldRaza.getText();
-        String color = fieldColor.getText();
-        LocalDate fechaNacimiento = dateFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            String dniClienteText = txtDNICliente.getText();
+            String alias = fieldAlias.getText();
+            String sexo = fieldSexo.getText();
+            String especie = fieldEspecie.getText();
+            String raza = fieldRaza.getText();
+            String color = fieldColor.getText();
+            LocalDate fechaNacimiento = dateFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             if (dniClienteText.isEmpty() || alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty() || color.isEmpty() || fechaNacimiento == null) {
                 JOptionPane.showMessageDialog(this, "No pueden haber campos vacios");
@@ -200,39 +213,19 @@ public class FormularioPacientes extends javax.swing.JInternalFrame {
             int dniCliente = Integer.parseInt(dniClienteText);
             Cliente cliente = clienteData.consultarClientesPorDNI(dniCliente);
             
-            // No se puede guardar la mascota sin un cliente existente
-            if (cliente == null) {
-                JOptionPane.showMessageDialog(this, "Cliente no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            // Verificar si el cliente existe
+            if (cliente != null) {
+                Mascota mascotaExistente = null;
+                List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(cliente.getIdCliente());
 
-            Mascota mascotaExistente = null;
-            List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(cliente.getIdCliente());
-            for (Mascota mascota : mascotas) {
-                if (mascota.getAlias().equalsIgnoreCase(alias)) {
-                    mascotaExistente = mascota;
-                    break;
+                for (Mascota mascota : mascotas) {
+                    if (mascota.getAlias().equalsIgnoreCase(alias)) {
+                        mascotaExistente = mascota;
+                        break;
+                    }
                 }
-            }
 
-            boolean modificarMascota = (mascotaExistente != null);
-
-            if (!modificarMascota) {
-                int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea guardar una nueva mascota?\n\n"
-                        + "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() + "\n"
-                        + "Alias: " + alias + "\n"
-                        + "Sexo: " + sexo + "\n"
-                        + "Especie: " + especie + "\n"
-                        + "Raza: " + raza + "\n"
-                        + "Color: " + color + "\n"
-                        + "Fecha de Nacimiento: " + fechaNacimiento, "Confirmar Guardar", JOptionPane.YES_NO_OPTION);
-
-                if (respuesta == JOptionPane.YES_OPTION) {
-                    Mascota nuevaMascota = new Mascota(cliente.getIdCliente(), alias, sexo, especie, raza, color, fechaNacimiento);
-                    mascotaData.altaMascota(nuevaMascota, cliente);
-                    JOptionPane.showMessageDialog(this, "Mascota guardada exitosamente");
-                }
-            } else {
+            if (mascotaExistente != null) {
                 int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar los datos de la mascota?\n\n"
                         + "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() + "\n"
                         + "Alias anterior: " + mascotaExistente.getAlias() + "\n"
@@ -259,15 +252,37 @@ public class FormularioPacientes extends javax.swing.JInternalFrame {
                     mascotaData.modificarMascota(mascotaExistente);
                     JOptionPane.showMessageDialog(this, "Mascota modificada exitosamente");
                 }
+            } else {    
+                int respuesta = JOptionPane.showConfirmDialog(this, "¿Desea guardar una nueva mascota?\n\n"
+                        + "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() + "\n"
+                        + "Alias: " + alias + "\n"
+                        + "Sexo: " + sexo + "\n"
+                        + "Especie: " + especie + "\n"
+                        + "Raza: " + raza + "\n"
+                        + "Color: " + color + "\n"
+                        + "Fecha de Nacimiento: " + fechaNacimiento, "Confirmar Guardar", JOptionPane.YES_NO_OPTION);
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    Mascota nuevaMascota = new Mascota(0,cliente.getIdCliente(), alias, sexo, especie, raza, color,   fechaNacimiento,0.0,0.0,true);
+                    mascotaData.altaMascota(nuevaMascota, cliente);
+
+                    limpiarCampos();
+                   
+                    JOptionPane.showMessageDialog(this, "Mascota guardada exitosamente");
+                }
             }
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ocurrió un error al procesar la solicitud: " + e.getMessage());
+        } else {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado. Asegúrate de crear el cliente previamente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (NumberFormatException nfe) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar un DNI válido");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error al procesar la solicitud: " + e.getMessage());
+    }
 
         // Limpio los campos de texto:
         limpiarCampos();
+
     }//GEN-LAST:event_buttonGuardarActionPerformed
 
     
