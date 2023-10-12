@@ -6,7 +6,7 @@
 package clinicaveterinaria.vistas;
 
 import java.awt.BorderLayout;
-import javax.swing.JOptionPane;
+import javax.swing.JDesktopPane;
 /**
  *
  * @author borch
@@ -18,7 +18,9 @@ public class HomeView extends javax.swing.JFrame {
      */
     public HomeView() {
         initComponents();
+        this.setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
+        JDesktopPane desktopHome = new JDesktopPane();
         getContentPane().add(desktopHome, BorderLayout.CENTER);
     }
 
@@ -31,142 +33,72 @@ public class HomeView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        desktopHome = new javax.swing.JDesktopPane();
         panelLogin = new javax.swing.JPanel();
-        labelUsuario = new javax.swing.JLabel();
-        fieldUsuario = new javax.swing.JTextField();
-        bIniciarSesion = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        logo = new javax.swing.JLabel();
+        labelUsser = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        buttonIngresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clinica Veterinaria");
         setLocationByPlatform(true);
         setPreferredSize(new java.awt.Dimension(500, 500));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        desktopHome.setBackground(new java.awt.Color(255, 204, 204));
+        panelLogin.setBackground(new java.awt.Color(255, 255, 255));
+        panelLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        labelUsuario.setText("USUARIO: ");
-        labelUsuario.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Vet.png"))); // NOI18N
+        logo.setText("jLabel1");
 
-        bIniciarSesion.setText("Iniciar Sesion");
-        bIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bIniciarSesionActionPerformed(evt);
-            }
-        });
+        labelUsser.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelUsser.setText("Usuario:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Txt bienvenida!\netc.");
-        jScrollPane1.setViewportView(jTextArea1);
+        buttonIngresar.setText("Ingresar");
 
         javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
         panelLogin.setLayout(panelLoginLayout);
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bIniciarSesion)
-                    .addComponent(fieldUsuario)
-                    .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLoginLayout.createSequentialGroup()
+                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelLoginLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(labelUsser)))
+                        .addGap(0, 58, Short.MAX_VALUE))
+                    .addGroup(panelLoginLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsuario)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(buttonIngresar)))))
+                .addContainerGap())
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bIniciarSesion)
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(logo)
+                .addGap(16, 16, 16)
+                .addComponent(labelUsser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonIngresar)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        desktopHome.setLayer(panelLogin, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout desktopHomeLayout = new javax.swing.GroupLayout(desktopHome);
-        desktopHome.setLayout(desktopHomeLayout);
-        desktopHomeLayout.setHorizontalGroup(
-            desktopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(desktopHomeLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(panelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(702, Short.MAX_VALUE))
-        );
-        desktopHomeLayout.setVerticalGroup(
-            desktopHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopHome)
-        );
+        getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 220, 210));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bIniciarSesionActionPerformed
-        // TODO add your handling code here:
-        String usuario = fieldUsuario.getText();
-
-        switch (usuario) {
-            case "@Veterinario":
-                abrirVeterinarioInternalFrame();
-                break;
-            case "@Empleado":
-                abrirEmpleadoInternalFrame();
-                break;
-            default:
-                JOptionPane.showMessageDialog(this, "Usuario no válido", "Error", JOptionPane.ERROR_MESSAGE);
-                break;
-        }
-    }//GEN-LAST:event_bIniciarSesionActionPerformed
-
-    private void abrirVeterinarioInternalFrame() {
-         try{
-            // Ocultar el JPanel de inicio de sesión
-            panelLogin.setVisible(false);
-
-            // Crear una instancia del Internal Frame de Veterinario
-            VeterinarioInternalFrame veterinarioFrame = new VeterinarioInternalFrame(desktopHome);
-            veterinarioFrame.setSize(448, 571);
-
-            // Agregar el Internal Frame al Desktop Pane
-            desktopHome.add(veterinarioFrame);
-
-            // Hacer visible el Internal Frame
-            veterinarioFrame.setVisible(true);
-         }catch (Exception ex){
-             ex.printStackTrace();
-             JOptionPane.showMessageDialog(this,"Error al abrir Internal frame de Veterinario", "Error", JOptionPane.ERROR_MESSAGE);
-         }
-    }
-
-    private void abrirEmpleadoInternalFrame() {
-        panelLogin.setVisible(false);
-        
-        EmpleadoInternalFrame empleadoFrame = new EmpleadoInternalFrame();
-            
-        desktopHome.add(empleadoFrame);
-            
-        empleadoFrame.setVisible(true);      
-    }
-    
     
     /**
      * @param args the command line arguments
@@ -204,13 +136,11 @@ public class HomeView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bIniciarSesion;
-    public static javax.swing.JDesktopPane desktopHome;
-    private javax.swing.JTextField fieldUsuario;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel labelUsuario;
+    private javax.swing.JButton buttonIngresar;
+    private javax.swing.JLabel labelUsser;
+    private javax.swing.JLabel logo;
     private javax.swing.JPanel panelLogin;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
 
