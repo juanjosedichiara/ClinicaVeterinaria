@@ -565,7 +565,10 @@ public class VeterinariaHome extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
     private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
-        // TODO add your handling code here:
+        // No tuve tiempo de terminar la logica para que el txt no este vacio, tenga una longitud de 8 caracteres y que sean numeros
+        if(txtDNICliente){ 
+            
+        }
     }//GEN-LAST:event_buscarClienteActionPerformed
 
     private void guardarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarPacienteActionPerformed
