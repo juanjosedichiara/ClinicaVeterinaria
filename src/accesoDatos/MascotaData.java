@@ -21,13 +21,13 @@ public class MascotaData {
         con = Conexion.getConexion();
     }
 
-    public void altaMascota(Mascota mascota, Cliente cliente) {
+    public void altaMascota(Mascota mascota, int idCliente) {
         String sql = "INSERT INTO mascota (idCliente, alias, sexo, especie, raza, color, nacimiento, "
                 + "pesoPromedio, pesoActual, estadoMascota) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setInt(1, cliente.getIdCliente());
+            ps.setInt(1, idCliente);
             ps.setString(2, mascota.getAlias());
             ps.setString(3, mascota.getSexo());
             ps.setString(4, mascota.getEspecie());

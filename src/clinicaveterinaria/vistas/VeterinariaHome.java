@@ -3,8 +3,12 @@
  */
 package clinicaveterinaria.vistas;
 
+import accesoDatos.ClienteData;
 import accesoDatos.MascotaData;
+import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,11 +23,12 @@ import javax.swing.table.TableRowSorter;
  * @author borch
  */
 public class VeterinariaHome extends javax.swing.JFrame {
+
     // TABLA LISTA PACIENTES/MASCOTA (ABM)
     private DefaultTableModel tableModel;
-    
+
     private MascotaData mascotaData;
-    
+
     /**
      * Creates new form VeterinarioHome
      */
@@ -32,7 +37,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         // Crear un modelo de tabla personalizado
         tableModel = new DefaultTableModel(new String[]{"Alias", "Sexo", "Especie", "Raza", "Color", "Nacimiento", "DNI Cuidador"}, 0);
         tablaListaMascotas.setModel(tableModel);
-        
+
         mascotaData = new MascotaData();
     }
 
@@ -564,8 +569,8 @@ public class VeterinariaHome extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarClienteActionPerformed
 
     private void guardarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarPacienteActionPerformed
-      
-       int filaSeleccionada = tablaListaMascotas.getSelectedRow();
+
+        int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
             // Si hay una fila seleccionada, se está realizando una modificación
             editarPaciente(filaSeleccionada);
@@ -576,7 +581,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     }//GEN-LAST:event_guardarPacienteActionPerformed
 
     private void eliminarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPacienteActionPerformed
-       //Seleccionar una lista de la tablaPacientes y clickear el boton eliminar
+        //Seleccionar una lista de la tablaPacientes y clickear el boton eliminar
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
             // Obtener el ID de la mascota de la fila seleccionada (suponiendo que está en la columna 0)
@@ -612,13 +617,13 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VeterinarioHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeterinariaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VeterinarioHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeterinariaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VeterinarioHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeterinariaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VeterinarioHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeterinariaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -696,9 +701,16 @@ public class VeterinariaHome extends javax.swing.JFrame {
         String color = tableModel.getValueAt(0, 4).toString();
         String nacimiento = tableModel.getValueAt(0, 5).toString();
         String dniCuidador = tableModel.getValueAt(0, 6).toString();
+        String pesoActual = tableModel.getValueAt(0, 7).toString();
+        String pesoPromedio = tableModel.getValueAt(0, 8).toString();
+        String estado = tableModel.getValueAt(0, 9).toString();
+
+        ClienteData clienteData = new ClienteData();
+        //Se crea un clienteData para poder llamar al metodo consultarClientesPorDNI y de esta forma obtener su idCliente
+        int idCliente = clienteData.consultarClientesPorDNI(Integer.parseInt(dniCuidador)).getIdCliente();
 
         // Validar los datos y guardar el paciente si son válidos
-        if (validarDatos(alias, sexo, especie, raza, color, nacimiento, dniCuidador)) {
+        if (validarDatos(alias, sexo, especie, raza, color, nacimiento, dniCuidador, pesoActual, pesoPromedio, estado)) {
             // Crear un objeto Mascota con los datos
             Mascota nuevaMascota = new Mascota();
             nuevaMascota.setAlias(alias);
@@ -706,12 +718,16 @@ public class VeterinariaHome extends javax.swing.JFrame {
             nuevaMascota.setEspecie(especie);
             nuevaMascota.setRaza(raza);
             nuevaMascota.setColor(color);
-            nuevaMascota.setNacimiento(nacimiento); //CORREGIR CON DATE Y BASE DE DATOS.
-            nuevaMascota.setDniCuidador(dniCuidador//PARSEAR ID_NO OLVIDARME); 
+            nuevaMascota.setNacimiento(LocalDate.parse(nacimiento, DateTimeFormatter.ISO_DATE)); //CORREGIR CON DATE Y BASE DE DATOS.
+            //nuevaMascota.setDniCuidador(dniCuidador); //PARSEAR ID_NO OLVIDARME 
+            nuevaMascota.setIdCliente(idCliente);
+            nuevaMascota.setPesoActual(Double.parseDouble(pesoActual));
+            nuevaMascota.setPesoPromedio(Double.parseDouble(pesoPromedio));
+            nuevaMascota.setEstadoMascota(Boolean.parseBoolean(estado));
 
             // Llamar al método altaMascota para insertar la nueva mascota en la base de datos
-            mascotaData.altaMascota(nuevaMascota,idCliente);//id obtenido por el dni asignarlo a una variable \\ 
-                                                               //para usarlo aca
+            mascotaData.altaMascota(nuevaMascota, idCliente);//id obtenido por el dni asignarlo a una variable \\ 
+            //para usarlo aca
             // Agregar el paciente al modelo de tabla
             tableModel.addRow(new String[]{alias, sexo, especie, raza, color, nacimiento, dniCuidador});
             // Limpiar la fila libre
@@ -720,7 +736,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
             ordenarTablaPorAlias();
         }
     }
-    
+
     private void editarPaciente(int filaSeleccionada) {
         // Obtener datos de la fila seleccionada
         String alias = tableModel.getValueAt(filaSeleccionada, 0).toString();
@@ -738,8 +754,8 @@ public class VeterinariaHome extends javax.swing.JFrame {
         mascotaModificada.setEspecie(especie);
         mascotaModificada.setRaza(raza);
         mascotaModificada.setColor(color);
-        mascotaModificada.setNacimiento(nacimiento); // Asegúrate de que el tipo de dato sea correcto
-        mascotaModificada.setDniCuidador(dniCuidador); // Si es relevante para tu aplicación
+        mascotaModificada.setNacimiento(LocalDate.parse(nacimiento, DateTimeFormatter.ISO_DATE)); // Asegúrate de que el tipo de dato sea correcto
+        //mascotaModificada.setDniCuidador(dniCuidador); // Si es relevante para tu aplicación
 
         // Llamar al método modificarMascota para actualizar los datos en la base de datos
         mascotaData.modificarMascota(mascotaModificada);
@@ -756,7 +772,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         // Limpiar la fila libre
         limpiarFilaLibre();
     }
-    
+
     private void ordenarTablaPorAlias() {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         tablaListaMascotas.setRowSorter(sorter);
@@ -768,16 +784,23 @@ public class VeterinariaHome extends javax.swing.JFrame {
         sorter.setSortKeys(sortKeys);
         sorter.sort();
     }
-    
-    private boolean validarDatos(String alias, String sexo, String especie, String raza, String color, String nacimiento, String dniCuidador) {
-        if (alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty() || color.isEmpty() || nacimiento.isEmpty() || dniCuidador.isEmpty()) {
+
+    private boolean validarDatos(String alias, String sexo, String especie, String raza, 
+            String color, String nacimiento, String dniCuidador, String pesoActual, String pesoPromedio, String estado) {
+        
+        
+        if (alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty() || 
+                color.isEmpty() || nacimiento.isEmpty() || dniCuidador.isEmpty() || 
+                pesoActual.isEmpty() || pesoPromedio.isEmpty() || estado.isEmpty() ) {
+            
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
-        }
-        //ME FALTO AGREGAAR CODIGO ACA
+        } else {
+            //ME FALTO AGREGAAR CODIGO ACA
             return true;
         }
-    
+    }
+
     private void limpiarFilaLibre() {
         tableModel.setValueAt("", 0, 0);
         tableModel.setValueAt("", 0, 1);
@@ -788,5 +811,4 @@ public class VeterinariaHome extends javax.swing.JFrame {
         tableModel.setValueAt("", 0, 6);
     }
 
-    
 }
