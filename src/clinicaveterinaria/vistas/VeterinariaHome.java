@@ -7,17 +7,15 @@ import accesoDatos.ClienteData;
 import accesoDatos.MascotaData;
 import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-
 /**
  *
  * @author borch
@@ -25,20 +23,24 @@ import javax.swing.table.TableRowSorter;
 public class VeterinariaHome extends javax.swing.JFrame {
 
     // TABLA LISTA PACIENTES/MASCOTA (ABM)
-    private DefaultTableModel tableModel;
+    private DefaultTableModel tablaMascota;
 
     private MascotaData mascotaData;
-
+    private ClienteData clienteData;
+    
+    private JInternalFrame formularioMascota;
     /**
      * Creates new form VeterinarioHome
      */
     public VeterinariaHome() {
         initComponents();
         // Crear un modelo de tabla personalizado
-        tableModel = new DefaultTableModel(new String[]{"Alias", "Sexo", "Especie", "Raza", "Color", "Nacimiento", "DNI Cuidador"}, 0);
-        tablaListaMascotas.setModel(tableModel);
+        tablaMascota = new DefaultTableModel(new String[]{"Alias", "Sexo", "Especie", "Raza", "Color", "Nacimiento", "DNI Cuidador"}, 0);
+        tablaListaMascotas.setModel(tablaMascota);
 
         mascotaData = new MascotaData();
+        
+        formularioMascota = new FormularioMascota();
     }
 
     /**
@@ -57,7 +59,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         buttonRegistraVisita = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         buttonClientes = new javax.swing.JButton();
-        TabbedPane = new javax.swing.JTabbedPane();
+        tabbedPane = new javax.swing.JTabbedPane();
         panelNuevaVisita = new javax.swing.JPanel();
         buscarCliente = new javax.swing.JButton();
         labelDNICliente = new javax.swing.JLabel();
@@ -80,10 +82,10 @@ public class VeterinariaHome extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         panelClientes = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
@@ -95,7 +97,8 @@ public class VeterinariaHome extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaListaMascotas = new javax.swing.JTable();
         eliminarPaciente = new javax.swing.JButton();
-        guardarPaciente = new javax.swing.JButton();
+        buttonGuardarCambios = new javax.swing.JButton();
+        buttonCargarPaciente = new javax.swing.JButton();
         panelTratamientos = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -111,6 +114,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
         buttonPacientes.setText("Mis pacientes");
+        buttonPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPacientesActionPerformed(evt);
+            }
+        });
 
         buttonFacturacion.setText("Facturación");
 
@@ -247,11 +255,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
                                             .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                 .addComponent(jLabel6)
                                                 .addComponent(jLabel7))
-                                            .addGap(114, 114, 114)
-                                            .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(19, 19, 19))
+                                            .addGap(142, 142, 142)
+                                            .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(54, 54, 54))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelNuevaVisitaLayout.createSequentialGroup()
                                             .addComponent(consultarOtraMascota)
                                             .addGap(146, 146, 146)
@@ -324,22 +332,22 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(20, 20, 20)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(25, 25, 25)
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(consultarOtraMascota)
                     .addComponent(registrarAtencionMascota))
                 .addGap(175, 175, 175))
         );
 
-        TabbedPane.addTab("NuevaVisita", panelNuevaVisita);
+        tabbedPane.addTab("NuevaVisita", panelNuevaVisita);
 
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,7 +409,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addContainerGap(142, Short.MAX_VALUE))
         );
 
-        TabbedPane.addTab("Formulario Clientes", panelClientes);
+        tabbedPane.addTab("Formulario Clientes", panelClientes);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Listado de PACIENTES");
@@ -435,10 +443,17 @@ public class VeterinariaHome extends javax.swing.JFrame {
             }
         });
 
-        guardarPaciente.setText("Guardar");
-        guardarPaciente.addActionListener(new java.awt.event.ActionListener() {
+        buttonGuardarCambios.setText("Guardar cambios");
+        buttonGuardarCambios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarPacienteActionPerformed(evt);
+                buttonGuardarCambiosActionPerformed(evt);
+            }
+        });
+
+        buttonCargarPaciente.setText("Cargar paciente");
+        buttonCargarPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCargarPacienteActionPerformed(evt);
             }
         });
 
@@ -446,20 +461,22 @@ public class VeterinariaHome extends javax.swing.JFrame {
         panelPacientes.setLayout(panelPacientesLayout);
         panelPacientesLayout.setHorizontalGroup(
             panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPacientesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(eliminarPaciente)
-                .addGap(153, 153, 153)
-                .addComponent(guardarPaciente)
-                .addGap(180, 180, 180))
             .addGroup(panelPacientesLayout.createSequentialGroup()
-                .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(panelPacientesLayout.createSequentialGroup()
-                        .addGap(240, 240, 240)
-                        .addComponent(jLabel3))
-                    .addGroup(panelPacientesLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(111, 111, 111)
+                        .addComponent(eliminarPaciente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonCargarPaciente)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonGuardarCambios))
+                    .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelPacientesLayout.createSequentialGroup()
+                            .addGap(240, 240, 240)
+                            .addComponent(jLabel3))
+                        .addGroup(panelPacientesLayout.createSequentialGroup()
+                            .addGap(61, 61, 61)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         panelPacientesLayout.setVerticalGroup(
@@ -471,12 +488,13 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
                 .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(guardarPaciente)
-                    .addComponent(eliminarPaciente))
+                    .addComponent(buttonGuardarCambios)
+                    .addComponent(eliminarPaciente)
+                    .addComponent(buttonCargarPaciente))
                 .addGap(53, 53, 53))
         );
 
-        TabbedPane.addTab("Formulario Pacientes", panelPacientes);
+        tabbedPane.addTab("Formulario Pacientes", panelPacientes);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -537,7 +555,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addGap(103, 103, 103))
         );
 
-        TabbedPane.addTab("Formulario Tratamientos", panelTratamientos);
+        tabbedPane.addTab("Formulario Tratamientos", panelTratamientos);
 
         javax.swing.GroupLayout panelFacturacionLayout = new javax.swing.GroupLayout(panelFacturacion);
         panelFacturacion.setLayout(panelFacturacionLayout);
@@ -550,9 +568,9 @@ public class VeterinariaHome extends javax.swing.JFrame {
             .addGap(0, 502, Short.MAX_VALUE)
         );
 
-        TabbedPane.addTab("Caja", panelFacturacion);
+        tabbedPane.addTab("Caja", panelFacturacion);
 
-        getContentPane().add(TabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 660, 530));
+        getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 660, 530));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/portada.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, -20, 660, 70));
@@ -563,36 +581,65 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
-
+    
+    //PERTENECE AL BUTTON DE "NUEVA CONSULTA": 
     private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
-        // No tuve tiempo de terminar la logica para que el txt no este vacio, tenga una longitud de 8 caracteres y que sean numeros
-        if(txtDNICliente){ 
+        //Restricciones del txt DNI
+        String doc = txtDNICliente.getText().trim();
+        if(doc.isEmpty()|| doc.length()==8 || !doc.matches("\\d+")){
+            JOptionPane.showMessageDialog(this,"DNI invalido. Debe contener 8 números, sin signos y letras.");
+            return; //No cumple, entonces sale. 
+        }
+        //Convertir DNI a int
+        int dni = Integer.parseInt(doc);
+        
+       //Buscar cliente en la BD. 
+        Cliente cliente = clienteData.consultarClientesPorDNI(dni);
+       
+        //Devolver los datos del cliente. 
+        if (cliente.getIdCliente() != 0){
+            txtNombre.setText(cliente.getNombre());
+            txtApellido.setText(cliente.getApellido());
+            txtDireccion.setText(cliente.getDireccion());
+            txtContacto.setText(cliente.getContacto());
+            txtTelefono.setText(String.valueOf(cliente.getTelefono()));
             
+            //Cargar mascotas al ComboBox.
+            List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(idCliente);
+            //Limpiar ComboBox
+            jComboBox1.removeAllItems();
+            for (Mascota mascota : mascotas){
+                jComboBox1.addItem(mascota.getAlias());
+            }
+        
+        }else{
+            JOptionPane.showConfirmDialog(this,"Cliente no encontrado.");
         }
     }//GEN-LAST:event_buscarClienteActionPerformed
-
-    private void guardarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarPacienteActionPerformed
-
+    
+    //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
+    private void buttonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarCambiosActionPerformed
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            // Si hay una fila seleccionada, se está realizando una modificación
-            editarPaciente(filaSeleccionada);
+        // De la fila seleccionada de la tabla y cargar el FormularioMascota
+            cargarDatosFormularioMascota(tablaMascota, filaSeleccionada);
+            abrirFormularioMascota();
         } else {
-            // Si no hay una fila seleccionada, se está realizando un alta
-            guardarPaciente();
+                JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_guardarPacienteActionPerformed
-
+    }//GEN-LAST:event_buttonGuardarCambiosActionPerformed
+    
+    //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void eliminarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPacienteActionPerformed
         //Seleccionar una lista de la tablaPacientes y clickear el boton eliminar
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            // Obtener el ID de la mascota de la fila seleccionada (suponiendo que está en la columna 0)
-            int idMascota = Integer.parseInt(tableModel.getValueAt(filaSeleccionada, 0).toString());
-            // Llamar al método eliminarMascota para eliminar la mascota de la base de datos
+            // Obtener el ID de la mascota de la fila seleccionada 
+            int idMascota = Integer.parseInt(tablaMascota.getValueAt(filaSeleccionada, 0).toString());
+            // Llamar al método eliminarMascota 
             mascotaData.eliminarMascota(idMascota);
             // Quitar la fila seleccionada de la tabla
-            tableModel.removeRow(filaSeleccionada);
+            tablaMascota.removeRow(filaSeleccionada);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -600,8 +647,17 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
     //AQUI SE INDICA QUE AL HACER CLICK EN EL BOTON "VISITA" MUESTRA SU PANEL 
     private void buttonRegistraVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistraVisitaActionPerformed
-        TabbedPane.setSelectedComponent(panelNuevaVisita);
+        tabbedPane.setSelectedComponent(panelNuevaVisita);
     }//GEN-LAST:event_buttonRegistraVisitaActionPerformed
+
+    private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
+        limpiarCamposFormularioMascota(); 
+        abrirFormularioMascota();
+    }//GEN-LAST:event_buttonCargarPacienteActionPerformed
+
+    private void buttonPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPacientesActionPerformed
+        tabbedPane.setSelectedComponent(panelPacientes);
+    }//GEN-LAST:event_buttonPacientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -639,10 +695,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JButton buscarCliente;
+    private javax.swing.JButton buttonCargarPaciente;
     private javax.swing.JButton buttonClientes;
     private javax.swing.JButton buttonFacturacion;
+    private javax.swing.JButton buttonGuardarCambios;
     private javax.swing.JButton buttonPacientes;
     private javax.swing.JButton buttonRegistraVisita;
     private javax.swing.JButton buttonTratamientos;
@@ -650,7 +707,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JButton eliminarCliente;
     private javax.swing.JButton eliminarPaciente;
     private javax.swing.JButton guardarCliente;
-    private javax.swing.JButton guardarPaciente;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -684,6 +740,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JPanel panelPacientes;
     private javax.swing.JPanel panelTratamientos;
     private javax.swing.JButton registrarAtencionMascota;
+    private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTable tablaListaMascotas;
     private javax.swing.JTable tableClientes;
     private javax.swing.JLabel titCliente;
@@ -695,89 +752,29 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 
-    private void guardarPaciente() {
-        // Obtener datos ingresados en la fila libre
-        String alias = tableModel.getValueAt(0, 0).toString();
-        String sexo = tableModel.getValueAt(0, 1).toString();
-        String especie = tableModel.getValueAt(0, 2).toString();
-        String raza = tableModel.getValueAt(0, 3).toString();
-        String color = tableModel.getValueAt(0, 4).toString();
-        String nacimiento = tableModel.getValueAt(0, 5).toString();
-        String dniCuidador = tableModel.getValueAt(0, 6).toString();
-        String pesoActual = tableModel.getValueAt(0, 7).toString();
-        String pesoPromedio = tableModel.getValueAt(0, 8).toString();
-        String estado = tableModel.getValueAt(0, 9).toString();
-
-        ClienteData clienteData = new ClienteData();
-        //Se crea un clienteData para poder llamar al metodo consultarClientesPorDNI y de esta forma obtener su idCliente
-        int idCliente = clienteData.consultarClientesPorDNI(Integer.parseInt(dniCuidador)).getIdCliente();
-
-        // Validar los datos y guardar el paciente si son válidos
-        if (validarDatos(alias, sexo, especie, raza, color, nacimiento, dniCuidador, pesoActual, pesoPromedio, estado)) {
-            // Crear un objeto Mascota con los datos
-            Mascota nuevaMascota = new Mascota();
-            nuevaMascota.setAlias(alias);
-            nuevaMascota.setSexo(sexo);
-            nuevaMascota.setEspecie(especie);
-            nuevaMascota.setRaza(raza);
-            nuevaMascota.setColor(color);
-            nuevaMascota.setNacimiento(LocalDate.parse(nacimiento, DateTimeFormatter.ISO_DATE)); //CORREGIR CON DATE Y BASE DE DATOS.
-            //nuevaMascota.setDniCuidador(dniCuidador); //PARSEAR ID_NO OLVIDARME 
-            nuevaMascota.setIdCliente(idCliente);
-            nuevaMascota.setPesoActual(Double.parseDouble(pesoActual));
-            nuevaMascota.setPesoPromedio(Double.parseDouble(pesoPromedio));
-            nuevaMascota.setEstadoMascota(Boolean.parseBoolean(estado));
-
-            // Llamar al método altaMascota para insertar la nueva mascota en la base de datos
-            mascotaData.altaMascota(nuevaMascota, idCliente);//id obtenido por el dni asignarlo a una variable \\ 
-            //para usarlo aca
-            // Agregar el paciente al modelo de tabla
-            tableModel.addRow(new String[]{alias, sexo, especie, raza, color, nacimiento, dniCuidador});
-            // Limpiar la fila libre
-            limpiarFilaLibre();
-            // Ordenar la tabla alfabéticamente por Alias
-            ordenarTablaPorAlias();
+    private void abrirFormularioMascota() {
+    // Abre el FormularioMascota
+        formularioMascota.setVisible(true);
+        if (!formularioMascota.isShowing()) {
+            tabbedPane.add(formularioMascota);
+        }
+        try {
+            formularioMascota.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            ex.printStackTrace();
         }
     }
-
-    private void editarPaciente(int filaSeleccionada) {
-        // Obtener datos de la fila seleccionada
-        String alias = tableModel.getValueAt(filaSeleccionada, 0).toString();
-        String sexo = tableModel.getValueAt(filaSeleccionada, 1).toString();
-        String especie = tableModel.getValueAt(filaSeleccionada, 2).toString();
-        String raza = tableModel.getValueAt(filaSeleccionada, 3).toString();
-        String color = tableModel.getValueAt(filaSeleccionada, 4).toString();
-        String nacimiento = tableModel.getValueAt(filaSeleccionada, 5).toString();
-        String dniCuidador = tableModel.getValueAt(filaSeleccionada, 6).toString();
-
-        // Crear un objeto Mascota con los datos
-        Mascota mascotaModificada = new Mascota();
-        mascotaModificada.setAlias(alias);
-        mascotaModificada.setSexo(sexo);
-        mascotaModificada.setEspecie(especie);
-        mascotaModificada.setRaza(raza);
-        mascotaModificada.setColor(color);
-        mascotaModificada.setNacimiento(LocalDate.parse(nacimiento, DateTimeFormatter.ISO_DATE)); // Asegúrate de que el tipo de dato sea correcto
-        //mascotaModificada.setDniCuidador(dniCuidador); // Si es relevante para tu aplicación
-
-        // Llamar al método modificarMascota para actualizar los datos en la base de datos
-        mascotaData.modificarMascota(mascotaModificada);
-
-        // Actualizar la fila en el modelo de tabla con los nuevos datos
-        tableModel.setValueAt(alias, filaSeleccionada, 0);
-        tableModel.setValueAt(sexo, filaSeleccionada, 1);
-        tableModel.setValueAt(especie, filaSeleccionada, 2);
-        tableModel.setValueAt(raza, filaSeleccionada, 3);
-        tableModel.setValueAt(color, filaSeleccionada, 4);
-        tableModel.setValueAt(nacimiento, filaSeleccionada, 5);
-        tableModel.setValueAt(dniCuidador, filaSeleccionada, 6);
-
-        // Limpiar la fila libre
-        limpiarFilaLibre();
+    
+    public void limpiarCamposFormularioMascota() {
+       // formularioMascota.limpiarCampos();
     }
 
+    public void cargarDatosFormularioMascota(DefaultTableModel tablaListaMascota, int filaSeleccionada) {
+    //  formularioMascota.cargarDatosDesdeTabla(tablaListaMascota, filaSeleccionada);
+    }
+   
     private void ordenarTablaPorAlias() {
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaMascota);
         tablaListaMascotas.setRowSorter(sorter);
 
         List<RowSorter.SortKey> sortKeys = new ArrayList<>();
@@ -786,32 +783,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
         sorter.setSortKeys(sortKeys);
         sorter.sort();
-    }
-
-    private boolean validarDatos(String alias, String sexo, String especie, String raza, 
-            String color, String nacimiento, String dniCuidador, String pesoActual, String pesoPromedio, String estado) {
-        
-        
-        if (alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty() || 
-                color.isEmpty() || nacimiento.isEmpty() || dniCuidador.isEmpty() || 
-                pesoActual.isEmpty() || pesoPromedio.isEmpty() || estado.isEmpty() ) {
-            
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        } else {
-            //ME FALTO AGREGAAR CODIGO ACA
-            return true;
-        }
-    }
-
-    private void limpiarFilaLibre() {
-        tableModel.setValueAt("", 0, 0);
-        tableModel.setValueAt("", 0, 1);
-        tableModel.setValueAt("", 0, 2);
-        tableModel.setValueAt("", 0, 3);
-        tableModel.setValueAt("", 0, 4);
-        tableModel.setValueAt("", 0, 5);
-        tableModel.setValueAt("", 0, 6);
     }
 
 }

@@ -1,6 +1,5 @@
 package accesoDatos;
 
-import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
 import java.sql.Connection;
 import java.sql.Date;

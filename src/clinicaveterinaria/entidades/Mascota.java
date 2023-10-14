@@ -19,6 +19,15 @@ public class Mascota {
     public Mascota() {
     }
 
+     public Mascota(String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento) {
+        this.alias = alias;
+        this.sexo = sexo;
+        this.especie = especie;
+        this.raza = raza;
+        this.color = color;
+        this.nacimiento = nacimiento;
+     }
+     
     public Mascota(String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, Double pesoPromedio, Double pesoActual, Boolean estadoMascota) {
         this.alias = alias;
         this.sexo = sexo;

@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 //MÉTODOS PARA INTERACTUAR CON LA BASE DE DATOS DE CLIENTE
 public class ClienteData {
@@ -199,6 +198,35 @@ public class ClienteData {
         return cliente;
     }
 
+    public int obtenerIdClientePorDNI(String dni) {
+        // Valor predeterminado si no se encuentra un cliente
+        int idCliente = -1; 
+        
+        // Verifica que el DNI no esté vacío, tenga exactamente 8 caracteres y contenga solo números
+        if (dni != null && dni.length() == 8 && dni.matches("\\d+")) {
+            String sql = "SELECT idCliente FROM cliente WHERE documento = ?";
+
+            try {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, dni);
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    idCliente = rs.getInt("idCliente");
+                }
+
+                rs.close();
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return idCliente;
+    }
+
+    
     //Consulta clientes por nombre y apellido 
     //(insensible a mayúsculas/minúsculas y espacios en blanco adicionales).
     public List<Cliente> consultarClientesPorNombreApellido(String nombre, String apellido) {
