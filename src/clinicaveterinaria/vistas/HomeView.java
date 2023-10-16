@@ -28,17 +28,21 @@ public class HomeView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clinica Veterinaria");
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(500, 500));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setResizable(false);
 
         panelLogin.setBackground(new java.awt.Color(255, 255, 255));
         panelLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        panelLogin.setPreferredSize(new java.awt.Dimension(220, 220));
+        panelLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Vet.png"))); // NOI18N
         logo.setText("jLabel1");
+        panelLogin.add(logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(68, 13, 82, -1));
 
         labelUsser.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelUsser.setText("Usuario:");
+        panelLogin.add(labelUsser, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 108, -1, -1));
+        panelLogin.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 133, 196, -1));
 
         buttonIngresar.setText("Ingresar");
         buttonIngresar.addActionListener(new java.awt.event.ActionListener() {
@@ -46,46 +50,18 @@ public class HomeView extends javax.swing.JFrame {
                 buttonIngresarActionPerformed(evt);
             }
         });
+        panelLogin.add(buttonIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 164, -1, -1));
 
-        javax.swing.GroupLayout panelLoginLayout = new javax.swing.GroupLayout(panelLogin);
-        panelLogin.setLayout(panelLoginLayout);
-        panelLoginLayout.setHorizontalGroup(
-            panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(labelUsser)))
-                        .addGap(0, 58, Short.MAX_VALUE))
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(buttonIngresar)))))
-                .addContainerGap())
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        panelLoginLayout.setVerticalGroup(
-            panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLoginLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(logo)
-                .addGap(16, 16, 16)
-                .addComponent(labelUsser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonIngresar)
-                .addContainerGap(21, Short.MAX_VALUE))
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 220, 210));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
