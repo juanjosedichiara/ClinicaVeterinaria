@@ -1,5 +1,5 @@
-/*//GEN-FIRST:event_buttonPacientesActionPerformed
- * ESTE SERA EL GESTOR DE LOS MENUS PARA ACCEDER A TODOS LOS METODOS//GEN-LAST:event_buttonPacientesActionPerformed
+/*
+ * ESTE SERA EL GESTOR DE LOS MENUS PARA ACCEDER A TODOS LOS METODOS 
  */
 package clinicaveterinaria.vistas;
 
@@ -41,7 +41,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -568,17 +568,17 @@ public class VeterinariaHome extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, -20, 660, 70));
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
-    }                                           
+    }//GEN-LAST:event_txtTelefonoActionPerformed
 
     //PERTENECE AL BUTTON DE "NUEVA CONSULTA": 
-    private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
         //Restricciones del txt DNI
         String doc = txtDNICliente.getText().trim();
-        if (doc.isEmpty() || doc.length() != 8 || !doc.matches("\\d+")) {
+        if (doc.isEmpty() || doc.length() == 8 || !doc.matches("\\d+")) {
             JOptionPane.showMessageDialog(this, "DNI invalido. Debe contener 8 números, sin signos y letras.");
             return; //No cumple, entonces sale. 
         }
@@ -607,10 +607,10 @@ public class VeterinariaHome extends javax.swing.JFrame {
         } else {
             JOptionPane.showConfirmDialog(this, "Cliente no encontrado.");
         }
-    }                                             
+    }//GEN-LAST:event_buscarClienteActionPerformed
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
-    private void buttonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+    private void buttonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarCambiosActionPerformed
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
             // De la fila seleccionada de la tabla y cargar el FormularioMascota
@@ -619,10 +619,10 @@ public class VeterinariaHome extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }                                                    
+    }//GEN-LAST:event_buttonGuardarCambiosActionPerformed
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
-    private void eliminarPacienteActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+    private void eliminarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPacienteActionPerformed
         //Seleccionar una lista de la tablaPacientes y clickear el boton eliminar
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
@@ -635,21 +635,21 @@ public class VeterinariaHome extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }                                                
+    }//GEN-LAST:event_eliminarPacienteActionPerformed
 
     //AQUI SE INDICA QUE AL HACER CLICK EN EL BOTON "VISITA" MUESTRA SU PANEL 
-    private void buttonRegistraVisitaActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+    private void buttonRegistraVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistraVisitaActionPerformed
         tabbedPane.setSelectedComponent(panelNuevaVisita);
-    }                                                    
+    }//GEN-LAST:event_buttonRegistraVisitaActionPerformed
 
-    private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+    private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
         limpiarCamposFormularioMascota();
         abrirFormularioMascota();
-    }                                                    
+    }//GEN-LAST:event_buttonCargarPacienteActionPerformed
 
-    private void buttonPacientesActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void buttonPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPacientesActionPerformed
         tabbedPane.setSelectedComponent(panelPacientes);
-    }                                               
+    }//GEN-LAST:event_buttonPacientesActionPerformed
 
 
     public static void main() {
@@ -684,7 +684,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscarCliente;
     private javax.swing.JButton buttonCargarPaciente;
     private javax.swing.JButton buttonClientes;
@@ -740,7 +740,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 
     private void abrirFormularioMascota() {
         // Abre el FormularioMascota

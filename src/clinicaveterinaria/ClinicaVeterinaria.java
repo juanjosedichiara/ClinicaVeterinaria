@@ -27,8 +27,6 @@ public class ClinicaVeterinaria {
         //masData.altaMascota(mascota, cli1); // Prueba para Agregar una Nueva Mascota
 
         //cliData.eliminarClienteConMascota(cli1, masc1);
-        
-        System.out.println(cliData.consultarClientesPorDNI(32665222));
     }
 
 }
