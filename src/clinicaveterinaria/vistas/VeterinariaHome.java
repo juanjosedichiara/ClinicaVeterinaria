@@ -17,7 +17,6 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-
 public class VeterinariaHome extends javax.swing.JFrame {
 
     // TABLA LISTA PACIENTES/MASCOTA (ABM)
@@ -35,10 +34,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
         tablaListaMascotas.setModel(tablaMascota);
 
         mascotaData = new MascotaData();
+        
+        clienteData= new ClienteData();
 
         formularioMascota = new FormularioMascota();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -75,9 +75,9 @@ public class VeterinariaHome extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabelPeso = new javax.swing.JTextField();
+        jDateInicio = new com.toedter.calendar.JDateChooser();
+        jDateFin = new com.toedter.calendar.JDateChooser();
         panelClientes = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableClientes = new javax.swing.JTable();
@@ -206,6 +206,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
         registrarAtencionMascota.setText("Registrar atencion");
 
         consultarOtraMascota.setText("Nueva consulta");
+        consultarOtraMascota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultarOtraMascotaActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -224,42 +229,46 @@ public class VeterinariaHome extends javax.swing.JFrame {
         panelNuevaVisitaLayout.setHorizontalGroup(
             panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(buscarCliente)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(49, 49, 49)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                .addGap(105, 105, 105)
+                                .addComponent(labelTitulo))
                             .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                                    .addGap(124, 124, 124)
-                                    .addComponent(labelTitulo))
-                                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                                                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jLabel8)
-                                                    .addComponent(jLabel5))
-                                                .addGap(114, 114, 114)
-                                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                            .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel8)
+                                                .addComponent(jLabel5))
+                                            .addGap(114, 114, 114)
+                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                 .addComponent(jLabel6)
                                                 .addComponent(jLabel7))
-                                            .addGap(142, 142, 142)
-                                            .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(54, 54, 54))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelNuevaVisitaLayout.createSequentialGroup()
-                                            .addComponent(consultarOtraMascota)
-                                            .addGap(146, 146, 146)
-                                            .addComponent(registrarAtencionMascota)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevaVisitaLayout.createSequentialGroup()
-                                        .addGap(189, 189, 189)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(92, 92, 92))))
+                                            .addComponent(consultarOtraMascota))
+                                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                                .addGap(107, 107, 107)
+                                                .addComponent(registrarAtencionMascota))
+                                            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                                .addGap(82, 82, 82)
+                                                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(20, 20, 20)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevaVisitaLayout.createSequentialGroup()
+                                    .addGap(189, 189, 189)
+                                    .addComponent(jLabelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(92, 92, 92))))
+                        .addGap(0, 251, Short.MAX_VALUE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
                                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(labelDNICliente)
@@ -283,12 +292,14 @@ public class VeterinariaHome extends javax.swing.JFrame {
                                         .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtContacto)
                                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(36, 36, 36)
-                                .addComponent(labelDireccion)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                                    .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                .addComponent(labelDireccion)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(29, 29, 29)
+                        .addComponent(buscarCliente)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelNuevaVisitaLayout.setVerticalGroup(
             panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,8 +312,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNombre)
-                    .addComponent(labelDireccion)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelApellido)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -312,7 +321,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
                     .addComponent(labelContacto)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTelefono))
-                .addGap(77, 77, 77)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelDireccion)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelTitulo)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,23 +336,25 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel7))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
                 .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(consultarOtraMascota)
-                    .addComponent(registrarAtencionMascota))
-                .addGap(175, 175, 175))
+                    .addComponent(registrarAtencionMascota)
+                    .addComponent(consultarOtraMascota))
+                .addGap(217, 217, 217))
         );
 
-        tabbedPane.addTab("NuevaVisita", panelNuevaVisita);
+        tabbedPane.addTab("Nueva Visita", panelNuevaVisita);
 
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -577,7 +592,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     //PERTENECE AL BUTTON DE "NUEVA CONSULTA": 
     private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
         //Restricciones del txt DNI
-        String doc = txtDNICliente.getText().trim();
+        String doc = txtDNICliente.getText();
         if (doc.isEmpty() || doc.length() != 8 || !doc.matches("\\d+")) {
             JOptionPane.showMessageDialog(this, "DNI invalido. Debe contener 8 números, sin signos y letras.");
             return; //No cumple, entonces sale. 
@@ -587,9 +602,9 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
         //Buscar cliente en la BD. 
         Cliente cliente = clienteData.consultarClientesPorDNI(dni);
-
+        
         //Devolver los datos del cliente. 
-        if (cliente.getIdCliente() != 0) {
+        if (cliente.getDocumento() != 0) {
             txtNombre.setText(cliente.getNombre());
             txtApellido.setText(cliente.getApellido());
             txtDireccion.setText(cliente.getDireccion());
@@ -651,6 +666,21 @@ public class VeterinariaHome extends javax.swing.JFrame {
         tabbedPane.setSelectedComponent(panelPacientes);
     }//GEN-LAST:event_buttonPacientesActionPerformed
 
+    private void consultarOtraMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarOtraMascotaActionPerformed
+        //Se borran todos los campos del formulario Nueva Visita
+        txtDNICliente.setText("");
+        txtApellido.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtContacto.setText("");
+        
+        jComboBox1.removeAllItems();
+        jComboBox2.removeAllItems();
+        jLabelPeso.setText("");
+        jDateInicio.getJCalendar();
+        jDateFin.getJCalendar();
+    }//GEN-LAST:event_consultarOtraMascotaActionPerformed
 
     public static void main() {
         /* Set the Nimbus look and feel */
@@ -701,8 +731,8 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateFin;
+    private com.toedter.calendar.JDateChooser jDateInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -711,12 +741,12 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField jLabelPeso;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelContacto;
     private javax.swing.JLabel labelDNICliente;
