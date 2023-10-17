@@ -578,7 +578,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
         //Restricciones del txt DNI
         String doc = txtDNICliente.getText().trim();
-        if (doc.isEmpty() || doc.length() == 8 || !doc.matches("\\d+")) {
+        if (doc.isEmpty() || doc.length() != 8 || !doc.matches("\\d+")) {
             JOptionPane.showMessageDialog(this, "DNI invalido. Debe contener 8 números, sin signos y letras.");
             return; //No cumple, entonces sale. 
         }
