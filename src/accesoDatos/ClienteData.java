@@ -198,17 +198,14 @@ public class ClienteData {
         return cliente;
     }
 
-    public int obtenerIdClientePorDNI(String dni) {
+    public int obtenerIdClientePorDNI(int dni) {
         // Valor predeterminado si no se encuentra un cliente
         int idCliente = -1; 
-        
-        // Verifica que el DNI no esté vacío, tenga exactamente 8 caracteres y contenga solo números
-        if (dni != null && dni.length() == 8 && dni.matches("\\d+")) {
-            String sql = "SELECT idCliente FROM cliente WHERE documento = ?";
+        String sql = "SELECT idCliente FROM cliente WHERE documento = ?";
 
             try {
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.setString(1, dni);
+                ps.setInt(1, dni);
 
                 ResultSet rs = ps.executeQuery();
 
@@ -221,9 +218,40 @@ public class ClienteData {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+        
+        return idCliente;
+    }
+
+    public Cliente consultarClientePorId(int idCliente) {
+        String sql = "SELECT * FROM cliente WHERE idCliente = ?";
+        Cliente cliente = null;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idCliente);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                   int id = rs.getInt("idCliente");
+                   int documento = rs.getInt("documento");
+                   String apellido = rs.getString("apellido");
+                   String nombre = rs.getString("nombre");
+                   String direccion = rs.getString("direccion");
+                   int telefono = rs.getInt("telefono");
+                   String contacto = rs.getString("contacto");
+                   boolean estadoCliente = rs.getBoolean("estadoCliente");
+
+                   cliente = new Cliente(id, documento, apellido, nombre, direccion, telefono, contacto, estadoCliente);
+                }
+
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
-        return idCliente;
+        return cliente;
     }
 
     

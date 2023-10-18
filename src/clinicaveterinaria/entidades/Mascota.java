@@ -15,10 +15,26 @@ public class Mascota {
     Double pesoPromedio;
     Double pesoActual;
     Boolean estadoMascota;
+    
+    private String documento;
+
 
     public Mascota() {
     }
 
+    public Mascota(int idMascota, int idCliente, String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, Boolean estadoMascota) {
+        this.idMascota = idMascota;
+        this.idCliente = idCliente;
+        this.alias = alias;
+        this.sexo = sexo;
+        this.especie = especie;
+        this.raza = raza;
+        this.color = color;
+        this.nacimiento = nacimiento;
+        this.estadoMascota = estadoMascota;
+    }
+    
+    
      public Mascota(String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento) {
         this.alias = alias;
         this.sexo = sexo;
@@ -147,4 +163,11 @@ public class Mascota {
         return "Mascota{" + "idMascota=" + idMascota + ", alias=" + alias + ", sexo=" + sexo + ", especie=" + especie + ", raza=" + raza + ", color=" + color + ", nacimiento=" + nacimiento + ", pesoPromedio=" + pesoPromedio + ", pesoActual=" + pesoActual + ", estadoMascota=" + estadoMascota + '}';
     }
 
+    public String getDocumento() {
+        return documento;
+    }
+    
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
 }

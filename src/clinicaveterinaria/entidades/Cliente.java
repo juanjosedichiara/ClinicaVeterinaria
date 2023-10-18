@@ -15,6 +15,28 @@ public class Cliente {
     public Cliente() {
     }
 
+    public Cliente(int idCliente, int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Boolean estadoCliente) {
+        this.idCliente = idCliente;
+        this.documento = documento;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.contacto = contacto;
+        this.estadoCliente = estadoCliente;
+    }
+
+    
+    public Cliente(int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Boolean estadoCliente) {
+        this.documento = documento;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.contacto = contacto;
+        this.estadoCliente = estadoCliente;
+    }
+
     public Cliente(int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
         this.documento = documento;
         this.apellido = apellido;

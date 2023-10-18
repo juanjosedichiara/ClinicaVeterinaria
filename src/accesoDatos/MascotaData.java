@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -286,6 +287,42 @@ public class MascotaData {
         }
 
         return model;
+    }
+
+    //CONSULTA TODAS LAS MASCOTAS Y DEVUELVE EL DNI DEL CLIENTE EN VEZ DEL ID
+    public List<Mascota> obtenerTodasLasMascotas() {
+        String sql = "SELECT m.*, c.documento AS dniCliente " +
+                     "FROM mascota m " +
+                     "INNER JOIN cliente c ON m.idCliente = c.idCliente";
+        List<Mascota> mascotas = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Mascota mascota = new Mascota(
+                    rs.getInt("idMascota"),
+                    rs.getInt("idCliente"),
+                    rs.getString("alias"),
+                    rs.getString("sexo"),
+                    rs.getString("especie"),
+                    rs.getString("raza"),
+                    rs.getString("color"),
+                    rs.getObject("nacimiento", LocalDate.class),
+                    rs.getBoolean("estadoMascota")
+                    );
+                    mascota.setDocumento(rs.getString("documento"));
+                    mascotas.add(mascota);
+                }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return mascotas;
     }
 
 }
