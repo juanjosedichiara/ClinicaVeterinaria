@@ -16,7 +16,7 @@ public class Mascota {
     Double pesoActual;
     Boolean estadoMascota;
     
-    private String documento;
+    private int documento;
 
 
     public Mascota() {
@@ -163,11 +163,11 @@ public class Mascota {
         return "Mascota{" + "idMascota=" + idMascota + ", alias=" + alias + ", sexo=" + sexo + ", especie=" + especie + ", raza=" + raza + ", color=" + color + ", nacimiento=" + nacimiento + ", pesoPromedio=" + pesoPromedio + ", pesoActual=" + pesoActual + ", estadoMascota=" + estadoMascota + '}';
     }
 
-    public String getDocumento() {
+    public int getDocumento() {
         return documento;
     }
     
-    public void setDocumento(String documento) {
+    public void setDocumento(int documento) {
         this.documento = documento;
     }
 }

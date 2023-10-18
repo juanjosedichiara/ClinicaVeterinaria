@@ -312,7 +312,7 @@ public class MascotaData {
                     rs.getObject("nacimiento", LocalDate.class),
                     rs.getBoolean("estadoMascota")
                     );
-                    mascota.setDocumento(rs.getString("documento"));
+                    mascota.setDocumento(rs.getInt("dniCliente"));
                     mascotas.add(mascota);
                 }
 

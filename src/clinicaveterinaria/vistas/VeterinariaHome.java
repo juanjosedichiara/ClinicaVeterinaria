@@ -28,7 +28,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
     private MascotaData mascotaData;
     private ClienteData clienteData;
-    
+
     private boolean editandoCliente = false;
 
     private JInternalFrame formularioMascota;
@@ -36,36 +36,33 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
     public VeterinariaHome() {
         initComponents();
-        
-        setPreferredSize(new Dimension(830, 550));
-        setResizable(true);
-        
-         tabbedPane = new JTabbedPane();
-        add(tabbedPane);
 
+        setPreferredSize(new Dimension(830, 580));
+        setResizable(true);
+
+//        tabbedPane = new JTabbedPane();
+//        add(tabbedPane);
         JPanel panelPacientes = new JPanel();
         JScrollPane scrollPane = new JScrollPane(panelPacientes);
         tabbedPane.addTab("Pacientes", scrollPane);
-        
+
         // Empaqueta la ventana y ajusta los tamaños
-        pack(); 
+        //pack(); 
         // Centra la ventana en la pantalla
-        setLocationRelativeTo(null); 
-        
-        
+        setLocationRelativeTo(null);
+
         // MODELO MASCOTAS
         tablaMascota = new DefaultTableModel(new String[]{"Alias", "Sexo", "Especie", "Raza", "Color", "Nacimiento", "DNI Cuidador"}, 0);
         tablaListaMascotas.setModel(tablaMascota);
 
         mascotaData = new MascotaData();
-        
-        clienteData= new ClienteData();
+
+        clienteData = new ClienteData();
 
         formularioMascota = new FormularioMascota();
         // Cargar mascotas en la tabla al abrir el panel de pacientes
         cargarMascotas();
-        
-        
+
         // MODELO CLIENTE
         tablaCliente = new DefaultTableModel(new String[]{"Apellido", "Nombre", "Direccion", "Telefono", "Contacto"}, 0);
         tablaListaClientes.setModel(tablaCliente);
@@ -257,10 +254,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel5.setText("Tratamiento:");
 
         jLabel6.setText("Fecha inicio:");
@@ -387,7 +380,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(registrarAtencionMascota)
                     .addComponent(consultarOtraMascota))
                 .addGap(217, 217, 217))
@@ -671,7 +664,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
         //Buscar cliente en la BD. 
         Cliente cliente = clienteData.consultarClientesPorDNI(dni);
-        
+
         //Devolver los datos del cliente. 
         if (cliente.getDocumento() != 0) {
             txtNombre.setText(cliente.getNombre());
@@ -689,7 +682,20 @@ public class VeterinariaHome extends javax.swing.JFrame {
             }
 
         } else {
-            JOptionPane.showConfirmDialog(this, "Cliente no encontrado.");
+            int nuevoCliente = JOptionPane.showConfirmDialog(this, "Cliente no encontrado. ¿Desea agregar un Nuevo Cliente?");
+
+            if (nuevoCliente == 0) {
+                panelNuevaVisita.removeAll();
+                panelNuevaVisita.repaint();
+                formularioCliente.setVisible(true);
+                panelNuevaVisita.add(formularioCliente);
+                formularioCliente.moveToFront();
+                
+                
+
+            } else {
+                txtDNICliente.setText("");
+            }
         }
     }//GEN-LAST:event_buscarClienteActionPerformed
 
@@ -724,12 +730,12 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private void buttonRegistraVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistraVisitaActionPerformed
         tabbedPane.setSelectedComponent(panelNuevaVisita);
     }//GEN-LAST:event_buttonRegistraVisitaActionPerformed
-    
+
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
         FormularioMascota formulario = new FormularioMascota();
         // Limpia los campos del formulario
-        formulario.limpiarCampos(); 
+        formulario.limpiarCampos();
         abrirFormularioMascota();
         ordenarTablaPorAlias();
     }//GEN-LAST:event_buttonCargarPacienteActionPerformed
@@ -747,14 +753,14 @@ public class VeterinariaHome extends javax.swing.JFrame {
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtContacto.setText("");
-        
+
         jComboBox1.removeAllItems();
         jComboBox2.removeAllItems();
         jLabelPeso.setText("");
         jDateInicio.getJCalendar();
         jDateFin.getJCalendar();
     }//GEN-LAST:event_consultarOtraMascotaActionPerformed
-    
+
     //PERTENECE AL PANEL CLIENTE:
     private void guardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarClienteActionPerformed
         editandoCliente = false;
@@ -775,24 +781,24 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private void buttonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClientesActionPerformed
         tabbedPane.setSelectedComponent(panelClientes);
     }//GEN-LAST:event_buttonClientesActionPerformed
-    
+
     //PERTENECE A CLIENTE: 
     private void eliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarClienteActionPerformed
         int filaSeleccionada = tablaListaClientes.getSelectedRow();
 
         if (filaSeleccionada >= 0) {
-            int dniCliente = (int) tablaListaClientes.getValueAt(filaSeleccionada, 2); 
-        
+            int dniCliente = (int) tablaListaClientes.getValueAt(filaSeleccionada, 2);
+
             // Obtener el ID del cliente por DNI
             int idCliente = clienteData.obtenerIdClientePorDNI(dniCliente);
-        
-            if(idCliente !=0){
+
+            if (idCliente != 0) {
                 // Obtener las mascotas asociadas al cliente
-               List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(idCliente);
-        
+                List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(idCliente);
+
                 if (mascotas.isEmpty()) {
                     // No hay mascotas asociadas, mostrar confirmación para eliminar al cliente
-                   int confirmacionCliente = JOptionPane.showConfirmDialog(this, "¿Desea eliminar al cliente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                    int confirmacionCliente = JOptionPane.showConfirmDialog(this, "¿Desea eliminar al cliente?", "Confirmación", JOptionPane.YES_NO_OPTION);
                     if (confirmacionCliente == JOptionPane.YES_OPTION) {
                         clienteData.eliminarCliente(idCliente);
                     }
@@ -811,8 +817,8 @@ public class VeterinariaHome extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }    
-       
+        }
+
     }//GEN-LAST:event_eliminarClienteActionPerformed
 
     public static void main() {
@@ -907,7 +913,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
-    
+
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void abrirFormularioMascota() {
         // Abre el FormularioMascota
@@ -944,7 +950,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
             tablaMascota.addRow(fila);
         }
     }
-   
+
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void ordenarTablaPorAlias() {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaMascota);
@@ -959,10 +965,10 @@ public class VeterinariaHome extends javax.swing.JFrame {
     }
 
     //PERTENECE AL PANEL DE CLIENTE: 
-    private void abrirFormularioCliente(){
+    private void abrirFormularioCliente() {
         FormularioCliente formulario = new FormularioCliente();
         formulario.setModoNuevo(editandoCliente);
-    
+
         formulario.setVisible(true);
 
         if (!formulario.isShowing()) {
@@ -976,7 +982,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         }
         ordenarTablaClientesPorApellido();
     }
-    
+
     // Método para ordenar la tabla de clientes por apellido
     private void ordenarTablaClientesPorApellido() {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaCliente);
@@ -989,7 +995,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         sorter.setSortKeys(sortKeys);
         sorter.sort();
     }
-    
+
     // Método para cargar los clientes en la tabla de clientes
     private void cargarClientes() {
         // Limpia la tabla
