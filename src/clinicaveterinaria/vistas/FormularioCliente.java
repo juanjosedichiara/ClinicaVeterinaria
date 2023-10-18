@@ -146,7 +146,7 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
         int documento;
         String documentoStr = txtDNI.getText();
         String direccion = txtDireccion.getText();
-        int telefono;
+        long telefono;
         String telefonoStr = txtTelefono.getText();
         String contacto = txtContacto.getText();
         
@@ -160,13 +160,14 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
             return;
         }
          documento = Integer.parseInt(documentoStr);
-         telefono = Integer.parseInt(telefonoStr);
+         telefono =  Long.parseLong(telefonoStr);
          
         // Crea un nuevo cliente
         Cliente nuevoCliente = new Cliente(documento, apellido, nombre, direccion, telefono, contacto, true);
 
         if(modoNuevo){
             clienteData.altaCliente(nuevoCliente);
+            JOptionPane.showMessageDialog(null, "Cliente cargado");
         } else{
             clienteData.modificarCliente(nuevoCliente);
         }

@@ -31,7 +31,7 @@ public class ClienteData {
             ps.setString(2, cliente.getApellido());
             ps.setString(3, cliente.getNombre());
             ps.setString(4, cliente.getDireccion());
-            ps.setInt(5, cliente.getTelefono());
+            ps.setLong(5, cliente.getTelefono());
             ps.setString(6, cliente.getContacto());
             ps.setBoolean(7, cliente.getEstadoCliente());
 
@@ -150,7 +150,7 @@ public class ClienteData {
             ps.setString(1, cliente.getApellido());
             ps.setString(2, cliente.getNombre());
             ps.setString(3, cliente.getDireccion());
-            ps.setInt(4, cliente.getTelefono());
+            ps.setLong(4, cliente.getTelefono());
             ps.setString(5, cliente.getContacto());
             ps.setBoolean(6, cliente.getEstadoCliente());
             ps.setInt(7, cliente.getDocumento());

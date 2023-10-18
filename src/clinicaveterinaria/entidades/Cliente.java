@@ -7,7 +7,7 @@ public class Cliente {
     String apellido;
     String nombre;
     String direccion;
-    int telefono;
+    long telefono;
     String contacto;
     Mascota mascota;
     Boolean estadoCliente;
@@ -15,7 +15,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(int idCliente, int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Boolean estadoCliente) {
+    public Cliente(int idCliente, int documento, String apellido, String nombre, String direccion, long telefono, String contacto, Boolean estadoCliente) {
         this.idCliente = idCliente;
         this.documento = documento;
         this.apellido = apellido;
@@ -27,7 +27,7 @@ public class Cliente {
     }
 
     
-    public Cliente(int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Boolean estadoCliente) {
+    public Cliente(int documento, String apellido, String nombre, String direccion, long telefono, String contacto, Boolean estadoCliente) {
         this.documento = documento;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -37,7 +37,7 @@ public class Cliente {
         this.estadoCliente = estadoCliente;
     }
 
-    public Cliente(int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
+    public Cliente(int documento, String apellido, String nombre, String direccion, long telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
         this.documento = documento;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -48,7 +48,7 @@ public class Cliente {
         this.estadoCliente = estadoCliente;
     }
 
-    public Cliente(int idCliente, int documento, String apellido, String nombre, String direccion, int telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
+    public Cliente(int idCliente, int documento, String apellido, String nombre, String direccion, long telefono, String contacto, Mascota mascota, Boolean estadoCliente) {
         this.idCliente = idCliente;
         this.documento = documento;
         this.apellido = apellido;
@@ -100,11 +100,11 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 
