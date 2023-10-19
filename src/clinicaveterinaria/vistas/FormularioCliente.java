@@ -168,6 +168,8 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
         if(modoNuevo){
             clienteData.altaCliente(nuevoCliente);
             JOptionPane.showMessageDialog(null, "Cliente cargado");
+            // ACA SE DEBERÍA AGREGAR EL CODIGO PARA QUE REGENERE EL FORMULARIO EN BLANCO DE NUEVA VISITA
+ 
         } else{
             clienteData.modificarCliente(nuevoCliente);
         }
