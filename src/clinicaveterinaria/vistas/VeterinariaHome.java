@@ -40,15 +40,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
         setPreferredSize(new Dimension(830, 580));
         setResizable(true);
 
-//        tabbedPane = new JTabbedPane();
-//        add(tabbedPane);
         JPanel panelPacientes = new JPanel();
         JScrollPane scrollPane = new JScrollPane(panelPacientes);
         tabbedPane.addTab("Pacientes", scrollPane);
 
-        // Empaqueta la ventana y ajusta los tamaños
-        //pack(); 
-        // Centra la ventana en la pantalla
+        
         setLocationRelativeTo(null);
 
         // MODELO MASCOTAS
@@ -119,6 +115,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
         eliminarCliente = new javax.swing.JButton();
         guardarCliente = new javax.swing.JButton();
         CargarCambiosCliente = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         panelPacientes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -388,7 +385,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
         tabbedPane.addTab("Nueva Visita", panelNuevaVisita);
 
-        tablaListaClientes.setAutoCreateColumnsFromModel(false);
         tablaListaClientes.setAutoCreateRowSorter(true);
         tablaListaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -443,26 +439,34 @@ public class VeterinariaHome extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Asignar Mascota");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelClientesLayout = new javax.swing.GroupLayout(panelClientes);
         panelClientes.setLayout(panelClientesLayout);
         panelClientesLayout.setHorizontalGroup(
             panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelClientesLayout.createSequentialGroup()
-                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelClientesLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(guardarCliente)
-                        .addGap(50, 50, 50)
-                        .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelClientesLayout.createSequentialGroup()
-                            .addGap(231, 231, 231)
-                            .addComponent(titCliente))
-                        .addGroup(panelClientesLayout.createSequentialGroup()
-                            .addGap(85, 85, 85)
-                            .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(231, 231, 231)
+                        .addComponent(titCliente))
+                    .addGroup(panelClientesLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelClientesLayout.createSequentialGroup()
                                 .addComponent(eliminarCliente)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                                    .addComponent(guardarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
         panelClientesLayout.setVerticalGroup(
@@ -472,11 +476,13 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addComponent(titCliente)
                 .addGap(47, 47, 47)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addComponent(guardarCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(guardarCliente)
                     .addComponent(CargarCambiosCliente)
-                    .addComponent(eliminarCliente))
+                    .addComponent(eliminarCliente)
+                    .addComponent(jButton1))
                 .addGap(34, 34, 34))
         );
 
@@ -485,7 +491,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Listado de PACIENTES");
 
-        tablaListaMascotas.setAutoCreateColumnsFromModel(false);
         tablaListaMascotas.setAutoCreateRowSorter(true);
         tablaListaMascotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -821,6 +826,11 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
     }//GEN-LAST:event_eliminarClienteActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //ESTE BOTON DEBE ABRIR EL FORMULARIO MASCOTA PARA ASIGNAR MASCOTA
+        // AL CLIENTE SEKECCIONADO DE LA TABLA. 
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -867,6 +877,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private javax.swing.JButton eliminarCliente;
     private javax.swing.JButton eliminarPaciente;
     private javax.swing.JButton guardarCliente;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
