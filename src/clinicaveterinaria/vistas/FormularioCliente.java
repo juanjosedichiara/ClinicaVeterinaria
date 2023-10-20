@@ -1,20 +1,20 @@
-
 package clinicaveterinaria.vistas;
 
 import accesoDatos.ClienteData;
 import clinicaveterinaria.entidades.Cliente;
 import javax.swing.JOptionPane;
+import clinicaveterinaria.vistas.*;
 
+public class FormularioCliente extends javax.swing.JFrame {
 
-public class FormularioCliente extends javax.swing.JInternalFrame {
     private boolean modoNuevo;
     private ClienteData clienteData;
 
-    public FormularioCliente() {
+    public FormularioCliente(boolean modoNuevo) {
+        verificarEstado();
         initComponents();
-        
-        modoNuevo=true;
-        clienteData= new ClienteData();
+        this.modoNuevo = modoNuevo;
+        clienteData = new ClienteData();
     }
 
     @SuppressWarnings("unchecked")
@@ -37,18 +37,32 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
         buttonCancelar = new javax.swing.JButton();
 
         setTitle("Agregar Nuevo Cliente");
+        setVisible(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelNombre.setText("Nombre: ");
+        getContentPane().add(labelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 63, -1, -1));
+        getContentPane().add(txtNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 60, 117, -1));
 
         labelApellido.setText("Apellido: ");
+        getContentPane().add(labelApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 94, -1, -1));
+        getContentPane().add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 91, 117, -1));
 
         labelDNI.setText("Documento: ");
+        getContentPane().add(labelDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 37, -1, -1));
+        getContentPane().add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 34, 117, -1));
 
         labelDireccion.setText("Dirección: ");
+        getContentPane().add(labelDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 156, -1, -1));
+        getContentPane().add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 153, 117, -1));
 
         labelTelefono.setText("Télefono: ");
+        getContentPane().add(labelTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 187, -1, -1));
+        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 184, 117, -1));
 
         labelContacto.setText("Contacto: ");
+        getContentPane().add(labelContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 215, -1, -1));
+        getContentPane().add(txtContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 215, 117, -1));
 
         buttonAceptar.setText("Aceptar");
         buttonAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +70,7 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
                 buttonAceptarActionPerformed(evt);
             }
         });
+        getContentPane().add(buttonAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(183, 288, -1, -1));
 
         buttonCancelar.setText("Cancelar");
         buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -63,73 +78,7 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
                 buttonCancelarActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelContacto)
-                            .addComponent(labelTelefono)
-                            .addComponent(labelDireccion)
-                            .addComponent(labelApellido)
-                            .addComponent(labelNombre)))
-                    .addComponent(labelDNI)
-                    .addComponent(buttonCancelar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(buttonAceptar)
-                        .addGap(60, 60, 60))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtContacto, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-                                .addComponent(txtDireccion)
-                                .addComponent(txtApellido)
-                                .addComponent(txtNom)
-                                .addComponent(txtTelefono)))
-                        .addGap(49, 49, 49))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDNI)
-                    .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelNombre)
-                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelApellido)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDireccion)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelTelefono)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelContacto)
-                    .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonAceptar)
-                    .addComponent(buttonCancelar))
-                .addGap(40, 40, 40))
-        );
+        getContentPane().add(buttonCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 288, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -140,7 +89,7 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonCancelarActionPerformed
 
     private void buttonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAceptarActionPerformed
-       
+
         String nombre = txtNom.getText();
         String apellido = txtApellido.getText();
         int documento;
@@ -149,28 +98,28 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
         long telefono;
         String telefonoStr = txtTelefono.getText();
         String contacto = txtContacto.getText();
-        
+
         // Valida que el documento y el teléfono sean números válidos
         if (!documentoStr.matches("\\d{8}")) {
             JOptionPane.showMessageDialog(this, "El DNI debe contener 8 números.");
             return;
-        } 
+        }
         if (!telefonoStr.matches("\\d{10}")) {
             JOptionPane.showMessageDialog(this, "El teléfono debe contener 10 números.");
             return;
         }
-         documento = Integer.parseInt(documentoStr);
-         telefono =  Long.parseLong(telefonoStr);
-         
+        documento = Integer.parseInt(documentoStr);
+        telefono = Long.parseLong(telefonoStr);
+
         // Crea un nuevo cliente
         Cliente nuevoCliente = new Cliente(documento, apellido, nombre, direccion, telefono, contacto, true);
 
-        if(modoNuevo){
+        if (modoNuevo) {
             clienteData.altaCliente(nuevoCliente);
             JOptionPane.showMessageDialog(null, "Cliente cargado");
+
             // ACA SE DEBERÍA AGREGAR EL CODIGO PARA QUE REGENERE EL FORMULARIO EN BLANCO DE NUEVA VISITA
- 
-        } else{
+        } else {
             clienteData.modificarCliente(nuevoCliente);
         }
         this.dispose();
@@ -194,15 +143,13 @@ public class FormularioCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 
-    public void setModoNuevo(boolean nuevo){
-        modoNuevo = nuevo;
-        if(nuevo){
-           txtDNI.setEnabled(true);  
-        }else{
-           txtDNI.setEnabled(false);
+    public void verificarEstado() {
+
+        if (modoNuevo) {
+            txtDNI.setEnabled(true);
+        } else {
+            txtDNI.setEnabled(false);
         }
     }
-
-
 
 }
