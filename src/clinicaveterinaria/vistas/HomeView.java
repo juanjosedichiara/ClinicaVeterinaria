@@ -98,9 +98,11 @@ public class HomeView extends javax.swing.JFrame {
         if (txtUsuario.getText().equalsIgnoreCase(usuarioMaster)) {
             VeterinariaHome.main(); //Llama al metodo main de la clase VeterinariaHome para ejecutar la ventana principal
             txtUsuario.setText("");
+            this.dispose();
         } else if (txtUsuario.getText().equalsIgnoreCase(usuarioEmpleado)) {
             VeterinariaHome.main();
             txtUsuario.setText("");
+            this.dispose();
         } else if (txtUsuario.getText().length() != 0) {
             intentos = intentos - 1;
             JOptionPane.showMessageDialog(null, "Usuario Incorrecto!!. Le quedan " + intentos + " intentos.");

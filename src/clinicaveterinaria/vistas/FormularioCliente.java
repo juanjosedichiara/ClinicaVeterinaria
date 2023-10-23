@@ -11,10 +11,12 @@ public class FormularioCliente extends javax.swing.JFrame {
     private ClienteData clienteData;
 
     public FormularioCliente(boolean modoNuevo) {
-        verificarEstado();
+        
         initComponents();
         this.modoNuevo = modoNuevo;
         clienteData = new ClienteData();
+        verificarEstado();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -37,7 +39,6 @@ public class FormularioCliente extends javax.swing.JFrame {
         buttonCancelar = new javax.swing.JButton();
 
         setTitle("Agregar Nuevo Cliente");
-        setVisible(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelNombre.setText("Nombre: ");

@@ -52,9 +52,9 @@ public class ClienteData {
         }
     }
 
-    //Elimina un cliente de la base de datos por su ID. (BORRADO LÓGICO)
+    //Elimina un cliente de la base de datos por su ID.
     public void eliminarCliente(int idCliente) {
-        String sql = "UPDATE cliente SET estadoCliente= false WHERE idCliente = ?";
+        String sql = "DELETE FROM cliente WHERE idCliente = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
