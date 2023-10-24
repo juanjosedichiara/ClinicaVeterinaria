@@ -10,6 +10,8 @@ import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
 import clinicaveterinaria.entidades.Tratamiento;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -436,63 +438,46 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
         tabbedPane.addTab("Caja", panelFacturacion);
 
-        panelNuevaVisita.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        buscarCliente.setText("Buscar");
+        buscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Lupa (2).png"))); // NOI18N
         buscarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarClienteActionPerformed(evt);
             }
         });
-        panelNuevaVisita.add(buscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, -1, 20));
 
         labelDNICliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelDNICliente.setText("Documento cliente: ");
-        panelNuevaVisita.add(labelDNICliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, 20));
 
         txtDNICliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDNIClienteActionPerformed(evt);
             }
         });
-        panelNuevaVisita.add(txtDNICliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 160, -1));
 
         labelTitulo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelTitulo.setText("MASCOTAS DEL CLIENTE");
-        panelNuevaVisita.add(labelTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, -1, -1));
 
         labelNombre.setText("Nombre:");
-        panelNuevaVisita.add(labelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, -1, 20));
 
         txtNombre.setEditable(false);
-        panelNuevaVisita.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 120, -1));
 
         labelApellido.setText("Apellido: ");
-        panelNuevaVisita.add(labelApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, 20));
 
         txtApellido.setEditable(false);
-        panelNuevaVisita.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 120, -1));
 
         labelDireccion.setText("Dirección:");
-        panelNuevaVisita.add(labelDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, 20));
 
         txtDireccion.setEditable(false);
-        panelNuevaVisita.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 120, -1));
 
         labelTelefono.setText("Teléfono: ");
-        panelNuevaVisita.add(labelTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, 20));
 
         txtTelefono.setEditable(false);
-        panelNuevaVisita.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 120, -1));
 
         labelContacto.setText("Contacto: ");
-        panelNuevaVisita.add(labelContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, -1, 20));
 
         txtContacto.setEditable(false);
-        panelNuevaVisita.add(txtContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 120, -1));
 
         registrarAtencionMascota.setText("Registrar atencion");
-        panelNuevaVisita.add(registrarAtencionMascota, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 440, -1, -1));
 
         consultarOtraMascota.setText("Nueva consulta");
         consultarOtraMascota.addActionListener(new java.awt.event.ActionListener() {
@@ -500,29 +485,141 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 consultarOtraMascotaActionPerformed(evt);
             }
         });
-        panelNuevaVisita.add(consultarOtraMascota, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 440, -1, -1));
-
-        panelNuevaVisita.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 350, -1));
-
-        panelNuevaVisita.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 230, -1));
 
         jLabel5.setText("Tratamiento:");
-        panelNuevaVisita.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, -1, -1));
 
         jLabel6.setText("Fecha inicio:");
-        panelNuevaVisita.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 350, -1, -1));
 
         jLabel7.setText("Fecha termino:");
-        panelNuevaVisita.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 380, -1, -1));
 
         jLabel8.setText("Peso:");
-        panelNuevaVisita.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, -1, -1));
-        panelNuevaVisita.add(jLabelPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 111, -1));
-        panelNuevaVisita.add(jDateInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, 146, -1));
-        panelNuevaVisita.add(jDateFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 146, -1));
 
         jButton2.setText("Historial de visitas");
-        panelNuevaVisita.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, -1, -1));
+
+        javax.swing.GroupLayout panelNuevaVisitaLayout = new javax.swing.GroupLayout(panelNuevaVisita);
+        panelNuevaVisita.setLayout(panelNuevaVisitaLayout);
+        panelNuevaVisitaLayout.setHorizontalGroup(
+            panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelDNICliente)
+                        .addGap(67, 67, 67)
+                        .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelApellido)
+                        .addGap(36, 36, 36)
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(labelNombre)
+                        .addGap(39, 39, 39)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelTelefono)
+                        .addGap(31, 31, 31)
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(labelContacto)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelDireccion)
+                        .addGap(33, 33, 33)
+                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(260, 260, 260)
+                        .addComponent(labelTitulo))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jLabel5)
+                        .addGap(78, 78, 78)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(jLabel8)
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(jLabel6)
+                        .addGap(71, 71, 71)
+                        .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jLabel7)
+                        .addGap(68, 68, 68)
+                        .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(consultarOtraMascota)
+                        .addGap(133, 133, 133)
+                        .addComponent(jButton2)
+                        .addGap(31, 31, 31)
+                        .addComponent(registrarAtencionMascota)))
+                .addGap(74, 74, 74))
+        );
+        panelNuevaVisitaLayout.setVerticalGroup(
+            panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buscarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(50, 50, 50)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(labelTitulo)
+                .addGap(6, 6, 6)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(consultarOtraMascota)
+                    .addComponent(jButton2)
+                    .addComponent(registrarAtencionMascota)))
+        );
 
         tabbedPane.addTab("Nueva Visita", panelNuevaVisita);
 
@@ -1059,7 +1156,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
     }
 
     // Método para cargar los clientes en la tabla de clientes
-    private void cargarClientes() {
+    public void cargarClientes() {
         // Limpia la tabla
         tablaCliente.setRowCount(0);
 
