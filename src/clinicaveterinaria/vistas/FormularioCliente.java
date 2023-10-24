@@ -3,7 +3,6 @@ package clinicaveterinaria.vistas;
 import accesoDatos.ClienteData;
 import clinicaveterinaria.entidades.Cliente;
 import javax.swing.JOptionPane;
-import clinicaveterinaria.vistas.*;
 
 public class FormularioCliente extends javax.swing.JFrame {
 
@@ -38,32 +37,23 @@ public class FormularioCliente extends javax.swing.JFrame {
         buttonAceptar = new javax.swing.JButton();
         buttonCancelar = new javax.swing.JButton();
 
-        setTitle("Agregar Nuevo Cliente");
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Clinica veterinaria-Formulario de clientes");
+        setMaximumSize(null);
+        setPreferredSize(new java.awt.Dimension(400, 400));
+        setResizable(false);
 
         labelNombre.setText("Nombre: ");
-        getContentPane().add(labelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 63, -1, -1));
-        getContentPane().add(txtNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 60, 117, -1));
 
         labelApellido.setText("Apellido: ");
-        getContentPane().add(labelApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(69, 94, -1, -1));
-        getContentPane().add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 91, 117, -1));
 
         labelDNI.setText("Documento: ");
-        getContentPane().add(labelDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 37, -1, -1));
-        getContentPane().add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 34, 117, -1));
 
         labelDireccion.setText("Dirección: ");
-        getContentPane().add(labelDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 156, -1, -1));
-        getContentPane().add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 153, 117, -1));
 
         labelTelefono.setText("Télefono: ");
-        getContentPane().add(labelTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(64, 187, -1, -1));
-        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 184, 117, -1));
 
         labelContacto.setText("Contacto: ");
-        getContentPane().add(labelContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 215, -1, -1));
-        getContentPane().add(txtContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 215, 117, -1));
 
         buttonAceptar.setText("Aceptar");
         buttonAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -71,7 +61,6 @@ public class FormularioCliente extends javax.swing.JFrame {
                 buttonAceptarActionPerformed(evt);
             }
         });
-        getContentPane().add(buttonAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(183, 288, -1, -1));
 
         buttonCancelar.setText("Cancelar");
         buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -79,7 +68,73 @@ public class FormularioCliente extends javax.swing.JFrame {
                 buttonCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(buttonCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 288, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(labelDNI, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelApellido, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelDireccion, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(labelTelefono, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(labelContacto)))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(buttonCancelar)
+                        .addGap(75, 75, 75)
+                        .addComponent(buttonAceptar)))
+                .addGap(77, 77, 77))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelNombre)
+                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelApellido)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelContacto))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buttonCancelar)
+                    .addComponent(buttonAceptar))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

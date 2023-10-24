@@ -15,6 +15,30 @@ public class Tratamiento {
     public Tratamiento() {
     }
 
+    public Tratamiento(int idTratamiento) {
+        this.idTratamiento = idTratamiento;
+    }
+
+    public Tratamiento(int idTratamiento, boolean estadoTratamiento) {
+        this.idTratamiento = idTratamiento;
+        this.estadoTratamiento = estadoTratamiento;
+    }
+
+    public Tratamiento(String tipo, String descripcion, double importe, boolean estadoTratamiento) {
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.importe = importe;
+        this.estadoTratamiento = estadoTratamiento;
+    }
+
+    public Tratamiento(int idTratamiento, String tipo, String descripcion, double importe, boolean estadoTratamiento) {
+        this.idTratamiento = idTratamiento;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.importe = importe;
+        this.estadoTratamiento = estadoTratamiento;
+    }
+
     public Tratamiento(int idTratamiento, String tipo, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, double importe, boolean estadoTratamiento) {
         this.idTratamiento = idTratamiento;
         this.tipo = tipo;

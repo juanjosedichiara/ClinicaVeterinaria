@@ -23,7 +23,7 @@ public class MascotaData {
 
     public void altaMascota(Mascota mascota, int idCliente) {
         String sql = "INSERT INTO mascota (idCliente, alias, sexo, especie, raza, color, nacimiento, "
-                + "pesoPromedio, pesoActual, estadoMascota) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "estadoMascota) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -34,9 +34,7 @@ public class MascotaData {
             ps.setString(5, mascota.getRaza());
             ps.setString(6, mascota.getColor());
             ps.setDate(7, Date.valueOf(mascota.getNacimiento()));
-            ps.setDouble(8, mascota.getPesoPromedio());
-            ps.setDouble(9, mascota.getPesoActual());
-            ps.setBoolean(10, mascota.getEstadoMascota());
+            ps.setBoolean(8,true);
 
             ps.executeUpdate();
 
