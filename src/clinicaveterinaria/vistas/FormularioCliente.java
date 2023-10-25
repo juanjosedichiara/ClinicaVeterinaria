@@ -2,6 +2,9 @@ package clinicaveterinaria.vistas;
 
 import accesoDatos.ClienteData;
 import clinicaveterinaria.entidades.Cliente;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class FormularioCliente extends javax.swing.JFrame {
@@ -9,8 +12,20 @@ public class FormularioCliente extends javax.swing.JFrame {
     private boolean modoNuevo;
     private ClienteData clienteData;
 
+    private List<ClienteEventListener> listeners = new ArrayList<>();
+
+    public void addClienteEventListener(ClienteEventListener listener) {
+        listeners.add(listener);
+    }
+
+    private void notificarActualizacionCliente() {
+        for (ClienteEventListener listener : listeners) {
+            listener.clienteActualizado();
+        }
+    }
+
     public FormularioCliente(boolean modoNuevo) {
-        
+
         initComponents();
         this.modoNuevo = modoNuevo;
         clienteData = new ClienteData();
@@ -37,7 +52,7 @@ public class FormularioCliente extends javax.swing.JFrame {
         buttonAceptar = new javax.swing.JButton();
         buttonCancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clinica veterinaria-Formulario de clientes");
         setMaximumSize(null);
         setPreferredSize(new java.awt.Dimension(400, 400));
@@ -146,14 +161,14 @@ public class FormularioCliente extends javax.swing.JFrame {
 
     private void buttonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAceptarActionPerformed
 
-        String nombre = txtNom.getText();
-        String apellido = txtApellido.getText();
+        String nombre = txtNom.getText().toUpperCase();
+        String apellido = txtApellido.getText().toUpperCase();
         int documento;
         String documentoStr = txtDNI.getText();
-        String direccion = txtDireccion.getText();
+        String direccion = txtDireccion.getText().toUpperCase();
         long telefono;
         String telefonoStr = txtTelefono.getText();
-        String contacto = txtContacto.getText();
+        String contacto = txtContacto.getText().toUpperCase();
 
         // Valida que el documento y el teléfono sean números válidos
         if (!documentoStr.matches("\\d{8}")) {
@@ -173,10 +188,11 @@ public class FormularioCliente extends javax.swing.JFrame {
         if (modoNuevo) {
             clienteData.altaCliente(nuevoCliente);
             JOptionPane.showMessageDialog(null, "Cliente cargado");
-
+            notificarActualizacionCliente();
             // ACA SE DEBERÍA AGREGAR EL CODIGO PARA QUE REGENERE EL FORMULARIO EN BLANCO DE NUEVA VISITA
         } else {
             clienteData.modificarCliente(nuevoCliente);
+            notificarActualizacionCliente();
         }
         this.dispose();
     }//GEN-LAST:event_buttonAceptarActionPerformed
@@ -206,6 +222,11 @@ public class FormularioCliente extends javax.swing.JFrame {
         } else {
             txtDNI.setEnabled(false);
         }
+    }
+
+    public interface ClienteEventListener extends EventListener {
+
+        void clienteActualizado();
     }
 
 }

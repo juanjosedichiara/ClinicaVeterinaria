@@ -9,6 +9,7 @@ import accesoDatos.TratamientoData;
 import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
 import clinicaveterinaria.entidades.Tratamiento;
+import clinicaveterinaria.vistas.FormularioCliente.ClienteEventListener;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -23,7 +24,7 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class VeterinariaHome extends javax.swing.JFrame {
+public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener {
 
     private DefaultTableModel tablaMascota;
     private DefaultTableModel tablaCliente;
@@ -34,13 +35,17 @@ public class VeterinariaHome extends javax.swing.JFrame {
     private TratamientoData tratamientoData;
 
     private boolean editandoCliente = false;
-    
+
     private boolean editandoTratamiento = false;
-    
+
     private JFrame formularioMascota;
     private JFrame formularioCliente;
     private JFrame formularioTratamiento;
-    
+
+    @Override
+    public void clienteActualizado() {
+        cargarClientes(); // Método para cargar clientes en la tabla
+    }
 
     public VeterinariaHome() {
         initComponents();
@@ -62,17 +67,16 @@ public class VeterinariaHome extends javax.swing.JFrame {
         tablaCliente = new DefaultTableModel(new String[]{"Apellido", "Nombre", "Documento", "Direccion", "Telefono", "Contacto"}, 0);
         tablaListaClientes.setModel(tablaCliente);
         clienteData = new ClienteData();
-        formularioCliente =new FormularioCliente(editandoCliente);
+        formularioCliente = new FormularioCliente(editandoCliente);
 
         cargarClientes();
-        
+
         //MODELO TRATAMIENTO
-        
-        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe"},0);
+        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe"}, 0);
         tablaListaTratamientos.setModel(tablaTratamiento);
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
-        cargarTratamientos(); 
+        cargarTratamientos();
     }
 
     @SuppressWarnings("unchecked")
@@ -436,7 +440,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 .addContainerGap(263, Short.MAX_VALUE))
         );
 
-        tabbedPane.addTab("Caja", panelFacturacion);
+        tabbedPane.addTab("Facturación", panelFacturacion);
 
         buscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Lupa (2).png"))); // NOI18N
         buscarCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -870,20 +874,22 @@ public class VeterinariaHome extends javax.swing.JFrame {
     //PERTENECE AL PANEL CLIENTE:
     private void guardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarClienteActionPerformed
         editandoCliente = true;
-        abrirFormularioCliente();
-        cargarClientes();
+        FormularioCliente formularioCliente = new FormularioCliente(editandoCliente);
+        formularioCliente.addClienteEventListener(this); // Registro del oyente
+        formularioCliente.setVisible(true);
     }//GEN-LAST:event_guardarClienteActionPerformed
 
     private void CargarCambiosClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarCambiosClienteActionPerformed
         int filaSeleccionada = tablaListaClientes.getSelectedRow();
         if (filaSeleccionada >= 0) {
             editandoCliente = false;
-            abrirFormularioCliente();
-            cargarClientes();
+            FormularioCliente formularioCliente = new FormularioCliente(editandoCliente);
+            formularioCliente.addClienteEventListener( this); // Registro del oyente
+            formularioCliente.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_CargarCambiosClienteActionPerformed
 
     //PERTENECE AL PANEL CLIENTE: 
@@ -937,23 +943,23 @@ public class VeterinariaHome extends javax.swing.JFrame {
         //ESTE BOTON DEBE llevarnos al panel de mascotas PARA ASIGNAR MASCOTA
         // AL CLIENTE SElECCIONADO DE LA TABLA. 
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-        //PERTENECE AL PANEL TRATAMIENTOS
+
+    //PERTENECE AL PANEL TRATAMIENTOS
     private void AgregarTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarTratamientoActionPerformed
         editandoTratamiento = true;
         abrirFormularioTratamiento();
         cargarTratamientos();
     }//GEN-LAST:event_AgregarTratamientoActionPerformed
-    
-        //PERTENECE AL PANEL TRATAMIENTOS
+
+    //PERTENECE AL PANEL TRATAMIENTOS
     private void cambiosTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiosTratamientoActionPerformed
         int filaSeleccionada = tablaListaTratamientos.getSelectedRow();
-            if (filaSeleccionada >= 0) {
-                editandoTratamiento = false;
-                abrirFormularioTratamiento();
-            } else {
-                JOptionPane.showMessageDialog(this, "Por favor, selecciona un tratamiento para editar.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        if (filaSeleccionada >= 0) {
+            editandoTratamiento = false;
+            abrirFormularioTratamiento();
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un tratamiento para editar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         cargarTratamientos();
     }//GEN-LAST:event_cambiosTratamientoActionPerformed
 
@@ -967,7 +973,6 @@ public class VeterinariaHome extends javax.swing.JFrame {
         if (filaSeleccionada >= 0) {
             String tipoTratamiento = (String) tablaListaTratamientos.getValueAt(filaSeleccionada, 0);
 
-            
             int idTratamiento = tratamientoData.obtenerIdTratamientoPorTipo(tipoTratamiento);
 
             if (idTratamiento != -1) {
@@ -1092,7 +1097,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void abrirFormularioMascota() {
-        FormularioMascota formulario=new FormularioMascota();
+        FormularioMascota formulario = new FormularioMascota();
         formulario.setVisible(true);
         ordenarTablaPorAlias();
     }
@@ -1153,6 +1158,7 @@ public class VeterinariaHome extends javax.swing.JFrame {
 
         sorter.setSortKeys(sortKeys);
         sorter.sort();
+        cargarClientes();
     }
 
     // Método para cargar los clientes en la tabla de clientes
@@ -1173,14 +1179,14 @@ public class VeterinariaHome extends javax.swing.JFrame {
                 cliente.getTelefono(),
                 cliente.getContacto()
             };
+            System.out.println(cliente);
             tablaCliente.addRow(fila);
         }
     }
-    
+
     //PERTENECE AL PANEL TRATAMIENTO 
-    
     private void cargarTratamientos() {
-        tablaTratamiento.setRowCount(0); 
+        tablaTratamiento.setRowCount(0);
         List<Tratamiento> tratamientos = tratamientoData.obtenerTodosLosTratamientos();
 
         for (Tratamiento tratamiento : tratamientos) {
@@ -1189,23 +1195,23 @@ public class VeterinariaHome extends javax.swing.JFrame {
         }
         ordenarTratamientosAlfabeticamente();
     }
-    
-    private void ordenarTratamientosAlfabeticamente() {
-    List<Tratamiento> tratamientos = tratamientoData.obtenerTodosLosTratamientos();
-    Collections.sort(tratamientos, Comparator.comparing(Tratamiento::getTipo));
 
-    tablaTratamiento.setRowCount(0); // Limpiar la tabla antes de cargar los tratamientos ordenados
+    private void ordenarTratamientosAlfabeticamente() {
+        List<Tratamiento> tratamientos = tratamientoData.obtenerTodosLosTratamientos();
+        Collections.sort(tratamientos, Comparator.comparing(Tratamiento::getTipo));
+
+        tablaTratamiento.setRowCount(0); // Limpiar la tabla antes de cargar los tratamientos ordenados
 
         for (Tratamiento tratamiento : tratamientos) {
             Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte()};
             tablaTratamiento.addRow(fila);
         }
-        
+
     }
-    
+
     private void abrirFormularioTratamiento() {
-        
-        FormularioTratamiento formulario= new FormularioTratamiento(editandoTratamiento);
+
+        FormularioTratamiento formulario = new FormularioTratamiento(editandoTratamiento);
 
         formulario.setVisible(true);
 

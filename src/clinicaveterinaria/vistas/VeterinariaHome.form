@@ -457,8 +457,8 @@
         <Container class="javax.swing.JPanel" name="panelFacturacion">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Caja">
-                <Property name="tabTitle" type="java.lang.String" value="Caja"/>
+              <JTabbedPaneConstraints tabName="Facturaci&#xf3;n">
+                <Property name="tabTitle" type="java.lang.String" value="Facturaci&#xf3;n"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
