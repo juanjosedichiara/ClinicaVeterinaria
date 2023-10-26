@@ -12,6 +12,9 @@ import accesoDatos.MascotaData;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +30,19 @@ public class FormularioMascota extends javax.swing.JFrame {
     private Cliente cliente;
     
     private int idCliente;
+    
+    private List<MascotaEventListener> listeners = new ArrayList<>();
+
+    public void addMascotaEventListener(MascotaEventListener listener) {
+        listeners.add(listener);
+    }
+
+    private void notificarActualizacionMascota() {
+        for (MascotaEventListener listener : listeners) {
+            listener.mascotaActualizado();
+        }
+    }
+    
     /**
      * Creates new form FormularioMascota
      */
@@ -215,6 +231,7 @@ public class FormularioMascota extends javax.swing.JFrame {
 
                     mascotaData.modificarMascota(mascota);
                 }
+                notificarActualizacionMascota();
                 this.dispose();
             }
         } else {
@@ -289,5 +306,8 @@ public class FormularioMascota extends javax.swing.JFrame {
         dateNacimiento.setDate(nacimiento);
     }   
     
+    public interface MascotaEventListener extends EventListener{
+        void mascotaActualizado();
+    }
 }
     

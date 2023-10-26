@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class FormularioCliente extends javax.swing.JFrame {
 
-    private boolean modoNuevo;
+    private boolean editandoCliente;
     private ClienteData clienteData;
 
     private List<ClienteEventListener> listeners = new ArrayList<>();
@@ -24,12 +24,12 @@ public class FormularioCliente extends javax.swing.JFrame {
         }
     }
 
-    public FormularioCliente(boolean modoNuevo) {
+    public FormularioCliente(boolean editandoCliente) {
 
         initComponents();
-        this.modoNuevo = modoNuevo;
-        clienteData = new ClienteData();
+        this.editandoCliente=editandoCliente;
         verificarEstado();
+        clienteData = new ClienteData();
         this.setLocationRelativeTo(null);
     }
 
@@ -182,17 +182,24 @@ public class FormularioCliente extends javax.swing.JFrame {
         documento = Integer.parseInt(documentoStr);
         telefono = Long.parseLong(telefonoStr);
 
-        // Crea un nuevo cliente
-        Cliente nuevoCliente = new Cliente(documento, apellido, nombre, direccion, telefono, contacto, true);
+         Cliente cliente = new Cliente(documento, apellido, nombre, direccion, telefono, contacto, true);
+           
+        if (editandoCliente) {
+                cliente.setApellido(apellido);
+                cliente.setNombre(nombre);
+                cliente.setDireccion(direccion);
+                cliente.setTelefono(telefono);
+                cliente.setContacto(contacto);
+                clienteData.modificarCliente(cliente);
 
-        if (modoNuevo) {
-            clienteData.altaCliente(nuevoCliente);
-            JOptionPane.showMessageDialog(null, "Cliente cargado");
             notificarActualizacionCliente();
-            // ACA SE DEBERÍA AGREGAR EL CODIGO PARA QUE REGENERE EL FORMULARIO EN BLANCO DE NUEVA VISITA
+            JOptionPane.showMessageDialog(null, "Cambios cargados");
         } else {
-            clienteData.modificarCliente(nuevoCliente);
-            notificarActualizacionCliente();
+                clienteData.altaCliente(cliente);
+                JOptionPane.showMessageDialog(null, "Cliente cargado");
+                notificarActualizacionCliente();
+            
+           
         }
         this.dispose();
     }//GEN-LAST:event_buttonAceptarActionPerformed
@@ -216,17 +223,26 @@ public class FormularioCliente extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void verificarEstado() {
-
-        if (modoNuevo) {
-            txtDNI.setEnabled(true);
-        } else {
+    
+        if (editandoCliente) {
             txtDNI.setEnabled(false);
+        } else {
+            txtDNI.setEnabled(true);
         }
     }
 
     public interface ClienteEventListener extends EventListener {
 
         void clienteActualizado();
+    }
+    
+    public void setDatosCliente(String apellido, String nombre, int documento, String direccion, long telefono, String contacto) {
+    txtApellido.setText(apellido);
+    txtNom.setText(nombre);
+    txtDNI.setText(String.valueOf(documento));
+    txtDireccion.setText(direccion);
+    txtTelefono.setText(String.valueOf(telefono));
+    txtContacto.setText(contacto);
     }
 
 }

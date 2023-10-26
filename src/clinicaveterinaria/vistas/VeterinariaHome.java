@@ -10,9 +10,8 @@ import clinicaveterinaria.entidades.Cliente;
 import clinicaveterinaria.entidades.Mascota;
 import clinicaveterinaria.entidades.Tratamiento;
 import clinicaveterinaria.vistas.FormularioCliente.ClienteEventListener;
+import clinicaveterinaria.vistas.FormularioMascota.MascotaEventListener;
 import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,17 +23,18 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener {
+public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener,  MascotaEventListener {
 
     private DefaultTableModel tablaMascota;
     private DefaultTableModel tablaCliente;
     private DefaultTableModel tablaTratamiento;
-
+    private DefaultTableModel mascotasCliente;
+    
     private MascotaData mascotaData;
     private ClienteData clienteData;
     private TratamientoData tratamientoData;
 
-    private boolean editandoCliente = false;
+    private boolean editandoCliente=false;
 
     private boolean editandoTratamiento = false;
 
@@ -46,7 +46,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     public void clienteActualizado() {
         cargarClientes(); // Método para cargar clientes en la tabla
     }
-
+    
+    @Override
+    public void mascotaActualizado() {
+        cargarMascotas();
+    }
+    
     public VeterinariaHome() {
         initComponents();
 
@@ -77,6 +82,10 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
         cargarTratamientos();
+        
+        //MODELO VISITA
+        mascotasCliente = new DefaultTableModel(new String[] {"Alias", "Especie", "Raza", "Sexo", "Color", "Fecha de nacimiento"},0);
+        tablaMascotasCliente.setModel(mascotasCliente);
     }
 
     @SuppressWarnings("unchecked")
@@ -85,32 +94,17 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jPanel1 = new javax.swing.JPanel();
+        panelButtonsIzq = new javax.swing.JPanel();
         buttonPacientes = new javax.swing.JButton();
         buttonFacturacion = new javax.swing.JButton();
         buttonTratamientos = new javax.swing.JButton();
         buttonRegistraVisita = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
         buttonClientes = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
-        panelPacientes = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tablaListaMascotas = new javax.swing.JTable();
-        eliminarPaciente = new javax.swing.JButton();
-        buttonGuardarCambios = new javax.swing.JButton();
-        buttonCargarPaciente = new javax.swing.JButton();
-        panelTratamientos = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaListaTratamientos = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        buttonEliminarTratamiento = new javax.swing.JButton();
-        AgregarTratamiento = new javax.swing.JButton();
-        cambiosTratamiento = new javax.swing.JButton();
-        panelFacturacion = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        panelHome = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         panelNuevaVisita = new javax.swing.JPanel();
         buscarCliente = new javax.swing.JButton();
         labelDNICliente = new javax.swing.JLabel();
@@ -126,18 +120,24 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         txtTelefono = new javax.swing.JTextField();
         labelContacto = new javax.swing.JLabel();
         txtContacto = new javax.swing.JTextField();
-        registrarAtencionMascota = new javax.swing.JButton();
-        consultarOtraMascota = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabelPeso = new javax.swing.JTextField();
-        jDateInicio = new com.toedter.calendar.JDateChooser();
-        jDateFin = new com.toedter.calendar.JDateChooser();
-        jButton2 = new javax.swing.JButton();
+        buttonOtraConsulta = new javax.swing.JButton();
+        buttonHistorialVisitas = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaMascotasCliente = new javax.swing.JTable();
+        panelPacientes = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaListaMascotas = new javax.swing.JTable();
+        eliminarPaciente = new javax.swing.JButton();
+        buttonGuardarCambios = new javax.swing.JButton();
+        buttonCargarPaciente = new javax.swing.JButton();
+        panelTratamientos = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaListaTratamientos = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        buttonEliminarTratamiento = new javax.swing.JButton();
+        AgregarTratamiento = new javax.swing.JButton();
+        cambiosTratamiento = new javax.swing.JButton();
         panelClientes = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaListaClientes = new javax.swing.JTable();
@@ -145,11 +145,20 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         eliminarCliente = new javax.swing.JButton();
         guardarCliente = new javax.swing.JButton();
         CargarCambiosCliente = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        panelRegistrarVisita = new javax.swing.JPanel();
+        labelClienteVisita = new javax.swing.JLabel();
+        labelAliasVisita = new javax.swing.JLabel();
+        txtClienteVisita = new javax.swing.JTextField();
+        txtMascotaVisita = new javax.swing.JTextField();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        buttonGuardarVisita = new javax.swing.JButton();
+        buttonEliminarVisita = new javax.swing.JButton();
+        panelFacturacion = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        portada = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -159,9 +168,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         jScrollPane1.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Clinica veterinaria");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        panelButtonsIzq.setEnabled(false);
+        panelButtonsIzq.setMaximumSize(null);
+        panelButtonsIzq.setMinimumSize(null);
 
         buttonPacientes.setText("Mis pacientes");
         buttonPacientes.setFocusable(false);
@@ -173,8 +185,13 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         buttonFacturacion.setText("Facturación");
         buttonFacturacion.setFocusable(false);
+        buttonFacturacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonFacturacionActionPerformed(evt);
+            }
+        });
 
-        buttonTratamientos.setText("Tratamiento");
+        buttonTratamientos.setText("Mis tratamientos");
         buttonTratamientos.setFocusable(false);
         buttonTratamientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,7 +207,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Vet.png"))); // NOI18N
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Vet.png"))); // NOI18N
 
         buttonClientes.setText("Mis clientes");
         buttonClientes.setFocusable(false);
@@ -200,43 +217,236 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonTratamientos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelButtonsIzqLayout = new javax.swing.GroupLayout(panelButtonsIzq);
+        panelButtonsIzq.setLayout(panelButtonsIzqLayout);
+        panelButtonsIzqLayout.setHorizontalGroup(
+            panelButtonsIzqLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelButtonsIzqLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(panelButtonsIzqLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelButtonsIzqLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(buttonClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonPacientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonTratamientos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(buttonFacturacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonPacientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonRegistraVisita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(26, 26, 26))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonRegistraVisita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
+            .addGroup(panelButtonsIzqLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panelButtonsIzqLayout.setVerticalGroup(
+            panelButtonsIzqLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelButtonsIzqLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jLabel2)
-                .addGap(43, 43, 43)
+                .addComponent(logo)
+                .addGap(61, 61, 61)
                 .addComponent(buttonRegistraVisita)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                .addComponent(buttonClientes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(buttonPacientes)
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonFacturacion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addComponent(buttonClientes)
+                .addGap(18, 18, 18)
+                .addComponent(buttonPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(buttonTratamientos)
-                .addGap(107, 107, 107))
+                .addGap(104, 104, 104))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 550));
+        panelButtonsIzqLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {buttonClientes, buttonFacturacion, buttonPacientes, buttonRegistraVisita, buttonTratamientos});
+
+        getContentPane().add(panelButtonsIzq, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 580));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("EDITAR ESTA AREA \nAGREGAR UNA IMAGEN \nQUE SEA EL PANEL \nQUE SE ABRA PRIMERO \nCUANDO SE INICIA SESION");
+        jScrollPane5.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout panelHomeLayout = new javax.swing.GroupLayout(panelHome);
+        panelHome.setLayout(panelHomeLayout);
+        panelHomeLayout.setHorizontalGroup(
+            panelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHomeLayout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(302, Short.MAX_VALUE))
+        );
+        panelHomeLayout.setVerticalGroup(
+            panelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHomeLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(314, Short.MAX_VALUE))
+        );
+
+        tabbedPane.addTab("Principal", panelHome);
+
+        buscarCliente.setText("Buscar");
+        buscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarClienteActionPerformed(evt);
+            }
+        });
+
+        labelDNICliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        labelDNICliente.setText("Documento cliente: ");
+
+        txtDNICliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDNIClienteActionPerformed(evt);
+            }
+        });
+
+        labelTitulo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelTitulo.setText("MASCOTAS DEL CLIENTE");
+
+        labelNombre.setText("Nombre:");
+
+        txtNombre.setEditable(false);
+
+        labelApellido.setText("Apellido: ");
+
+        txtApellido.setEditable(false);
+
+        labelDireccion.setText("Dirección:");
+
+        txtDireccion.setEditable(false);
+
+        labelTelefono.setText("Teléfono: ");
+
+        txtTelefono.setEditable(false);
+
+        labelContacto.setText("Contacto: ");
+
+        txtContacto.setEditable(false);
+
+        buttonOtraConsulta.setText("Nueva consulta");
+        buttonOtraConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOtraConsultaActionPerformed(evt);
+            }
+        });
+
+        buttonHistorialVisitas.setText("Historial de visitas");
+        buttonHistorialVisitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonHistorialVisitasActionPerformed(evt);
+            }
+        });
+
+        tablaMascotasCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Alias", "Especie", "Raza", "Sexo", "Color", "Fecha de nacimiento"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(tablaMascotasCliente);
+
+        javax.swing.GroupLayout panelNuevaVisitaLayout = new javax.swing.GroupLayout(panelNuevaVisita);
+        panelNuevaVisita.setLayout(panelNuevaVisitaLayout);
+        panelNuevaVisitaLayout.setHorizontalGroup(
+            panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelDireccion)
+                        .addGap(33, 33, 33)
+                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelApellido)
+                        .addGap(36, 36, 36)
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(labelNombre)
+                        .addGap(39, 39, 39)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelTelefono)
+                        .addGap(31, 31, 31)
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(labelContacto)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(labelDNICliente)
+                        .addGap(107, 107, 107)
+                        .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(buscarCliente))
+                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                                .addGap(202, 202, 202)
+                                .addComponent(labelTitulo)))))
+                .addContainerGap(71, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevaVisitaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonOtraConsulta)
+                .addGap(40, 40, 40)
+                .addComponent(buttonHistorialVisitas)
+                .addGap(83, 83, 83))
+        );
+        panelNuevaVisitaLayout.setVerticalGroup(
+            panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(labelTitulo)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonOtraConsulta)
+                    .addComponent(buttonHistorialVisitas))
+                .addGap(73, 73, 73))
+        );
+
+        tabbedPane.addTab("Nueva Visita", panelNuevaVisita);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("LISTADO DE PACIENTES");
@@ -290,21 +500,20 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPacientesLayout.createSequentialGroup()
                 .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(panelPacientesLayout.createSequentialGroup()
-                            .addGap(53, 53, 53)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(panelPacientesLayout.createSequentialGroup()
-                            .addGap(102, 102, 102)
-                            .addComponent(eliminarPaciente)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(buttonCargarPaciente)
-                            .addGap(69, 69, 69)
-                            .addComponent(buttonGuardarCambios)))
+                    .addGroup(panelPacientesLayout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelPacientesLayout.createSequentialGroup()
                         .addGap(241, 241, 241)
-                        .addComponent(jLabel3)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                        .addComponent(jLabel3))
+                    .addGroup(panelPacientesLayout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(eliminarPaciente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonCargarPaciente)
+                        .addGap(69, 69, 69)
+                        .addComponent(buttonGuardarCambios)))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         panelPacientesLayout.setVerticalGroup(
             panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,12 +522,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 .addComponent(jLabel3)
                 .addGap(50, 50, 50)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGap(57, 57, 57)
                 .addGroup(panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonGuardarCambios)
                     .addComponent(buttonCargarPaciente)
                     .addComponent(eliminarPaciente))
-                .addGap(32, 32, 32))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("Formulario Pacientes", panelPacientes);
@@ -376,22 +585,21 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         panelTratamientosLayout.setHorizontalGroup(
             panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTratamientosLayout.createSequentialGroup()
-                .addGroup(panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelTratamientosLayout.createSequentialGroup()
-                        .addGap(245, 245, 245)
-                        .addComponent(jLabel4))
-                    .addGroup(panelTratamientosLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(buttonEliminarTratamiento)
-                        .addGap(103, 103, 103)
-                        .addComponent(cambiosTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(AgregarTratamiento)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addGap(245, 245, 245)
+                .addComponent(jLabel4)
+                .addContainerGap(273, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(buttonEliminarTratamiento)
+                .addGap(103, 103, 103)
+                .addComponent(cambiosTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(AgregarTratamiento)
+                .addGap(109, 109, 109))
         );
         panelTratamientosLayout.setVerticalGroup(
             panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,232 +608,15 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 .addComponent(jLabel4)
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGap(54, 54, 54)
                 .addGroup(panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonEliminarTratamiento)
                     .addComponent(AgregarTratamiento)
                     .addComponent(cambiosTratamiento))
-                .addGap(28, 28, 28))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("Formulario Tratamientos", panelTratamientos);
-
-        jLabel9.setText("ACA TRAER TODO LO QUE HAY QUE COBRAR ");
-
-        jLabel10.setText("HACER CALCULOS.");
-
-        jLabel11.setText("TAL VEZ AGREGAR UNA TABLA EN LA BASE DE DATOS PARA REGISTRAR PAGOS");
-
-        javax.swing.GroupLayout panelFacturacionLayout = new javax.swing.GroupLayout(panelFacturacion);
-        panelFacturacion.setLayout(panelFacturacionLayout);
-        panelFacturacionLayout.setHorizontalGroup(
-            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFacturacionLayout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel9))
-                .addContainerGap(142, Short.MAX_VALUE))
-        );
-        panelFacturacionLayout.setVerticalGroup(
-            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFacturacionLayout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(jLabel9)
-                .addGap(60, 60, 60)
-                .addComponent(jLabel10)
-                .addGap(44, 44, 44)
-                .addComponent(jLabel11)
-                .addContainerGap(263, Short.MAX_VALUE))
-        );
-
-        tabbedPane.addTab("Facturación", panelFacturacion);
-
-        buscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Lupa (2).png"))); // NOI18N
-        buscarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscarClienteActionPerformed(evt);
-            }
-        });
-
-        labelDNICliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        labelDNICliente.setText("Documento cliente: ");
-
-        txtDNICliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDNIClienteActionPerformed(evt);
-            }
-        });
-
-        labelTitulo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelTitulo.setText("MASCOTAS DEL CLIENTE");
-
-        labelNombre.setText("Nombre:");
-
-        txtNombre.setEditable(false);
-
-        labelApellido.setText("Apellido: ");
-
-        txtApellido.setEditable(false);
-
-        labelDireccion.setText("Dirección:");
-
-        txtDireccion.setEditable(false);
-
-        labelTelefono.setText("Teléfono: ");
-
-        txtTelefono.setEditable(false);
-
-        labelContacto.setText("Contacto: ");
-
-        txtContacto.setEditable(false);
-
-        registrarAtencionMascota.setText("Registrar atencion");
-
-        consultarOtraMascota.setText("Nueva consulta");
-        consultarOtraMascota.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                consultarOtraMascotaActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Tratamiento:");
-
-        jLabel6.setText("Fecha inicio:");
-
-        jLabel7.setText("Fecha termino:");
-
-        jLabel8.setText("Peso:");
-
-        jButton2.setText("Historial de visitas");
-
-        javax.swing.GroupLayout panelNuevaVisitaLayout = new javax.swing.GroupLayout(panelNuevaVisita);
-        panelNuevaVisita.setLayout(panelNuevaVisitaLayout);
-        panelNuevaVisitaLayout.setHorizontalGroup(
-            panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(labelDNICliente)
-                        .addGap(67, 67, 67)
-                        .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(labelApellido)
-                        .addGap(36, 36, 36)
-                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(labelNombre)
-                        .addGap(39, 39, 39)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(labelTelefono)
-                        .addGap(31, 31, 31)
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(labelContacto)
-                        .addGap(29, 29, 29)
-                        .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(labelDireccion)
-                        .addGap(33, 33, 33)
-                        .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(260, 260, 260)
-                        .addComponent(labelTitulo))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jLabel5)
-                        .addGap(78, 78, 78)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel8)
-                        .addGap(73, 73, 73)
-                        .addComponent(jLabelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(jLabel6)
-                        .addGap(71, 71, 71)
-                        .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jLabel7)
-                        .addGap(68, 68, 68)
-                        .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(consultarOtraMascota)
-                        .addGap(133, 133, 133)
-                        .addComponent(jButton2)
-                        .addGap(31, 31, 31)
-                        .addComponent(registrarAtencionMascota)))
-                .addGap(74, 74, 74))
-        );
-        panelNuevaVisitaLayout.setVerticalGroup(
-            panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buscarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelNuevaVisitaLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDNICliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(50, 50, 50)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelContacto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtContacto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(labelTitulo)
-                .addGap(6, 6, 6)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabelPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jDateFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(panelNuevaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(consultarOtraMascota)
-                    .addComponent(jButton2)
-                    .addComponent(registrarAtencionMascota)))
-        );
-
-        tabbedPane.addTab("Nueva Visita", panelNuevaVisita);
 
         tablaListaClientes.setAutoCreateRowSorter(true);
         tablaListaClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -681,13 +672,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
         });
 
-        jButton1.setText("Asignar Mascota");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelClientesLayout = new javax.swing.GroupLayout(panelClientes);
         panelClientes.setLayout(panelClientesLayout);
         panelClientesLayout.setHorizontalGroup(
@@ -699,17 +683,15 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                         .addComponent(titCliente))
                     .addGroup(panelClientesLayout.createSequentialGroup()
                         .addGap(85, 85, 85)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelClientesLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(eliminarCliente)
-                        .addGap(18, 18, 18)
-                        .addComponent(guardarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(124, 124, 124)
-                        .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(79, 79, 79))
+                        .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panelClientesLayout.createSequentialGroup()
+                                .addComponent(eliminarCliente)
+                                .addGap(105, 105, 105)
+                                .addComponent(guardarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(80, 80, 80))
         );
         panelClientesLayout.setVerticalGroup(
             panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -718,48 +700,133 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 .addComponent(titCliente)
                 .addGap(47, 47, 47)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82)
-                .addComponent(jButton1)
-                .addGap(2, 2, 2)
-                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(eliminarCliente)
-                        .addComponent(guardarCliente))
-                    .addGroup(panelClientesLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(CargarCambiosCliente))))
+                .addGap(107, 107, 107)
+                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eliminarCliente)
+                    .addComponent(guardarCliente)
+                    .addComponent(CargarCambiosCliente))
+                .addGap(5, 5, 5))
         );
 
         tabbedPane.addTab("Formulario Clientes", panelClientes);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("EDITAR ESTA AREA \nAGREGAR UNA IMAGEN \nQUE SEA EL PANEL \nQUE SE ABRA PRIMERO \nCUANDO SE INICIA SESION");
-        jScrollPane5.setViewportView(jTextArea1);
+        labelClienteVisita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        labelClienteVisita.setText("Cliente:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+        labelAliasVisita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        labelAliasVisita.setText("Mascota:");
+
+        txtClienteVisita.setEditable(false);
+
+        txtMascotaVisita.setEditable(false);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Fecha visita", "Sintomas", "Afeccion", "Tratamiento", "Peso actual", "Peso prom"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(jTable1);
+
+        buttonGuardarVisita.setText("Guardar");
+
+        buttonEliminarVisita.setText("Eliminar");
+
+        javax.swing.GroupLayout panelRegistrarVisitaLayout = new javax.swing.GroupLayout(panelRegistrarVisita);
+        panelRegistrarVisita.setLayout(panelRegistrarVisitaLayout);
+        panelRegistrarVisitaLayout.setHorizontalGroup(
+            panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
+                .addGroup(panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(labelClienteVisita)
+                        .addGap(28, 28, 28)
+                        .addComponent(txtClienteVisita, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(89, 89, 89)
+                        .addComponent(labelAliasVisita)
+                        .addGap(40, 40, 40)
+                        .addComponent(txtMascotaVisita, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRegistrarVisitaLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(buttonEliminarVisita)
+                .addGap(91, 91, 91)
+                .addComponent(buttonGuardarVisita)
+                .addGap(101, 101, 101))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(284, Short.MAX_VALUE))
+        panelRegistrarVisitaLayout.setVerticalGroup(
+            panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelClienteVisita)
+                    .addComponent(txtClienteVisita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelAliasVisita)
+                    .addComponent(txtMascotaVisita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addGroup(panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonGuardarVisita)
+                    .addComponent(buttonEliminarVisita))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
-        tabbedPane.addTab("Principal", jPanel2);
+        tabbedPane.addTab("Historial visitas", panelRegistrarVisita);
 
-        getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 660, 520));
+        jLabel9.setText("ACA TRAER TODO LO QUE HAY QUE COBRAR ");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/portada.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, -20, 660, 70));
+        jLabel10.setText("HACER CALCULOS.");
+
+        jLabel11.setText("TAL VEZ AGREGAR UNA TABLA EN LA BASE DE DATOS PARA REGISTRAR PAGOS");
+
+        javax.swing.GroupLayout panelFacturacionLayout = new javax.swing.GroupLayout(panelFacturacion);
+        panelFacturacion.setLayout(panelFacturacionLayout);
+        panelFacturacionLayout.setHorizontalGroup(
+            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel9))
+                .addContainerGap(162, Short.MAX_VALUE))
+        );
+        panelFacturacionLayout.setVerticalGroup(
+            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(jLabel9)
+                .addGap(60, 60, 60)
+                .addComponent(jLabel10)
+                .addGap(44, 44, 44)
+                .addComponent(jLabel11)
+                .addContainerGap(293, Short.MAX_VALUE))
+        );
+
+        tabbedPane.addTab("Facturación", panelFacturacion);
+
+        getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 680, 550));
+
+        portada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/portada.png"))); // NOI18N
+        getContentPane().add(portada, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, -20, 690, 160));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -786,12 +853,21 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             txtContacto.setText(cliente.getContacto());
             txtTelefono.setText(String.valueOf(cliente.getTelefono()));
 
-            //Cargar mascotas al ComboBox.
+            //Cargar mascotas a la tabla 
             List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(cliente.getIdCliente());
-            //Limpiar ComboBox
-            jComboBox1.removeAllItems();
-            for (Mascota mascota : mascotas) {
-                jComboBox1.addItem(mascota.getAlias());
+            
+            DefaultTableModel model = (DefaultTableModel) mascotasCliente;
+            model.setRowCount(0);
+            
+            for(Mascota mascota : mascotas){
+                model.addRow(new Object[]{
+                 mascota.getAlias(),
+                 mascota.getEspecie(),
+                 mascota.getRaza(),
+                 mascota.getSexo(),
+                 mascota.getColor(),
+                 mascota.getNacimiento(),
+                });
             }
 
         } else {
@@ -810,6 +886,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void buttonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarCambiosActionPerformed
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
+            
             abrirFormularioMascota();
             cargarMascotas();
             ordenarTablaPorAlias();
@@ -842,12 +919,16 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
-        FormularioMascota formulario = new FormularioMascota();
-        // Limpia los campos del formulario
-        formulario.limpiarCampos();
-        abrirFormularioMascota();
-        cargarMascotas();
-        ordenarTablaPorAlias();
+        FormularioMascota formularioMascota = new FormularioMascota();
+        formularioMascota.addMascotaEventListener(new MascotaEventListener() {
+            @Override
+            public void mascotaActualizado() {
+                // Este código se ejecutará cuando se cierre el formulario de mascotas
+                cargarMascotas(); // Actualiza la tabla de mascotas
+            }
+        });
+        formularioMascota.setVisible(true);
+        
     }//GEN-LAST:event_buttonCargarPacienteActionPerformed
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
@@ -855,7 +936,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tabbedPane.setSelectedComponent(panelPacientes);
     }//GEN-LAST:event_buttonPacientesActionPerformed
 
-    private void consultarOtraMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarOtraMascotaActionPerformed
+    private void buttonOtraConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOtraConsultaActionPerformed
         //Se borran todos los campos del formulario Nueva Visita
         txtDNICliente.setText("");
         txtApellido.setText("");
@@ -863,17 +944,13 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtContacto.setText("");
-
-        jComboBox1.removeAllItems();
-        jComboBox2.removeAllItems();
-        jLabelPeso.setText("");
-        jDateInicio.getJCalendar();
-        jDateFin.getJCalendar();
-    }//GEN-LAST:event_consultarOtraMascotaActionPerformed
+        
+        //Agregar para que vacie la tabla
+    }//GEN-LAST:event_buttonOtraConsultaActionPerformed
 
     //PERTENECE AL PANEL CLIENTE:
     private void guardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarClienteActionPerformed
-        editandoCliente = true;
+        editandoCliente = false;
         FormularioCliente formularioCliente = new FormularioCliente(editandoCliente);
         formularioCliente.addClienteEventListener(this); // Registro del oyente
         formularioCliente.setVisible(true);
@@ -882,8 +959,18 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void CargarCambiosClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarCambiosClienteActionPerformed
         int filaSeleccionada = tablaListaClientes.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            editandoCliente = false;
+           
+            String apellido = (String) tablaCliente.getValueAt(filaSeleccionada, 0);
+            String nombre = (String) tablaCliente.getValueAt(filaSeleccionada, 1);
+            int documento = (int) tablaCliente.getValueAt(filaSeleccionada, 2);
+            String direccion = (String) tablaCliente.getValueAt(filaSeleccionada, 3);
+            long telefono = (long) tablaCliente.getValueAt(filaSeleccionada, 4);
+            String contacto = (String) tablaCliente.getValueAt(filaSeleccionada, 5);
+
+            editandoCliente = true;
             FormularioCliente formularioCliente = new FormularioCliente(editandoCliente);
+            
+            formularioCliente.setDatosCliente(apellido, nombre, documento, direccion, telefono, contacto);
             formularioCliente.addClienteEventListener( this); // Registro del oyente
             formularioCliente.setVisible(true);
         } else {
@@ -939,11 +1026,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     }//GEN-LAST:event_eliminarClienteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //ESTE BOTON DEBE llevarnos al panel de mascotas PARA ASIGNAR MASCOTA
-        // AL CLIENTE SElECCIONADO DE LA TABLA. 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     //PERTENECE AL PANEL TRATAMIENTOS
     private void AgregarTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarTratamientoActionPerformed
         editandoTratamiento = true;
@@ -993,6 +1075,21 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDNIClienteActionPerformed
 
+    private void buttonFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFacturacionActionPerformed
+        tabbedPane.setSelectedComponent(panelFacturacion);
+    }//GEN-LAST:event_buttonFacturacionActionPerformed
+
+    private void buttonHistorialVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHistorialVisitasActionPerformed
+        //Trae el panel
+        tabbedPane.setSelectedComponent(panelRegistrarVisita);
+        // debe llevar al panel el id del cliente y el id de la mascota
+        // buscar la forma de que cada columna de la tabla se pueda editar
+           // pero abriendo un dialog por columna, para ir cargando esos datos
+           // o en todo caso que la tabla sea editable. 
+           // sino usarla como historia clinica y crear un frame 
+           // para registrar una nueva visita 
+    }//GEN-LAST:event_buttonHistorialVisitasActionPerformed
+
     public static void main() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1032,65 +1129,65 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JButton buttonCargarPaciente;
     private javax.swing.JButton buttonClientes;
     private javax.swing.JButton buttonEliminarTratamiento;
+    private javax.swing.JButton buttonEliminarVisita;
     private javax.swing.JButton buttonFacturacion;
     private javax.swing.JButton buttonGuardarCambios;
+    private javax.swing.JButton buttonGuardarVisita;
+    private javax.swing.JButton buttonHistorialVisitas;
+    private javax.swing.JButton buttonOtraConsulta;
     private javax.swing.JButton buttonPacientes;
     private javax.swing.JButton buttonRegistraVisita;
     private javax.swing.JButton buttonTratamientos;
     private javax.swing.JButton cambiosTratamiento;
-    private javax.swing.JButton consultarOtraMascota;
     private javax.swing.JButton eliminarCliente;
     private javax.swing.JButton eliminarPaciente;
     private javax.swing.JButton guardarCliente;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateFin;
-    private com.toedter.calendar.JDateChooser jDateInicio;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jLabelPeso;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel labelAliasVisita;
     private javax.swing.JLabel labelApellido;
+    private javax.swing.JLabel labelClienteVisita;
     private javax.swing.JLabel labelContacto;
     private javax.swing.JLabel labelDNICliente;
     private javax.swing.JLabel labelDireccion;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelTelefono;
     private javax.swing.JLabel labelTitulo;
+    private javax.swing.JLabel logo;
+    private javax.swing.JPanel panelButtonsIzq;
     private javax.swing.JPanel panelClientes;
     private javax.swing.JPanel panelFacturacion;
+    private javax.swing.JPanel panelHome;
     private javax.swing.JPanel panelNuevaVisita;
     private javax.swing.JPanel panelPacientes;
+    private javax.swing.JPanel panelRegistrarVisita;
     private javax.swing.JPanel panelTratamientos;
-    private javax.swing.JButton registrarAtencionMascota;
+    private javax.swing.JLabel portada;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTable tablaListaClientes;
     private javax.swing.JTable tablaListaMascotas;
     private javax.swing.JTable tablaListaTratamientos;
+    private javax.swing.JTable tablaMascotasCliente;
     private javax.swing.JLabel titCliente;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtClienteVisita;
     private javax.swing.JTextField txtContacto;
     private javax.swing.JTextField txtDNICliente;
     private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtMascotaVisita;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
@@ -1138,15 +1235,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         sorter.sort();
     }
 
-    //PERTENECE AL PANEL DE CLIENTE: 
-    private void abrirFormularioCliente() {
-        FormularioCliente formulario = new FormularioCliente(editandoCliente);
-
-        formulario.setVisible(true);
-
-        ordenarTablaClientesPorApellido();
-    }
-
+   
     // Método para ordenar la tabla de clientes por apellido
     private void ordenarTablaClientesPorApellido() {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaCliente);
@@ -1179,7 +1268,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 cliente.getTelefono(),
                 cliente.getContacto()
             };
-            System.out.println(cliente);
+          //  System.out.println(cliente);
             tablaCliente.addRow(fila);
         }
     }
@@ -1210,11 +1299,10 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     }
 
     private void abrirFormularioTratamiento() {
-
         FormularioTratamiento formulario = new FormularioTratamiento(editandoTratamiento);
-
         formulario.setVisible(true);
-
         ordenarTablaClientesPorApellido();
     }
+
+    
 }
