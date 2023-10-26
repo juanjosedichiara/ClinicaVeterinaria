@@ -12,6 +12,7 @@ import clinicaveterinaria.entidades.Tratamiento;
 import clinicaveterinaria.vistas.FormularioCliente.ClienteEventListener;
 import clinicaveterinaria.vistas.FormularioMascota.MascotaEventListener;
 import java.awt.Dimension;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,18 +24,18 @@ import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener,  MascotaEventListener {
+public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener, MascotaEventListener {
 
     private DefaultTableModel tablaMascota;
     private DefaultTableModel tablaCliente;
     private DefaultTableModel tablaTratamiento;
     private DefaultTableModel mascotasCliente;
-    
+
     private MascotaData mascotaData;
     private ClienteData clienteData;
     private TratamientoData tratamientoData;
 
-    private boolean editandoCliente=false;
+    private boolean editandoCliente = false;
 
     private boolean editandoTratamiento = false;
 
@@ -46,12 +47,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     public void clienteActualizado() {
         cargarClientes(); // Método para cargar clientes en la tabla
     }
-    
+
     @Override
     public void mascotaActualizado() {
         cargarMascotas();
     }
-    
+
     public VeterinariaHome() {
         initComponents();
 
@@ -82,9 +83,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
         cargarTratamientos();
-        
+
         //MODELO VISITA
-        mascotasCliente = new DefaultTableModel(new String[] {"Alias", "Especie", "Raza", "Sexo", "Color", "Fecha de nacimiento"},0);
+        mascotasCliente = new DefaultTableModel(new String[]{"Alias", "Especie", "Raza", "Sexo", "Color", "Fecha de nacimiento"}, 0);
         tablaMascotasCliente.setModel(mascotasCliente);
     }
 
@@ -855,19 +856,18 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
             //Cargar mascotas a la tabla 
             List<Mascota> mascotas = mascotaData.obtenerMascotasPorIdCliente(cliente.getIdCliente());
-            
+
             DefaultTableModel model = (DefaultTableModel) mascotasCliente;
             model.setRowCount(0);
-            
-            for(Mascota mascota : mascotas){
+
+            for (Mascota mascota : mascotas) {
                 model.addRow(new Object[]{
-                 mascota.getAlias(),
-                 mascota.getEspecie(),
-                 mascota.getRaza(),
-                 mascota.getSexo(),
-                 mascota.getColor(),
-                 mascota.getNacimiento(),
-                });
+                    mascota.getAlias(),
+                    mascota.getEspecie(),
+                    mascota.getRaza(),
+                    mascota.getSexo(),
+                    mascota.getColor(),
+                    mascota.getNacimiento(),});
             }
 
         } else {
@@ -886,13 +886,23 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void buttonGuardarCambiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarCambiosActionPerformed
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
+            String alias = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
+            String sexo = (String) tablaMascota.getValueAt(filaSeleccionada, 1);
+            String especie = (String) tablaMascota.getValueAt(filaSeleccionada, 2);
+            String raza = (String) tablaMascota.getValueAt(filaSeleccionada, 3);
+            String color = (String) tablaMascota.getValueAt(filaSeleccionada, 4);
+            LocalDate nacimiento = (LocalDate) tablaMascota.getValueAt(filaSeleccionada, 5);
+            int dniCuidador = (int) tablaMascota.getValueAt(filaSeleccionada, 6);
+
+            FormularioMascota formularioMascota = new FormularioMascota();
+            formularioMascota.setDatosMascota(alias, sexo, especie, raza, color, nacimiento, dniCuidador);
+            formularioMascota.addMascotaEventListener(this);
+            formularioMascota.setVisible(true);
             
-            abrirFormularioMascota();
-            cargarMascotas();
-            ordenarTablaPorAlias();
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_buttonGuardarCambiosActionPerformed
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
@@ -920,15 +930,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
         FormularioMascota formularioMascota = new FormularioMascota();
-        formularioMascota.addMascotaEventListener(new MascotaEventListener() {
-            @Override
-            public void mascotaActualizado() {
-                // Este código se ejecutará cuando se cierre el formulario de mascotas
-                cargarMascotas(); // Actualiza la tabla de mascotas
-            }
-        });
+        formularioMascota.addMascotaEventListener(this);
         formularioMascota.setVisible(true);
-        
+
     }//GEN-LAST:event_buttonCargarPacienteActionPerformed
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
@@ -944,7 +948,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtContacto.setText("");
-        
+
         //Agregar para que vacie la tabla
     }//GEN-LAST:event_buttonOtraConsultaActionPerformed
 
@@ -959,7 +963,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void CargarCambiosClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarCambiosClienteActionPerformed
         int filaSeleccionada = tablaListaClientes.getSelectedRow();
         if (filaSeleccionada >= 0) {
-           
+
             String apellido = (String) tablaCliente.getValueAt(filaSeleccionada, 0);
             String nombre = (String) tablaCliente.getValueAt(filaSeleccionada, 1);
             int documento = (int) tablaCliente.getValueAt(filaSeleccionada, 2);
@@ -969,9 +973,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
             editandoCliente = true;
             FormularioCliente formularioCliente = new FormularioCliente(editandoCliente);
-            
+
             formularioCliente.setDatosCliente(apellido, nombre, documento, direccion, telefono, contacto);
-            formularioCliente.addClienteEventListener( this); // Registro del oyente
+            formularioCliente.addClienteEventListener(this); // Registro del oyente
             formularioCliente.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente para editar.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1084,10 +1088,10 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tabbedPane.setSelectedComponent(panelRegistrarVisita);
         // debe llevar al panel el id del cliente y el id de la mascota
         // buscar la forma de que cada columna de la tabla se pueda editar
-           // pero abriendo un dialog por columna, para ir cargando esos datos
-           // o en todo caso que la tabla sea editable. 
-           // sino usarla como historia clinica y crear un frame 
-           // para registrar una nueva visita 
+        // pero abriendo un dialog por columna, para ir cargando esos datos
+        // o en todo caso que la tabla sea editable. 
+        // sino usarla como historia clinica y crear un frame 
+        // para registrar una nueva visita 
     }//GEN-LAST:event_buttonHistorialVisitasActionPerformed
 
     public static void main() {
@@ -1235,7 +1239,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         sorter.sort();
     }
 
-   
     // Método para ordenar la tabla de clientes por apellido
     private void ordenarTablaClientesPorApellido() {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaCliente);
@@ -1268,7 +1271,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 cliente.getTelefono(),
                 cliente.getContacto()
             };
-          //  System.out.println(cliente);
+            //  System.out.println(cliente);
             tablaCliente.addRow(fila);
         }
     }
@@ -1304,5 +1307,4 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         ordenarTablaClientesPorApellido();
     }
 
-    
 }

@@ -28,9 +28,9 @@ public class FormularioMascota extends javax.swing.JFrame {
     private ClienteData clienteData;
     private Mascota mascota;
     private Cliente cliente;
-    
+
     private int idCliente;
-    
+
     private List<MascotaEventListener> listeners = new ArrayList<>();
 
     public void addMascotaEventListener(MascotaEventListener listener) {
@@ -42,13 +42,14 @@ public class FormularioMascota extends javax.swing.JFrame {
             listener.mascotaActualizado();
         }
     }
-    
+
     /**
      * Creates new form FormularioMascota
      */
     public FormularioMascota() {
         initComponents();
-        
+        this.setLocationRelativeTo(null);
+
         mascotaData = new MascotaData();
         clienteData = new ClienteData();
         mascota = new Mascota();
@@ -81,7 +82,7 @@ public class FormularioMascota extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtSexo = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clinica Veterinaria-Formulario paciente");
         setMaximumSize(null);
         setMinimumSize(null);
@@ -201,53 +202,55 @@ public class FormularioMascota extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarActionPerformed
-        String dniClienteText = txtDniCliente.getText().trim();
+        String dniClienteText = txtDniCliente.getText();
         if (!dniClienteText.isEmpty()) {
             int dniCliente = Integer.parseInt(dniClienteText);
-            idCliente = clienteData.obtenerIdClientePorDNI( dniCliente);
-            
+            idCliente = clienteData.obtenerIdClientePorDNI(dniCliente);
+
             if (idCliente > 0) {
 
-                String alias = txtAlias.getText().trim();
-                String sexo = txtSexo.getText().trim();
-                String especie = txtEspecie.getText().trim();
-                String raza = txtRaza.getText().trim();
-                String color = txtColor.getText().trim();
+                String alias = txtAlias.getText();
+                String sexo = txtSexo.getText();
+                String especie = txtEspecie.getText();
+                String raza = txtRaza.getText();
+                String color = txtColor.getText();
                 LocalDate nacimiento = dateNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-        if (alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty()|| color.isEmpty() || nacimiento== null){
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-             if (esMascotaNueva()) {
-            Mascota masc = new Mascota(alias, sexo, especie, raza, color, nacimiento);
-                    mascotaData.altaMascota(masc, idCliente);
-                } else {
-                    mascota.setAlias(alias);
-                    mascota.setSexo(sexo);
-                    mascota.setEspecie(especie);
-                    mascota.setRaza(raza);
-                    mascota.setColor(color);
-                    mascota.setNacimiento(nacimiento);
+                int dniCuidador = Integer.parseInt(txtDniCliente.getText());
 
-                    mascotaData.modificarMascota(mascota);
+                if (alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty() || color.isEmpty() || nacimiento == null) {
+                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (esMascotaNueva()) {
+                        Mascota masc = new Mascota(alias, sexo, especie, raza, color, nacimiento);
+                        mascotaData.altaMascota(masc, idCliente);
+                        //System.out.println("Entro alta Mascota");
+                    } else {
+                        mascota.setAlias(alias);
+                        mascota.setSexo(sexo);
+                        mascota.setEspecie(especie);
+                        mascota.setRaza(raza);
+                        mascota.setColor(color);
+                        mascota.setNacimiento(nacimiento);
+
+                        mascotaData.modificarMascota(mascota);
+                    }
+                    notificarActualizacionMascota();
+                    this.dispose();
                 }
-                notificarActualizacionMascota();
-                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "El DNI del cliente no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "El DNI del cliente no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, complete el campo 'Documento dueño'.", "Error", JOptionPane.ERROR_MESSAGE);
-    
+            JOptionPane.showMessageDialog(this, "Por favor, complete el campo 'Documento dueño'.", "Error", JOptionPane.ERROR_MESSAGE);
+
     }//GEN-LAST:event_buttonGuardarActionPerformed
     }
-    
+
     private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonCancelarActionPerformed
-            
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancelar;
     private javax.swing.JButton buttonGuardar;
@@ -266,7 +269,7 @@ public class FormularioMascota extends javax.swing.JFrame {
     private javax.swing.JTextField txtRaza;
     private javax.swing.JTextField txtSexo;
     // End of variables declaration//GEN-END:variables
-   
+
     public void limpiarCampos() {
         txtAlias.setText("");
         txtSexo.setText("");
@@ -275,7 +278,7 @@ public class FormularioMascota extends javax.swing.JFrame {
         txtColor.setText("");
         dateNacimiento.setDate(null);
     }
-    
+
     public boolean esMascotaNueva() {
         String alias = txtAlias.getText().trim();
         if (alias.isEmpty() || idCliente < 0) {
@@ -287,27 +290,36 @@ public class FormularioMascota extends javax.swing.JFrame {
 
         // Si la mascota no existe o pertenece al cliente actual, se considera nueva.
         return mascotaExistente == null || mascotaExistente.getIdCliente() == idCliente;
-        }
-    
-    // Método para cargar datos desde la tabla a los campos del formulario
-    public void cargarDatosDesdeTabla(DefaultTableModel tablaListaMascota, int filaSeleccionada) {
-        String alias = (String) tablaListaMascota.getValueAt(filaSeleccionada, 0);
-        String sexo = (String) tablaListaMascota.getValueAt(filaSeleccionada, 1);
-        String especie = (String) tablaListaMascota.getValueAt(filaSeleccionada, 2);
-        String raza = (String) tablaListaMascota.getValueAt(filaSeleccionada, 3);
-        String color = (String) tablaListaMascota.getValueAt(filaSeleccionada, 4);
-        Date nacimiento = ((Date) tablaListaMascota.getValueAt(filaSeleccionada, 5));
-        
+    }
+
+//    // Método para cargar datos desde la tabla a los campos del formulario
+//    public void cargarDatosDesdeTabla(DefaultTableModel tablaListaMascota, int filaSeleccionada) {
+//        String alias = (String) tablaListaMascota.getValueAt(filaSeleccionada, 0);
+//        String sexo = (String) tablaListaMascota.getValueAt(filaSeleccionada, 1);
+//        String especie = (String) tablaListaMascota.getValueAt(filaSeleccionada, 2);
+//        String raza = (String) tablaListaMascota.getValueAt(filaSeleccionada, 3);
+//        String color = (String) tablaListaMascota.getValueAt(filaSeleccionada, 4);
+//        Date nacimiento = ((Date) tablaListaMascota.getValueAt(filaSeleccionada, 5));
+//
+//        txtAlias.setText(alias);
+//        txtSexo.setText(sexo);
+//        txtEspecie.setText(especie);
+//        txtRaza.setText(raza);
+//        txtColor.setText(color);
+//        dateNacimiento.setDate(nacimiento);
+//    }
+    public interface MascotaEventListener extends EventListener {
+
+        void mascotaActualizado();
+    }
+
+    public void setDatosMascota(String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, int dniCuidador) {
         txtAlias.setText(alias);
         txtSexo.setText(sexo);
         txtEspecie.setText(especie);
         txtRaza.setText(raza);
         txtColor.setText(color);
-        dateNacimiento.setDate(nacimiento);
-    }   
-    
-    public interface MascotaEventListener extends EventListener{
-        void mascotaActualizado();
+        dateNacimiento.setDate(Date.valueOf(nacimiento));
+        txtDniCliente.setText(String.valueOf(dniCuidador));
     }
 }
-    
