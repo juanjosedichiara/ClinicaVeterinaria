@@ -57,6 +57,8 @@ public class FormularioMascota extends javax.swing.JFrame {
         clienteData = new ClienteData();
         mascota = new Mascota();
         cliente = new Cliente();
+        
+        verificarEstado();
     }
 
     /**
@@ -286,10 +288,8 @@ public class FormularioMascota extends javax.swing.JFrame {
     public void verificarEstado(){
         if (editandoMascota){
             txtDniCliente.setEnabled(false);
-            txtAlias.setEnabled(false);
         }else{
            txtDniCliente.setEnabled(true);
-            txtAlias.setEnabled(true); 
         }
     }
     

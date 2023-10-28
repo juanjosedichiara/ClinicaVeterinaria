@@ -1,7 +1,9 @@
 package clinicaveterinaria.vistas;
 
 import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class HomeView extends javax.swing.JFrame {
@@ -13,6 +15,12 @@ public class HomeView extends javax.swing.JFrame {
         getContentPane().setLayout(new BorderLayout());
         JDesktopPane desktopHome = new JDesktopPane();
         getContentPane().add(desktopHome, BorderLayout.CENTER);
+        
+//        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/FONDO.jpg")));
+//        background.setLayout(new BorderLayout());
+//        getContentPane().add(background, BorderLayout.CENTER);
+//        
+//        panelLogin.setOpaque(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -24,6 +32,7 @@ public class HomeView extends javax.swing.JFrame {
         labelUsser = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         buttonIngresar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clinica Veterinaria");
@@ -32,14 +41,14 @@ public class HomeView extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelLogin.setBackground(new java.awt.Color(255, 255, 255));
-        panelLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        panelLogin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "¡Bienvenidos!", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Verdana", 1, 14))); // NOI18N
         panelLogin.setPreferredSize(new java.awt.Dimension(220, 220));
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Vet.png"))); // NOI18N
         logo.setText("jLabel1");
 
         labelUsser.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        labelUsser.setText("Usuario:");
+        labelUsser.setText("Ingresar usuario:");
 
         buttonIngresar.setText("Ingresar");
         buttonIngresar.addActionListener(new java.awt.event.ActionListener() {
@@ -53,40 +62,38 @@ public class HomeView extends javax.swing.JFrame {
         panelLoginLayout.setHorizontalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelLoginLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(labelUsser)))
-                        .addGap(0, 58, Short.MAX_VALUE))
-                    .addGroup(panelLoginLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(buttonIngresar)))))
-                .addContainerGap())
+                .addGap(163, 163, 163)
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buttonIngresar)
+                    .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelUsser)))
+                .addContainerGap(154, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLoginLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(231, 231, 231))
         );
         panelLoginLayout.setVerticalGroup(
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(29, 29, 29)
                 .addComponent(logo)
-                .addGap(16, 16, 16)
+                .addGap(46, 46, 46)
                 .addComponent(labelUsser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(buttonIngresar)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 220));
+        getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 560, 310));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/loginFondo.jpg"))); // NOI18N
+        jLabel2.setRequestFocusEnabled(false);
+        jLabel2.setVerifyInputWhenFocusTarget(false);
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 520));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -150,6 +157,7 @@ public class HomeView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonIngresar;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelUsser;
     private javax.swing.JLabel logo;
     private javax.swing.JPanel panelLogin;
