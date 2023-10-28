@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,6 +29,9 @@ public class FormularioMascota extends javax.swing.JFrame {
     private Cliente cliente;
 
     private int idCliente;
+    private int idMascotaCambios;
+    
+    private boolean editandoMascota;
 
     private List<MascotaEventListener> listeners = new ArrayList<>();
 
@@ -46,10 +48,11 @@ public class FormularioMascota extends javax.swing.JFrame {
     /**
      * Creates new form FormularioMascota
      */
-    public FormularioMascota() {
+    public FormularioMascota(boolean editandoMascota) {
         initComponents();
         this.setLocationRelativeTo(null);
-
+        this.editandoMascota=editandoMascota;
+        
         mascotaData = new MascotaData();
         clienteData = new ClienteData();
         mascota = new Mascota();
@@ -215,16 +218,12 @@ public class FormularioMascota extends javax.swing.JFrame {
                 String raza = txtRaza.getText();
                 String color = txtColor.getText();
                 LocalDate nacimiento = dateNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                int dniCuidador = Integer.parseInt(txtDniCliente.getText());
-
+               
                 if (alias.isEmpty() || sexo.isEmpty() || especie.isEmpty() || raza.isEmpty() || color.isEmpty() || nacimiento == null) {
                     JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (esMascotaNueva()) {
-                        Mascota masc = new Mascota(alias, sexo, especie, raza, color, nacimiento);
-                        mascotaData.altaMascota(masc, idCliente);
-                        //System.out.println("Entro alta Mascota");
-                    } else {
+                    if (editandoMascota) {
+                        mascota.setIdMascota(idMascotaCambios);
                         mascota.setAlias(alias);
                         mascota.setSexo(sexo);
                         mascota.setEspecie(especie);
@@ -233,6 +232,11 @@ public class FormularioMascota extends javax.swing.JFrame {
                         mascota.setNacimiento(nacimiento);
 
                         mascotaData.modificarMascota(mascota);
+                        
+                    } else {
+                        Mascota masc = new Mascota(alias, sexo, especie, raza, color, nacimiento);
+                        mascotaData.altaMascota(masc, idCliente);
+                   
                     }
                     notificarActualizacionMascota();
                     this.dispose();
@@ -279,41 +283,23 @@ public class FormularioMascota extends javax.swing.JFrame {
         dateNacimiento.setDate(null);
     }
 
-    public boolean esMascotaNueva() {
-        String alias = txtAlias.getText().trim();
-        if (alias.isEmpty() || idCliente < 0) {
-            return true;
+    public void verificarEstado(){
+        if (editandoMascota){
+            txtDniCliente.setEnabled(false);
+            txtAlias.setEnabled(false);
+        }else{
+           txtDniCliente.setEnabled(true);
+            txtAlias.setEnabled(true); 
         }
-
-        // Buscar la mascota por alias y el ID del cliente.
-        Mascota mascotaExistente = mascotaData.buscarMascotaPorAlias(alias, idCliente);
-
-        // Si la mascota no existe o pertenece al cliente actual, se considera nueva.
-        return mascotaExistente == null || mascotaExistente.getIdCliente() == idCliente;
     }
-
-//    // Método para cargar datos desde la tabla a los campos del formulario
-//    public void cargarDatosDesdeTabla(DefaultTableModel tablaListaMascota, int filaSeleccionada) {
-//        String alias = (String) tablaListaMascota.getValueAt(filaSeleccionada, 0);
-//        String sexo = (String) tablaListaMascota.getValueAt(filaSeleccionada, 1);
-//        String especie = (String) tablaListaMascota.getValueAt(filaSeleccionada, 2);
-//        String raza = (String) tablaListaMascota.getValueAt(filaSeleccionada, 3);
-//        String color = (String) tablaListaMascota.getValueAt(filaSeleccionada, 4);
-//        Date nacimiento = ((Date) tablaListaMascota.getValueAt(filaSeleccionada, 5));
-//
-//        txtAlias.setText(alias);
-//        txtSexo.setText(sexo);
-//        txtEspecie.setText(especie);
-//        txtRaza.setText(raza);
-//        txtColor.setText(color);
-//        dateNacimiento.setDate(nacimiento);
-//    }
+    
     public interface MascotaEventListener extends EventListener {
 
         void mascotaActualizado();
     }
 
-    public void setDatosMascota(String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, int dniCuidador) {
+    public void setDatosMascota(int idMascota,String alias, String sexo, String especie, String raza, String color, LocalDate nacimiento, int dniCuidador) {
+        idMascotaCambios=idMascota;
         txtAlias.setText(alias);
         txtSexo.setText(sexo);
         txtEspecie.setText(especie);

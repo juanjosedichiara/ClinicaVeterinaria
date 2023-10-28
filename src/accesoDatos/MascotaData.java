@@ -54,7 +54,7 @@ public class MascotaData {
 
     public void modificarMascota(Mascota mascota) {
         String sql = "UPDATE `mascota` SET `alias`=? ,sexo=?, especie=?, raza=?, color=?, "
-                + "nacimiento=?, presoPromedio=?, pesoActual=?, estadoMascota=? WHERE idMascota=?";
+                + "nacimiento=? WHERE idMascota=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, mascota.getAlias());
@@ -63,10 +63,7 @@ public class MascotaData {
             ps.setString(4, mascota.getRaza());
             ps.setString(5, mascota.getColor());
             ps.setDate(6, Date.valueOf(mascota.getNacimiento()));
-            ps.setDouble(7, mascota.getPesoPromedio());
-            ps.setDouble(8, mascota.getPesoActual());
-            ps.setBoolean(9, mascota.getEstadoMascota());
-            ps.setInt(10, mascota.getIdMascota());
+            ps.setInt(7, mascota.getIdMascota());
 
             int modificar = ps.executeUpdate();
 
@@ -164,6 +161,27 @@ public class MascotaData {
             ex.printStackTrace();
         }
         return mascotas;
+    }
+    
+    public int obtenerIdMascotaPorAlias(String alias) {
+    int idMascota = -1; 
+    String sql = "SELECT idMascota FROM mascota WHERE alias = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, alias);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idMascota = rs.getInt("idMascota");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return idMascota;
     }
 
     public Mascota buscarMascotaPorAlias(String aliasMascota, int idCliente) {

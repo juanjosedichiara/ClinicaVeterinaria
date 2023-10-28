@@ -36,7 +36,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private TratamientoData tratamientoData;
 
     private boolean editandoCliente = false;
-
+    private boolean editandoMascota= false;
     private boolean editandoTratamiento = false;
 
     private JFrame formularioMascota;
@@ -45,11 +45,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     @Override
     public void clienteActualizado() {
-        cargarClientes(); // Método para cargar clientes en la tabla
+        cargarClientes(); 
     }
 
     @Override
     public void mascotaActualizado() {
+       
         cargarMascotas();
     }
 
@@ -63,9 +64,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         // MODELO MASCOTAS
         tablaMascota = new DefaultTableModel(new String[]{"Alias", "Sexo", "Especie", "Raza", "Color", "Nacimiento", "DNI Cuidador"}, 0);
         tablaListaMascotas.setModel(tablaMascota);
-
         mascotaData = new MascotaData();
-        formularioMascota = new FormularioMascota();
+        formularioMascota = new FormularioMascota(editandoMascota);
         // Cargar mascotas en la tabla al abrir el panel de pacientes
         cargarMascotas();
 
@@ -139,13 +139,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         buttonEliminarTratamiento = new javax.swing.JButton();
         AgregarTratamiento = new javax.swing.JButton();
         cambiosTratamiento = new javax.swing.JButton();
-        panelClientes = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tablaListaClientes = new javax.swing.JTable();
-        titCliente = new javax.swing.JLabel();
-        eliminarCliente = new javax.swing.JButton();
-        guardarCliente = new javax.swing.JButton();
-        CargarCambiosCliente = new javax.swing.JButton();
         panelRegistrarVisita = new javax.swing.JPanel();
         labelClienteVisita = new javax.swing.JLabel();
         labelAliasVisita = new javax.swing.JLabel();
@@ -159,6 +152,13 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        panelClientes = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaListaClientes = new javax.swing.JTable();
+        titCliente = new javax.swing.JLabel();
+        eliminarCliente = new javax.swing.JButton();
+        guardarCliente = new javax.swing.JButton();
+        CargarCambiosCliente = new javax.swing.JButton();
         portada = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
@@ -174,7 +174,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         panelButtonsIzq.setEnabled(false);
         panelButtonsIzq.setMaximumSize(null);
-        panelButtonsIzq.setMinimumSize(null);
 
         buttonPacientes.setText("Mis pacientes");
         buttonPacientes.setFocusable(false);
@@ -619,98 +618,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         tabbedPane.addTab("Formulario Tratamientos", panelTratamientos);
 
-        tablaListaClientes.setAutoCreateRowSorter(true);
-        tablaListaClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Apellido", "Nombre", "Documento", "Dirección", "Teléfono", "Contacto"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(tablaListaClientes);
-        if (tablaListaClientes.getColumnModel().getColumnCount() > 0) {
-            tablaListaClientes.getColumnModel().getColumn(0).setResizable(false);
-            tablaListaClientes.getColumnModel().getColumn(1).setResizable(false);
-            tablaListaClientes.getColumnModel().getColumn(2).setResizable(false);
-            tablaListaClientes.getColumnModel().getColumn(3).setResizable(false);
-            tablaListaClientes.getColumnModel().getColumn(4).setResizable(false);
-            tablaListaClientes.getColumnModel().getColumn(5).setResizable(false);
-        }
-
-        titCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        titCliente.setText("Listado de CLIENTES");
-
-        eliminarCliente.setText("Eliminar");
-        eliminarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarClienteActionPerformed(evt);
-            }
-        });
-
-        guardarCliente.setText("Agregar Cliente");
-        guardarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarClienteActionPerformed(evt);
-            }
-        });
-
-        CargarCambiosCliente.setText("Cargar Cambios");
-        CargarCambiosCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CargarCambiosClienteActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelClientesLayout = new javax.swing.GroupLayout(panelClientes);
-        panelClientes.setLayout(panelClientesLayout);
-        panelClientesLayout.setHorizontalGroup(
-            panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelClientesLayout.createSequentialGroup()
-                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelClientesLayout.createSequentialGroup()
-                        .addGap(231, 231, 231)
-                        .addComponent(titCliente))
-                    .addGroup(panelClientesLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(panelClientesLayout.createSequentialGroup()
-                                .addComponent(eliminarCliente)
-                                .addGap(105, 105, 105)
-                                .addComponent(guardarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(80, 80, 80))
-        );
-        panelClientesLayout.setVerticalGroup(
-            panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelClientesLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(titCliente)
-                .addGap(47, 47, 47)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107)
-                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eliminarCliente)
-                    .addComponent(guardarCliente)
-                    .addComponent(CargarCambiosCliente))
-                .addGap(5, 5, 5))
-        );
-
-        tabbedPane.addTab("Formulario Clientes", panelClientes);
-
         labelClienteVisita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelClienteVisita.setText("Cliente:");
 
@@ -824,6 +731,98 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         tabbedPane.addTab("Facturación", panelFacturacion);
 
+        tablaListaClientes.setAutoCreateRowSorter(true);
+        tablaListaClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Apellido", "Nombre", "Documento", "Dirección", "Teléfono", "Contacto"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tablaListaClientes);
+        if (tablaListaClientes.getColumnModel().getColumnCount() > 0) {
+            tablaListaClientes.getColumnModel().getColumn(0).setResizable(false);
+            tablaListaClientes.getColumnModel().getColumn(1).setResizable(false);
+            tablaListaClientes.getColumnModel().getColumn(2).setResizable(false);
+            tablaListaClientes.getColumnModel().getColumn(3).setResizable(false);
+            tablaListaClientes.getColumnModel().getColumn(4).setResizable(false);
+            tablaListaClientes.getColumnModel().getColumn(5).setResizable(false);
+        }
+
+        titCliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        titCliente.setText("Listado de CLIENTES");
+
+        eliminarCliente.setText("Eliminar");
+        eliminarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarClienteActionPerformed(evt);
+            }
+        });
+
+        guardarCliente.setText("Agregar Cliente");
+        guardarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarClienteActionPerformed(evt);
+            }
+        });
+
+        CargarCambiosCliente.setText("Cargar Cambios");
+        CargarCambiosCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CargarCambiosClienteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelClientesLayout = new javax.swing.GroupLayout(panelClientes);
+        panelClientes.setLayout(panelClientesLayout);
+        panelClientesLayout.setHorizontalGroup(
+            panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelClientesLayout.createSequentialGroup()
+                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelClientesLayout.createSequentialGroup()
+                        .addGap(231, 231, 231)
+                        .addComponent(titCliente))
+                    .addGroup(panelClientesLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panelClientesLayout.createSequentialGroup()
+                                .addComponent(eliminarCliente)
+                                .addGap(105, 105, 105)
+                                .addComponent(guardarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(80, 80, 80))
+        );
+        panelClientesLayout.setVerticalGroup(
+            panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelClientesLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(titCliente)
+                .addGap(47, 47, 47)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(107, 107, 107)
+                .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eliminarCliente)
+                    .addComponent(guardarCliente)
+                    .addComponent(CargarCambiosCliente))
+                .addGap(5, 5, 5))
+        );
+
+        tabbedPane.addTab("Formulario Clientes", panelClientes);
+
         getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, 680, 550));
 
         portada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/portada.png"))); // NOI18N
@@ -887,18 +886,25 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
             String alias = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
+            
+            int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
+            
+          if (idMascota>0){ 
             String sexo = (String) tablaMascota.getValueAt(filaSeleccionada, 1);
             String especie = (String) tablaMascota.getValueAt(filaSeleccionada, 2);
             String raza = (String) tablaMascota.getValueAt(filaSeleccionada, 3);
             String color = (String) tablaMascota.getValueAt(filaSeleccionada, 4);
             LocalDate nacimiento = (LocalDate) tablaMascota.getValueAt(filaSeleccionada, 5);
             int dniCuidador = (int) tablaMascota.getValueAt(filaSeleccionada, 6);
-
-            FormularioMascota formularioMascota = new FormularioMascota();
-            formularioMascota.setDatosMascota(alias, sexo, especie, raza, color, nacimiento, dniCuidador);
+            
+            editandoMascota=true;
+            FormularioMascota formularioMascota = new FormularioMascota(editandoMascota);
+            formularioMascota.setDatosMascota(idMascota, alias, sexo, especie, raza, color, nacimiento, dniCuidador);
             formularioMascota.addMascotaEventListener(this);
             formularioMascota.setVisible(true);
-            
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo encontrar la mascota con el alias especificado.", "Error", JOptionPane.ERROR_MESSAGE);
+          } 
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -910,13 +916,20 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         //Seleccionar una lista de la tablaPacientes y clickear el boton eliminar
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            // Obtener el ID de la mascota de la fila seleccionada 
-            int idMascota = Integer.parseInt(tablaMascota.getValueAt(filaSeleccionada, 0).toString());
+            String alias = tablaMascota.getValueAt(filaSeleccionada,0).toString();
+            
+            int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
+            
+            if (idMascota>0){
             // Llamar al método eliminarMascota 
             mascotaData.eliminarMascota(idMascota);
             // Quitar la fila seleccionada de la tabla
             tablaMascota.removeRow(filaSeleccionada);
             cargarMascotas();
+            }else{
+                JOptionPane.showMessageDialog(this, "No se encontró ninguna mascota con el alias: " + alias, "Error", JOptionPane.ERROR_MESSAGE);
+       
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -929,7 +942,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
-        FormularioMascota formularioMascota = new FormularioMascota();
+        editandoMascota=false;
+        FormularioMascota formularioMascota = new FormularioMascota(editandoMascota);
         formularioMascota.addMascotaEventListener(this);
         formularioMascota.setVisible(true);
 
@@ -1196,13 +1210,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 
-    //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
-    private void abrirFormularioMascota() {
-        FormularioMascota formulario = new FormularioMascota();
-        formulario.setVisible(true);
-        ordenarTablaPorAlias();
-    }
-
     // Método para cargar las mascotas en la tabla de pacientes
     private void cargarMascotas() {
         // Limpia la tabla
@@ -1210,7 +1217,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         // Obtener la lista de mascotas desde la base de datos
         List<Mascota> mascotas = mascotaData.obtenerTodasLasMascotas();
-
+        
         // Agregar cada mascota a la tabla
         for (Mascota mascota : mascotas) {
             Object[] fila = {
@@ -1223,34 +1230,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 mascota.getDocumento()
             };
             tablaMascota.addRow(fila);
+            
         }
-    }
-
-    //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
-    private void ordenarTablaPorAlias() {
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaMascota);
-        tablaListaMascotas.setRowSorter(sorter);
-
-        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        int aliasColumn = 1;
-        sortKeys.add(new RowSorter.SortKey(aliasColumn, SortOrder.ASCENDING));
-
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
-    }
-
-    // Método para ordenar la tabla de clientes por apellido
-    private void ordenarTablaClientesPorApellido() {
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tablaCliente);
-        tablaListaClientes.setRowSorter(sorter);
-
-        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-        int apellidoColumn = 1;
-        sortKeys.add(new RowSorter.SortKey(apellidoColumn, SortOrder.ASCENDING));
-
-        sorter.setSortKeys(sortKeys);
-        sorter.sort();
-        cargarClientes();
     }
 
     // Método para cargar los clientes en la tabla de clientes
@@ -1304,7 +1285,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void abrirFormularioTratamiento() {
         FormularioTratamiento formulario = new FormularioTratamiento(editandoTratamiento);
         formulario.setVisible(true);
-        ordenarTablaClientesPorApellido();
     }
 
 }
