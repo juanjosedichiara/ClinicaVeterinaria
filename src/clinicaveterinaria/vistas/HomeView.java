@@ -1,9 +1,7 @@
 package clinicaveterinaria.vistas;
 
 import java.awt.BorderLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class HomeView extends javax.swing.JFrame {
@@ -16,11 +14,6 @@ public class HomeView extends javax.swing.JFrame {
         JDesktopPane desktopHome = new JDesktopPane();
         getContentPane().add(desktopHome, BorderLayout.CENTER);
         
-//        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/FONDO.jpg")));
-//        background.setLayout(new BorderLayout());
-//        getContentPane().add(background, BorderLayout.CENTER);
-//        
-//        panelLogin.setOpaque(true);
     }
 
     @SuppressWarnings("unchecked")
