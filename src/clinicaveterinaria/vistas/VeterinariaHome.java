@@ -32,7 +32,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private TratamientoData tratamientoData;
 
     private boolean editandoCliente = false;
-    private boolean editandoMascota= false;
+    private boolean editandoMascota = false;
     private boolean editandoTratamiento = false;
 
     private JFrame formularioMascota;
@@ -41,22 +41,22 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     @Override
     public void clienteActualizado() {
-        cargarClientes(); 
+        cargarClientes();
     }
 
     @Override
     public void mascotaActualizado() {
-       
+
         cargarMascotas();
     }
 
     public VeterinariaHome() {
         initComponents();
 
-        setPreferredSize(new Dimension(829 , 517));
+        setPreferredSize(new Dimension(829, 517));
         setResizable(false);
         setLocationRelativeTo(null);
-        
+
         // MODELO MASCOTAS
         tablaMascota = new DefaultTableModel(new String[]{"Alias", "Sexo", "Especie", "Raza", "Color", "Nacimiento", "DNI Cuidador"}, 0);
         tablaListaMascotas.setModel(tablaMascota);
@@ -74,7 +74,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         cargarClientes();
 
         //MODELO TRATAMIENTO
-        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe"}, 0);
+        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe", "Estado"}, 0);
         tablaListaTratamientos.setModel(tablaTratamiento);
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
@@ -83,7 +83,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         //MODELO VISITA
         mascotasCliente = new DefaultTableModel(new String[]{"Alias", "Especie", "Raza", "Sexo", "Color", "Fecha de nacimiento"}, 0);
         tablaMascotasCliente.setModel(mascotasCliente);
-    
+
     }
 
     @SuppressWarnings("unchecked")
@@ -277,12 +277,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         labelDNICliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelDNICliente.setText("Documento cliente: ");
-
-        txtDNICliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDNIClienteActionPerformed(evt);
-            }
-        });
 
         labelTitulo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         labelTitulo.setText("MASCOTAS DEL CLIENTE");
@@ -700,7 +694,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(buttonEliminarTratamiento)
                         .addGap(103, 103, 103)
                         .addComponent(cambiosTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -866,25 +859,25 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
             String alias = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
-            
+
             int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
-            
-          if (idMascota>0){ 
-            String sexo = (String) tablaMascota.getValueAt(filaSeleccionada, 1);
-            String especie = (String) tablaMascota.getValueAt(filaSeleccionada, 2);
-            String raza = (String) tablaMascota.getValueAt(filaSeleccionada, 3);
-            String color = (String) tablaMascota.getValueAt(filaSeleccionada, 4);
-            LocalDate nacimiento = (LocalDate) tablaMascota.getValueAt(filaSeleccionada, 5);
-            int dniCuidador = (int) tablaMascota.getValueAt(filaSeleccionada, 6);
-            
-            editandoMascota=true;
-            FormularioMascota formularioMascota = new FormularioMascota(editandoMascota);
-            formularioMascota.setDatosMascota(idMascota, alias, sexo, especie, raza, color, nacimiento, dniCuidador);
-            formularioMascota.addMascotaEventListener(this);
-            formularioMascota.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo encontrar la mascota con el alias especificado.", "Error", JOptionPane.ERROR_MESSAGE);
-          } 
+
+            if (idMascota > 0) {
+                String sexo = (String) tablaMascota.getValueAt(filaSeleccionada, 1);
+                String especie = (String) tablaMascota.getValueAt(filaSeleccionada, 2);
+                String raza = (String) tablaMascota.getValueAt(filaSeleccionada, 3);
+                String color = (String) tablaMascota.getValueAt(filaSeleccionada, 4);
+                LocalDate nacimiento = (LocalDate) tablaMascota.getValueAt(filaSeleccionada, 5);
+                int dniCuidador = (int) tablaMascota.getValueAt(filaSeleccionada, 6);
+
+                editandoMascota = true;
+                FormularioMascota formularioMascota = new FormularioMascota(editandoMascota);
+                formularioMascota.setDatosMascota(idMascota, alias, sexo, especie, raza, color, nacimiento, dniCuidador);
+                formularioMascota.addMascotaEventListener(this);
+                formularioMascota.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo encontrar la mascota con el alias especificado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -896,19 +889,19 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         //Seleccionar una lista de la tablaPacientes y clickear el boton eliminar
         int filaSeleccionada = tablaListaMascotas.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            String alias = tablaMascota.getValueAt(filaSeleccionada,0).toString();
-            
+            String alias = tablaMascota.getValueAt(filaSeleccionada, 0).toString();
+
             int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
-            
-            if (idMascota>0){
-            // Llamar al método eliminarMascota 
-            mascotaData.eliminarMascota(idMascota);
-            // Quitar la fila seleccionada de la tabla
-            tablaMascota.removeRow(filaSeleccionada);
-            cargarMascotas();
-            }else{
+
+            if (idMascota > 0) {
+                // Llamar al método eliminarMascota 
+                mascotaData.eliminarMascota(idMascota);
+                // Quitar la fila seleccionada de la tabla
+                tablaMascota.removeRow(filaSeleccionada);
+                cargarMascotas();
+            } else {
                 JOptionPane.showMessageDialog(this, "No se encontró ninguna mascota con el alias: " + alias, "Error", JOptionPane.ERROR_MESSAGE);
-       
+
             }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -922,7 +915,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void buttonCargarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCargarPacienteActionPerformed
-        editandoMascota=false;
+        editandoMascota = false;
         FormularioMascota formularioMascota = new FormularioMascota(editandoMascota);
         formularioMascota.addMascotaEventListener(this);
         formularioMascota.setVisible(true);
@@ -1036,7 +1029,16 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         int filaSeleccionada = tablaListaTratamientos.getSelectedRow();
         if (filaSeleccionada >= 0) {
             editandoTratamiento = false;
-            abrirFormularioTratamiento();
+            String tipoTratamiento = (String) tablaTratamiento.getValueAt(filaSeleccionada, 0);
+            String descripcionTratamiento = (String) tablaTratamiento.getValueAt(filaSeleccionada, 1);
+            double importeTratamiento = (Double) tablaTratamiento.getValueAt(filaSeleccionada, 2);
+            boolean estadoTratamiento = (Boolean) tablaTratamiento.getValueAt(filaSeleccionada, 3);
+
+            int idTratamiento = tratamientoData.obtenerIdTratamientoPorTipo(tipoTratamiento);
+            
+            editarTratamiento(idTratamiento, tipoTratamiento, descripcionTratamiento, importeTratamiento, estadoTratamiento);
+
+            //abrirFormularioTratamiento();
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un tratamiento para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1068,10 +1070,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un tratamiento para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buttonEliminarTratamientoActionPerformed
-
-    private void txtDNIClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNIClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDNIClienteActionPerformed
 
     private void buttonFacturacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFacturacionActionPerformed
         tabbedPane.setSelectedComponent(panelFacturacion);
@@ -1194,7 +1192,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         // Obtener la lista de mascotas desde la base de datos
         List<Mascota> mascotas = mascotaData.obtenerTodasLasMascotas();
-        
+
         // Agregar cada mascota a la tabla
         for (Mascota mascota : mascotas) {
             Object[] fila = {
@@ -1207,7 +1205,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 mascota.getDocumento()
             };
             tablaMascota.addRow(fila);
-            
+
         }
     }
 
@@ -1240,7 +1238,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         List<Tratamiento> tratamientos = tratamientoData.obtenerTodosLosTratamientos();
 
         for (Tratamiento tratamiento : tratamientos) {
-            Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte()};
+            Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte(), tratamiento.getEstadoTratamiento()};
             tablaTratamiento.addRow(fila);
         }
         ordenarTratamientosAlfabeticamente();
@@ -1253,15 +1251,36 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tablaTratamiento.setRowCount(0); // Limpiar la tabla antes de cargar los tratamientos ordenados
 
         for (Tratamiento tratamiento : tratamientos) {
-            Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte()};
+            Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte(), tratamiento.getEstadoTratamiento()};
             tablaTratamiento.addRow(fila);
         }
 
     }
 
     private void abrirFormularioTratamiento() {
+        ordenarTratamientosAlfabeticamente();
         FormularioTratamiento formulario = new FormularioTratamiento(editandoTratamiento);
         formulario.setVisible(true);
+    }
+    
+    private void editarTratamiento(int id, String tipo, String descripcion, double importe, boolean estado) {
+        FormularioTratamiento formulario = new FormularioTratamiento(false);
+        TratamientoData tratData = new TratamientoData();
+
+        formulario.setTxtTipo(tipo);
+        formulario.setTxtArea(descripcion);
+        formulario.setTxtImporte(importe);
+        formulario.setChekBoxActivo(estado);
+        formulario.setVisible(true);
+
+        tipo = formulario.getTxtTipo();
+        descripcion = formulario.getTxtArea();
+        importe = formulario.getImporte();
+        estado = formulario.getEstado();
+
+        tratData.modificarTratamiento(new Tratamiento(id, tipo, descripcion, importe, estado));
+
+        cargarTratamientos();
     }
 
 }
