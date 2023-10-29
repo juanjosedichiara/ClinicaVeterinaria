@@ -10,8 +10,20 @@ public class Visita {
     String sintomas;
     String afeccion;
     double pesoActual;
-
+    String duracion;
+    int idTratamiento;
+    
     public Visita() {
+    }
+
+    public Visita(int idVisita, LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual, String duracion) {
+        this.idVisita = idVisita;
+        this.fechaVisita = fechaVisita;
+        this.formaPago = formaPago;
+        this.sintomas = sintomas;
+        this.afeccion = afeccion;
+        this.pesoActual = pesoActual;
+        this.duracion = duracion;
     }
 
     public Visita(LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual) {
@@ -31,6 +43,15 @@ public class Visita {
         this.pesoActual = pesoActual;
     }
 
+    public int getIdTratamiento() {
+        return idTratamiento;
+    }
+
+    public void setIdTratamiento(int idTratamiento) {
+        this.idTratamiento = idTratamiento;
+    }
+
+    
     public int getIdVisita() {
         return idVisita;
     }
@@ -45,6 +66,14 @@ public class Visita {
 
     public void setFechaVisita(LocalDate fechaVisita) {
         this.fechaVisita = fechaVisita;
+    }
+
+    public String getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
     }
 
     public String getFormaPago() {

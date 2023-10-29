@@ -98,8 +98,6 @@ public class TratamientoData {
                 tratamientoEncontrado.setIdTratamiento(rs.getInt("idTratamiento"));
                 tratamientoEncontrado.setTipo(rs.getString("tipo"));
                 tratamientoEncontrado.setDescripcion(rs.getString("descripcion"));
-                tratamientoEncontrado.setFechaInicio(rs.getDate("fechaInicio").toLocalDate());
-                tratamientoEncontrado.setFechaFin(rs.getDate("fechaFin").toLocalDate());
                 tratamientoEncontrado.setEstadoTratamiento(rs.getBoolean("estadoTratamiento"));
             }
             ps.close();
@@ -144,8 +142,6 @@ public class TratamientoData {
                 tratamiento.setTipo(rs.getString("tipo"));
                 tratamiento.setDescripcion(rs.getString("descripcion"));
                 tratamiento.setImporte(rs.getDouble("importe"));
-//                tratamiento.setFechaInicio(rs.getDate("fechaInicio").toLocalDate());
-//                tratamiento.setFechaFin(rs.getDate("fechaFin").toLocalDate());
                 tratamiento.setEstadoTratamiento(rs.getBoolean("estadoTratamiento"));
 
                 tratamientos.add(tratamiento);
@@ -157,5 +153,7 @@ public class TratamientoData {
 
         return tratamientos;
     }
+    
+    
 
 }

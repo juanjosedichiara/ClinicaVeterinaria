@@ -58,7 +58,7 @@ public class VisitaData {
     //Listar historial de Visitas por Mascota
     public List<Visita> historialDeVisitasPorId(int idMascota) {
         List<Visita> visita = new ArrayList<>();
-        String sql = "SELECT idVisitas, idTratamiento, fechaVisita, formaPago, "
+        String sql = "SELECT idVisitas, idTratamiento, fechaVisita,"
                 + "sintomas, afeccion, pesoActual FROM `visitas` WHERE idMascota = ?";
 
         try {
@@ -72,10 +72,10 @@ public class VisitaData {
                 vis.setIdVisita(rs.getInt("idVisitas"));
                 tra.setIdTratamiento(rs.getInt("idTratamiento"));
                 vis.setFechaVisita(rs.getDate("fechaVisita").toLocalDate());
-                vis.setFormaPago(rs.getString("formaPago"));
                 vis.setSintomas(rs.getString("sintomas"));
                 vis.setAfeccion(rs.getString("afeccion"));
                 vis.setPesoActual(rs.getDouble("pesoActual"));
+                
 
                 visita.add(vis);
             }
