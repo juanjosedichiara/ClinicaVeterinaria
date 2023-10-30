@@ -15,19 +15,15 @@ import clinicaveterinaria.vistas.FormularioCliente.ClienteEventListener;
 import clinicaveterinaria.vistas.FormularioMascota.MascotaEventListener;
 import clinicaveterinaria.vistas.FormularioVisita;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener, MascotaEventListener {
@@ -37,6 +33,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private DefaultTableModel tablaTratamiento;
     private DefaultTableModel mascotasCliente;
     private DefaultTableModel historialVisita;
+    private DefaultTableModel tablaFacturacion;
 
     private MascotaData mascotaData;
     private ClienteData clienteData;
@@ -47,10 +44,11 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private boolean editandoCliente = false;
     private boolean editandoMascota = false;
     private boolean editandoTratamiento = false;
-    
+
     private int idMascotaSeleccionada;
     private String aliasMascotaSeleccionada;
     private String documentoCliente;
+    private static int nroFactura = 1;
 
     private JFrame formularioMascota;
     private JFrame formularioCliente;
@@ -100,22 +98,27 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         //MODELO VISITA
         mascotasCliente = new DefaultTableModel(new String[]{"Alias", "Especie", "Raza", "Sexo", "Color", "Fecha de nacimiento"}, 0);
         tablaMascotasCliente.setModel(mascotasCliente);
-        
+
         //MODELO HISTORIAL VISITA
-        historialVisita = new DefaultTableModel (new String[]{"Fecha visita", "Sintomas", "Afeccion", "Tratamiento","Duracion", "Peso actual", "Peso promedio"}, 0);
+        historialVisita = new DefaultTableModel(new String[]{"Fecha visita", "Sintomas", "Afeccion", "Tratamiento", "Duracion", "Peso actual", "Peso promedio"}, 0);
         tablaHistorialVisita.setModel(historialVisita);
         visitaData = new VisitaData();
-      //  formularioVisita = new FormularioVisita();
-        
-        
+        //  formularioVisita = new FormularioVisita();
+
+        //MODELO FACTURACION
+        cargarComboClientes();
+        tablaFacturacion = new DefaultTableModel(new String[]{"Cantidad", "Descripción", "Precio Unitario", "SubTotal"}, 0);
+        jTablaFacturacion.setModel(tablaFacturacion);
+        textFieldFechaNow.setText(LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+        textFieldFechaNow.setEnabled(false);
+        jtFNroFactura.setText("000-000" + String.valueOf(generarNroFactura()));
+        jtFNroFactura.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         panelButtonsIzq = new javax.swing.JPanel();
         buttonPacientes = new javax.swing.JButton();
         buttonFacturacion = new javax.swing.JButton();
@@ -152,10 +155,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         eliminarCliente = new javax.swing.JButton();
         guardarCliente = new javax.swing.JButton();
         CargarCambiosCliente = new javax.swing.JButton();
-        panelFacturacion = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         panelPacientes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -181,13 +180,26 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         buttonEliminarVisita = new javax.swing.JButton();
         buttonRegistrarVisita = new javax.swing.JButton();
         buttonNuevaConsultaHistorialVisitas = new javax.swing.JButton();
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        panelFacturacion = new javax.swing.JPanel();
+        jLCliente = new javax.swing.JLabel();
+        jLMiFactura = new javax.swing.JLabel();
+        jLDni = new javax.swing.JLabel();
+        jcbClientes = new javax.swing.JComboBox<>();
+        jtFDni = new javax.swing.JTextField();
+        jLDomicilio = new javax.swing.JLabel();
+        jtFDomicilio = new javax.swing.JTextField();
+        jLFecha = new javax.swing.JLabel();
+        jLFactura = new javax.swing.JLabel();
+        jcbSituacionFiscal = new javax.swing.JComboBox<>();
+        jtFNroFactura = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTablaFacturacion = new javax.swing.JTable();
+        textFieldFechaNow = new javax.swing.JTextField();
+        jbAgregarVenta = new javax.swing.JButton();
+        jbTerminarVenta = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jtFTotal = new javax.swing.JTextField();
+        jLTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Clinica veterinaria");
@@ -559,38 +571,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         tabbedPane.addTab("c", panelClientes);
 
-        jLabel9.setText("ACA TRAER TODO LO QUE HAY QUE COBRAR ");
-
-        jLabel10.setText("HACER CALCULOS.");
-
-        jLabel11.setText("TAL VEZ AGREGAR UNA TABLA EN LA BASE DE DATOS PARA REGISTRAR PAGOS");
-
-        javax.swing.GroupLayout panelFacturacionLayout = new javax.swing.GroupLayout(panelFacturacion);
-        panelFacturacion.setLayout(panelFacturacionLayout);
-        panelFacturacionLayout.setHorizontalGroup(
-            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFacturacionLayout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel9))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelFacturacionLayout.setVerticalGroup(
-            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFacturacionLayout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(jLabel9)
-                .addGap(60, 60, 60)
-                .addComponent(jLabel10)
-                .addGap(44, 44, 44)
-                .addComponent(jLabel11)
-                .addContainerGap(316, Short.MAX_VALUE))
-        );
-
-        tabbedPane.addTab("b", panelFacturacion);
-
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("LISTADO DE PACIENTES");
 
@@ -766,12 +746,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         labelAliasVisita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelAliasVisita.setText("Mascota:");
 
-        txtClienteVisita.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtClienteVisitaActionPerformed(evt);
-            }
-        });
-
         tablaHistorialVisita.setAutoCreateRowSorter(true);
         tablaHistorialVisita.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -875,6 +849,180 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         );
 
         tabbedPane.addTab("a.2", panelRegistrarVisita);
+
+        jLCliente.setText("Cliente:");
+
+        jLMiFactura.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLMiFactura.setText("Mi Factura");
+
+        jLDni.setText("DNI: ");
+
+        jcbClientes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbClientesItemStateChanged(evt);
+            }
+        });
+
+        jtFDni.setEditable(false);
+
+        jLDomicilio.setText("Domicilio:");
+
+        jLFecha.setText("Fecha:");
+
+        jLFactura.setText("FACTURA N°:");
+
+        jcbSituacionFiscal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---Situación Fiscal---", "Consumidor Final", "IVA Exento", "Resp. Inscripto", "Resp. Monotributo", "Resp. No Inscripto" }));
+
+        jTablaFacturacion.setBackground(new java.awt.Color(153, 204, 255));
+        jTablaFacturacion.setForeground(new java.awt.Color(255, 255, 255));
+        jTablaFacturacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Cantidad", "Descripción", "Precio Unitario", "Sub Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Double.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTablaFacturacion.setToolTipText("");
+        jTablaFacturacion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTablaFacturacion.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(jTablaFacturacion);
+        jTablaFacturacion.getAccessibleContext().setAccessibleParent(jTablaFacturacion);
+
+        jbAgregarVenta.setBackground(new java.awt.Color(204, 255, 204));
+        jbAgregarVenta.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jbAgregarVenta.setText("AGREGAR VENTA");
+
+        jbTerminarVenta.setBackground(new java.awt.Color(255, 153, 102));
+        jbTerminarVenta.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbTerminarVenta.setText("TERMINAR VENTA");
+        jbTerminarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbTerminarVentaActionPerformed(evt);
+            }
+        });
+
+        jtFTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLTotal.setText("TOTAL $");
+
+        javax.swing.GroupLayout panelFacturacionLayout = new javax.swing.GroupLayout(panelFacturacion);
+        panelFacturacion.setLayout(panelFacturacionLayout);
+        panelFacturacionLayout.setHorizontalGroup(
+            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturacionLayout.createSequentialGroup()
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jbTerminarVenta))
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLFecha)
+                        .addGap(18, 18, 18)
+                        .addComponent(textFieldFechaNow, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12))
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLDomicilio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtFDomicilio)
+                            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                                .addGap(233, 233, 233)
+                                .addComponent(jLDni)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcbSituacionFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelFacturacionLayout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5)
+                            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                                .addComponent(jbAgregarVenta)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelFacturacionLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                                .addComponent(jLCliente)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jcbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                                .addComponent(jLMiFactura)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLFactura)
+                                .addGap(18, 18, 18)
+                                .addComponent(jtFNroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(40, 40, 40))
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturacionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLTotal)
+                .addGap(18, 18, 18)
+                .addComponent(jtFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
+        );
+        panelFacturacionLayout.setVerticalGroup(
+            panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLMiFactura)
+                    .addComponent(jLFactura)
+                    .addComponent(jtFNroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLFecha)
+                    .addComponent(textFieldFechaNow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLCliente)
+                    .addComponent(jcbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLDni)
+                    .addComponent(jtFDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbSituacionFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLDomicilio)
+                            .addComponent(jtFDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jbAgregarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jbTerminarVenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLTotal)
+                            .addComponent(jtFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(32, 32, 32))
+        );
+
+        tabbedPane.addTab("b", panelFacturacion);
 
         getContentPane().add(tabbedPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 730, 550));
 
@@ -1113,7 +1261,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             boolean estadoTratamiento = (Boolean) tablaTratamiento.getValueAt(filaSeleccionada, 3);
 
             int idTratamiento = tratamientoData.obtenerIdTratamientoPorTipo(tipoTratamiento);
-            
+
             editarTratamiento(idTratamiento, tipoTratamiento, descripcionTratamiento, importeTratamiento, estadoTratamiento);
 
             //abrirFormularioTratamiento();
@@ -1154,53 +1302,52 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     }//GEN-LAST:event_buttonFacturacionActionPerformed
 
     private void buttonHistorialVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHistorialVisitasActionPerformed
-        
-    int  filaSeleccionada = tablaMascotasCliente.getSelectedRow();
-        if(filaSeleccionada != -1){
-            String alias = (String) tablaMascotasCliente.getValueAt(filaSeleccionada,0);
+
+        int filaSeleccionada = tablaMascotasCliente.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String alias = (String) tablaMascotasCliente.getValueAt(filaSeleccionada, 0);
             int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
-            
-            if(idMascota != -1){
+
+            if (idMascota != -1) {
                 idMascotaSeleccionada = idMascota;
                 aliasMascotaSeleccionada = alias;
-                
+
                 txtClienteVisita.setText(documentoCliente);
                 txtMascotaVisita.setText(aliasMascotaSeleccionada);
-            
+
                 cargarTablaHistorial();
-                
+
                 tabbedPane.setSelectedComponent(panelRegistrarVisita);
-              
-            }else{
-               JOptionPane.showMessageDialog(null, "No se pudo encontrar la mascota seleccionada.");
-           
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo encontrar la mascota seleccionada.");
+
             }
         }
     }//GEN-LAST:event_buttonHistorialVisitasActionPerformed
 
-    private void txtClienteVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteVisitaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtClienteVisitaActionPerformed
-
     private void buttonRegistrarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarVisitaActionPerformed
         String alias = txtMascotaVisita.getText();
-        
+
         int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
-        
+
         formularioVisita = new FormularioVisita(VeterinariaHome.this, true, idMascota);
-        
+
         formularioVisita.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosed(WindowEvent e) {
-            actualizarTablaHistorialVisitas(); }
-    });
-        
+            @Override
+            public void windowClosed(WindowEvent e) {
+                actualizarTablaHistorialVisitas();
+            }
+        });
+
         formularioVisita.setVisible(true);
-        
+
     }//GEN-LAST:event_buttonRegistrarVisitaActionPerformed
 
     private void buttonNuevaConsultaHistorialVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNuevaConsultaHistorialVisitasActionPerformed
-        // TODO add your handling code here:
+        txtMascotaVisita.setText("");
+        txtClienteVisita.setText("");
+        tablaHistorialVisita.setModel(historialVisita);
     }//GEN-LAST:event_buttonNuevaConsultaHistorialVisitasActionPerformed
 
     private void buttonEliminarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarVisitaActionPerformed
@@ -1217,6 +1364,30 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void buttonPanelHistorialVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPanelHistorialVisitasActionPerformed
         tabbedPane.setSelectedComponent(panelRegistrarVisita);
     }//GEN-LAST:event_buttonPanelHistorialVisitasActionPerformed
+//PERTENECE AL PANEL FACTURACION
+    private void jcbClientesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbClientesItemStateChanged
+        String clienteSeleccionado = (String) jcbClientes.getSelectedItem();
+        String apellido = "";
+        String nombre = "";
+        if (clienteSeleccionado != null) {
+            String[] partes = clienteSeleccionado.split(",");
+            if (partes.length == 2) {
+                apellido = partes[0];
+                nombre = partes[1];
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se encuentra el Cliente en la Base de Datos");
+        }
+        for (Cliente cliente : clienteData.consultarClientesPorNombreApellido(nombre, apellido)) {
+            jtFDni.setText(String.valueOf(cliente.getDocumento()));
+            jtFDomicilio.setText(String.valueOf(cliente.getDireccion()));
+        }
+    }//GEN-LAST:event_jcbClientesItemStateChanged
+
+    private void jbTerminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTerminarVentaActionPerformed
+        double total = sumarTotal();
+    jtFTotal.setText(String.valueOf(total));
+    }//GEN-LAST:event_jbTerminarVentaActionPerformed
 
     public static void main() {
         /* Set the Nimbus look and feel */
@@ -1273,19 +1444,32 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JButton eliminarCliente;
     private javax.swing.JButton eliminarPaciente;
     private javax.swing.JButton guardarCliente;
+    private javax.swing.JLabel jLCliente;
+    private javax.swing.JLabel jLDni;
+    private javax.swing.JLabel jLDomicilio;
+    private javax.swing.JLabel jLFactura;
+    private javax.swing.JLabel jLFecha;
+    private javax.swing.JLabel jLMiFactura;
+    private javax.swing.JLabel jLTotal;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTablaFacturacion;
+    private javax.swing.JButton jbAgregarVenta;
+    private javax.swing.JButton jbTerminarVenta;
+    private javax.swing.JComboBox<String> jcbClientes;
+    private javax.swing.JComboBox<String> jcbSituacionFiscal;
+    private javax.swing.JTextField jtFDni;
+    private javax.swing.JTextField jtFDomicilio;
+    private javax.swing.JTextField jtFNroFactura;
+    private javax.swing.JTextField jtFTotal;
     private javax.swing.JLabel labelAliasVisita;
     private javax.swing.JLabel labelApellido;
     private javax.swing.JLabel labelClienteVisita;
@@ -1309,6 +1493,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JTable tablaListaMascotas;
     private javax.swing.JTable tablaListaTratamientos;
     private javax.swing.JTable tablaMascotasCliente;
+    private javax.swing.JTextField textFieldFechaNow;
     private javax.swing.JLabel titCliente;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtClienteVisita;
@@ -1397,7 +1582,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         FormularioTratamiento formulario = new FormularioTratamiento(editandoTratamiento);
         formulario.setVisible(true);
     }
-    
+
     private void editarTratamiento(int id, String tipo, String descripcion, double importe, boolean estado) {
         FormularioTratamiento formulario = new FormularioTratamiento(false);
         TratamientoData tratData = new TratamientoData();
@@ -1418,14 +1603,25 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         cargarTratamientos();
     }
 
-    private void cargarTablaHistorial (){
-        
-        if (idMascotaSeleccionada != -1){
+    private void cargarComboClientes() {
+        for (Cliente obtenerClientes : clienteData.obtenerTodosLosClientes()) {
+            String apellido = obtenerClientes.getApellido();
+            String nombre = obtenerClientes.getNombre();
+            String cliente = apellido + ", " + nombre;
+            jcbClientes.addItem(cliente);
+        }
+        jcbClientes.setSelectedItem(-1);
+
+    }
+
+    private void cargarTablaHistorial() {
+
+        if (idMascotaSeleccionada != -1) {
             double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascotaSeleccionada);
             String alias = aliasMascotaSeleccionada;
-          
+
             List<Visita> historialVisitas = visitaData.historialDeVisitasPorId(idMascotaSeleccionada);
-            
+
             DefaultTableModel historialVisita = new DefaultTableModel();
             historialVisita.addColumn("Fecha visita");
             historialVisita.addColumn("Síntomas");
@@ -1434,72 +1630,90 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             historialVisita.addColumn("Duracion");
             historialVisita.addColumn("Peso actual");
             historialVisita.addColumn("Peso Promedio");
-            
-            for(Visita visita : historialVisitas){
+
+            for (Visita visita : historialVisitas) {
                 String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
-                
+
                 historialVisita.addRow(new Object[]{
-                   visita.getFechaVisita(),
-                   visita.getSintomas(),
-                   visita.getAfeccion(),
-                   tratamiento,
-                   visita.getDuracion(),
-                   visita.getPesoActual(),
-                   nuevoPesoPromedio
+                    visita.getFechaVisita(),
+                    visita.getSintomas(),
+                    visita.getAfeccion(),
+                    tratamiento,
+                    visita.getDuracion(),
+                    visita.getPesoActual(),
+                    nuevoPesoPromedio
                 });
                 txtClienteVisita.setText(documentoCliente);
                 txtMascotaVisita.setText(alias);
             }
             tablaHistorialVisita.setModel(historialVisita);
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado una mascota.");
-       }
+        }
     }
-    
-    private String obtenerNombreTratamientoPorId(int idTratamiento){
-       Tratamiento tratamiento = tratamientoData.consultarTratamientoPorId(idTratamiento);
-       if(tratamiento != null){
-           return tratamiento.getTipo();
-       }else{
-           return "Tratamiento desconocido";
-       }
+
+    private String obtenerNombreTratamientoPorId(int idTratamiento) {
+        Tratamiento tratamiento = tratamientoData.consultarTratamientoPorId(idTratamiento);
+        if (tratamiento != null) {
+            return tratamiento.getTipo();
+        } else {
+            return "Tratamiento desconocido";
+        }
     }
-    
+
     //ESTO ES DEL JDIALOG DEBE ACTUALIZAR LA TABLA AL CERRARSE
     private void actualizarTablaHistorialVisitas() {
-    if (idMascotaSeleccionada != -1) {
-        List<Visita> historialVisitas = visitaData.historialDeVisitasPorId(idMascotaSeleccionada);
-        
-        DefaultTableModel historialVisita = new DefaultTableModel();
-        historialVisita.addColumn("Fecha visita");
-        historialVisita.addColumn("Síntomas");
-        historialVisita.addColumn("Afección");
-        historialVisita.addColumn("Tratamiento");
-        historialVisita.addColumn("Duración");
-        historialVisita.addColumn("Peso actual");
-        historialVisita.addColumn("Peso Promedio");
-        
-        for (Visita visita : historialVisitas) {
-            String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
-            
-            historialVisita.addRow(new Object[]{
-                visita.getFechaVisita(),
-                visita.getSintomas(),
-                visita.getAfeccion(),
-                tratamiento,
-                visita.getDuracion(),
-                visita.getPesoActual(),
-          //      visita.getPesoPromedio()
-            });
+        if (idMascotaSeleccionada != -1) {
+            List<Visita> historialVisitas = visitaData.historialDeVisitasPorId(idMascotaSeleccionada);
+
+            DefaultTableModel historialVisita = new DefaultTableModel();
+            historialVisita.addColumn("Fecha visita");
+            historialVisita.addColumn("Síntomas");
+            historialVisita.addColumn("Afección");
+            historialVisita.addColumn("Tratamiento");
+            historialVisita.addColumn("Duración");
+            historialVisita.addColumn("Peso actual");
+            historialVisita.addColumn("Peso Promedio");
+
+            for (Visita visita : historialVisitas) {
+                String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
+
+                historialVisita.addRow(new Object[]{
+                    visita.getFechaVisita(),
+                    visita.getSintomas(),
+                    visita.getAfeccion(),
+                    tratamiento,
+                    visita.getDuracion(),
+                    visita.getPesoActual(), 
+                  //visita.getPesoPromedio()
+                });
+            }
+
+            tablaHistorialVisita.setModel(historialVisita);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado una mascota.");
         }
-        
-        tablaHistorialVisita.setModel(historialVisita);
-    } else {
-        JOptionPane.showMessageDialog(null, "No se ha seleccionado una mascota.");
     }
-}
 
-    
-}
+    //Método para generar un número de factura en el menú Facturación
+    private static int generarNroFactura() {
+        int facturaGenerada = nroFactura;
+        nroFactura++;
+        return facturaGenerada;
+    }
 
+    //Método para Sumar los subtotales de la tablaFactuacion
+    private double sumarTotal() {
+        double total = 0;
+        DefaultTableModel modelo = (DefaultTableModel) jTablaFacturacion.getModel();
+
+        for (int fila = 0; fila < modelo.getRowCount(); fila++) {
+            double subtotal = (double) modelo.getValueAt(fila, 3); // El nro 3 es el índice de la columna de subtotales
+            total += subtotal;
+        }
+
+        return total;
+    }
+
+}
