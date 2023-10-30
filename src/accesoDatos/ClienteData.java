@@ -237,7 +237,7 @@ public class ClienteData {
                    String apellido = rs.getString("apellido");
                    String nombre = rs.getString("nombre");
                    String direccion = rs.getString("direccion");
-                   int telefono = rs.getInt("telefono");
+                   long telefono = rs.getLong("telefono");
                    String contacto = rs.getString("contacto");
                    boolean estadoCliente = rs.getBoolean("estadoCliente");
 
