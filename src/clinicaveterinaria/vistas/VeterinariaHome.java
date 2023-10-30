@@ -1380,7 +1380,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     }//GEN-LAST:event_txtClienteVisitaActionPerformed
 
     private void buttonRegistrarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarVisitaActionPerformed
-        visitaData.registrarVisita();
+        
         String alias = txtMascotaVisita.getText();
 
         int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);

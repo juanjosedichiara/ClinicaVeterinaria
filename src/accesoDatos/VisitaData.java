@@ -21,26 +21,27 @@ public class VisitaData {
     }
 
     //Agregar una Nueva Visita
-    public void registrarVisita() {
-        Visita visita = new Visita();
-        Mascota mascota = new Mascota();
-        Tratamiento tratamiento = new Tratamiento();
+    public void registrarVisita(Visita visita, int idMascota, int idTratamiento) {
+        //Visita visita = new Visita();
+        //Mascota mascota = new Mascota();
+        //Tratamiento tratamiento = new Tratamiento();
         LocalDate fechaVisita = LocalDate.now(); // Almacena en la variable fechaVisita la fecha actual
 
-        String sql = "INSERT INTO `visitas`(idMascota, idTratamiento, fechaVisita, "
+        String sql = "INSERT INTO visitas (idMascota, idTratamiento, duracion, fechaVisita, "
                 + "formaPago, sintomas, afeccion, pesoActual) "
-                + "VALUES (?,?,?,?,?,?,?)";
+                + "VALUES (?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setInt(1, mascota.getIdMascota());
-            ps.setInt(2, tratamiento.getIdTratamiento());
-            ps.setDate(3, Date.valueOf(fechaVisita));
-            ps.setString(4, visita.getFormaPago());
-            ps.setString(5, visita.getSintomas());
-            ps.setString(6, visita.getAfeccion());
-            ps.setDouble(7, visita.getPesoActual());
+            ps.setInt(1, idMascota);
+            ps.setInt(2, idTratamiento);
+            ps.setString(3, visita.getDuracion());
+            ps.setDate(4, Date.valueOf(fechaVisita));
+            ps.setString(5, visita.getFormaPago());
+            ps.setString(6, visita.getSintomas());
+            ps.setString(7, visita.getAfeccion());
+            ps.setDouble(8, visita.getPesoActual());
 
             int exitoso = ps.executeUpdate();
             if (exitoso == 1) {
@@ -52,6 +53,42 @@ public class VisitaData {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+//LocalDate fechaVisita = visita.getFechaVisita();
+//
+//        String sql = "INSERT INTO visitas (idMascota, idTratamiento, duracion, fechaVisita, "
+//                + "sintomas, afeccion, pesoActual) "
+//                + "VALUES (?,?,?,?,?,?,?)";
+//
+//        try {
+//            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//            if (fechaVisita != null){
+//                java.sql.Date fechaVisitaSQL = java.sql.Date.valueOf(fechaVisita);
+//    }
+//            ps.setInt(1, idMascota);
+//                ps.setInt(2, idTratamiento);
+//                ps.setString(3, visita.getDuracion());
+//                ps.setDate(4, fechaVisitaSQL);
+//                ps.setString(5, visita.getSintomas());
+//                ps.setString(6, visita.getAfeccion());
+//                ps.setDouble(7, visita.getPesoActual());
+//
+//                ps.executeUpdate();
+//
+//                ResultSet rs = ps.getGeneratedKeys();
+//                if (rs.next()) {
+//                    visita.setIdVisita(rs.getInt(1));
+//                    System.out.println("Visita agregada con éxito");
+//                    System.out.println("ID: " + visita.getIdVisita());
+//                }
+//                ps.close();
+//                } else {
+//            // Maneja el caso en el que la fecha de visita es nula
+//            JOptionPane.showMessageDialog(null, "La fecha de visita es nula.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
+//        } catch (SQLException ex) {
+//            
+//            ex.printStackTrace();}
+//        }
 
     }
 
@@ -75,7 +112,6 @@ public class VisitaData {
                 vis.setSintomas(rs.getString("sintomas"));
                 vis.setAfeccion(rs.getString("afeccion"));
                 vis.setPesoActual(rs.getDouble("pesoActual"));
-                
 
                 visita.add(vis);
             }
@@ -88,7 +124,7 @@ public class VisitaData {
         return visita;
     }
 
-        //Libro Histórico de Visitas de la Veterinaria
+    //Libro Histórico de Visitas de la Veterinaria
     public List<Visita> libroDeVisitas() {
         List<Visita> visita = new ArrayList<>();
         String sql = "SELECT * FROM visitas";
@@ -120,10 +156,10 @@ public class VisitaData {
 
         return visita;
     }
-    
+
     public Visita buscarVisitaPorId(int idVisita) {
-    Visita visita = null;
-    String sql = "SELECT * FROM visitas WHERE idVisitas = ?";
+        Visita visita = null;
+        String sql = "SELECT * FROM visitas WHERE idVisitas = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -151,6 +187,7 @@ public class VisitaData {
 
         return visita;
     }
+
     public void eliminarVisita(int idVisita) {
         String sql = "DELETE FROM `visita` WHERE idVisita=?";
         try {
@@ -169,5 +206,5 @@ public class VisitaData {
         }
 
     }
-   
+
 }
