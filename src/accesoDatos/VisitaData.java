@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,8 @@ public class VisitaData {
         String sql = "INSERT INTO visitas (idMascota, idTratamiento, duracion, fechaVisita, "
                 + "formaPago, sintomas, afeccion, pesoActual) "
                 + "VALUES (?,?,?,?,?,?,?,?)";
-
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, idMascota);
             ps.setInt(2, idTratamiento);
@@ -44,6 +44,13 @@ public class VisitaData {
             ps.setDouble(8, visita.getPesoActual());
 
             int exitoso = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                visita.setIdVisita(rs.getInt(1));
+                System.out.println("Visita agregada con éxito");
+                System.out.println("ID: " + visita.getIdVisita());
+            }
             if (exitoso == 1) {
                 System.out.println("Se registró la visita Correctamente");
             }

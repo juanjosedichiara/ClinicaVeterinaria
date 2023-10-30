@@ -12,12 +12,12 @@ public class Visita {
     double pesoActual;
     String duracion;
     int idTratamiento;
-    
+
     public Visita() {
     }
 
-    public Visita(int idVisita, LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual, String duracion) {
-        this.idVisita = idVisita;
+    public Visita(int idTratamiento, LocalDate fechaVisita, String formaPago, String sintomas, String afeccion, double pesoActual, String duracion) {
+        this.idTratamiento = idTratamiento;
         this.fechaVisita = fechaVisita;
         this.formaPago = formaPago;
         this.sintomas = sintomas;
@@ -51,7 +51,6 @@ public class Visita {
         this.idTratamiento = idTratamiento;
     }
 
-    
     public int getIdVisita() {
         return idVisita;
     }
