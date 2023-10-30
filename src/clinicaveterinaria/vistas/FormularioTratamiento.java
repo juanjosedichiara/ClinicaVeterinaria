@@ -71,6 +71,7 @@ public class FormularioTratamiento extends javax.swing.JFrame {
 
         chekBoxActivo.setText("Activo");
 
+        buttonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/huellitas.png"))); // NOI18N
         buttonCancelar.setText("Cancelar");
         buttonCancelar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +80,7 @@ public class FormularioTratamiento extends javax.swing.JFrame {
             }
         });
 
+        buttonConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/huellitas.png"))); // NOI18N
         buttonConfirmar.setText("Confirmar");
         buttonConfirmar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         buttonConfirmar.addActionListener(new java.awt.event.ActionListener() {
