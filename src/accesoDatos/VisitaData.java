@@ -151,6 +151,23 @@ public class VisitaData {
 
         return visita;
     }
+    public void eliminarVisita(int idVisita) {
+        String sql = "DELETE FROM `visita` WHERE idVisita=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idVisita);
+            int elimVisita = ps.executeUpdate();
 
+            if (elimVisita == 1) {
+                System.out.println("Visita eliminada exitosamente.");
+            } else {
+                System.out.println("Error al intentar eliminar la Vista");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
    
 }

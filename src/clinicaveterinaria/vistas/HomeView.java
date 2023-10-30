@@ -43,6 +43,8 @@ public class HomeView extends javax.swing.JFrame {
         labelUsser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         labelUsser.setText("Ingresar usuario:");
 
+        txtUsuario.setText("@veterinario");
+
         buttonIngresar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         buttonIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/huellitas.png"))); // NOI18N
         buttonIngresar.setText("Ingresar");

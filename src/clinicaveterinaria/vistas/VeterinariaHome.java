@@ -513,6 +513,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         tabbedPane.addTab("a.1", null, panelNuevaVisita, "");
 
+        panelClientes.setBackground(new java.awt.Color(204, 255, 255));
+
         tablaListaClientes.setAutoCreateRowSorter(true);
         tablaListaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -604,6 +606,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         );
 
         tabbedPane.addTab("c", panelClientes);
+
+        panelFacturacion.setBackground(new java.awt.Color(204, 255, 255));
 
         jLCliente.setText("Cliente:");
 
@@ -784,6 +788,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         tabbedPane.addTab("b", panelFacturacion);
 
+        panelPacientes.setBackground(new java.awt.Color(204, 255, 255));
+
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("LISTADO DE PACIENTES");
 
@@ -866,6 +872,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         );
 
         tabbedPane.addTab("d", panelPacientes);
+
+        panelTratamientos.setBackground(new java.awt.Color(204, 255, 255));
 
         tablaListaTratamientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -952,6 +960,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         );
 
         tabbedPane.addTab("e", panelTratamientos);
+
+        panelRegistrarVisita.setBackground(new java.awt.Color(204, 255, 255));
 
         labelClienteVisita.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelClienteVisita.setText("Cliente:");
