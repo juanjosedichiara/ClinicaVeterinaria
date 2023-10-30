@@ -33,17 +33,20 @@ public class HomeView extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelLogin.setBackground(new java.awt.Color(255, 255, 255));
+        panelLogin.setBackground(new java.awt.Color(153, 255, 255));
         panelLogin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "¡Bienvenidos!", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Verdana", 1, 14))); // NOI18N
         panelLogin.setPreferredSize(new java.awt.Dimension(220, 220));
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/Vet.png"))); // NOI18N
         logo.setText("jLabel1");
 
-        labelUsser.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelUsser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         labelUsser.setText("Ingresar usuario:");
 
+        buttonIngresar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        buttonIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/huellitas.png"))); // NOI18N
         buttonIngresar.setText("Ingresar");
+        buttonIngresar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         buttonIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonIngresarActionPerformed(evt);
@@ -78,10 +81,10 @@ public class HomeView extends javax.swing.JFrame {
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonIngresar)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
-        getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 560, 310));
+        getContentPane().add(panelLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 560, 350));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/loginFondo.jpg"))); // NOI18N
         jLabel2.setRequestFocusEnabled(false);
