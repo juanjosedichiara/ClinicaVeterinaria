@@ -275,7 +275,7 @@ public class ClienteData {
                 cliente.setApellido(rs.getString("apellido"));
                 cliente.setNombre(rs.getString("nombre"));
                 cliente.setDireccion(rs.getString("direccion"));
-                cliente.setTelefono(rs.getInt("telefono"));
+                cliente.setTelefono(rs.getLong("telefono"));
                 cliente.setContacto(rs.getString("contacto"));
                 cliente.setEstadoCliente(rs.getBoolean("estadoCliente"));
 
