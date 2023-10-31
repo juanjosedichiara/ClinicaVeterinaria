@@ -36,6 +36,7 @@ public class FormularioVisita extends javax.swing.JDialog {
     private String duracion;
     private double pesoActual;
     private String formaDePago;
+    private String nombreMascota;
     private Tratamiento trat;
 
     private TratamientoData tratamientoData;
@@ -51,8 +52,15 @@ public class FormularioVisita extends javax.swing.JDialog {
 
         cargarComboTratamientos();
         cargarComboFormasDePago();
-
+        
+        labelNombreMascota.setText(nombreMascota); //No esta tomando el nombre de la mascota
+        
     }
+
+    public FormularioVisita() {
+        labelNombreMascota.setText(nombreMascota);
+    }
+
 
     public LocalDate getFechaVisita() {
         return fechaVisita;
@@ -106,8 +114,9 @@ public class FormularioVisita extends javax.swing.JDialog {
         return labelNombreMascota;
     }
 
-    public void setLabelNombreMascota(JLabel labelNombreMascota) {
-        this.labelNombreMascota = labelNombreMascota;
+    public void setLabelNombreMascota(String nombreMascota) {
+        //this.labelNombreMascota = labelNombreMascota;
+        this.nombreMascota = nombreMascota;
     }
 
     @SuppressWarnings("unchecked")
@@ -116,6 +125,7 @@ public class FormularioVisita extends javax.swing.JDialog {
 
         jSlider1 = new javax.swing.JSlider();
         jPanel1 = new javax.swing.JPanel();
+        labelNombreMascota = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -136,11 +146,15 @@ public class FormularioVisita extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jcbFormasDePago = new javax.swing.JComboBox<>();
         jdFechaVisita = new com.toedter.calendar.JDateChooser();
-        labelNombreMascota = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
+
+        labelNombreMascota.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        labelNombreMascota.setForeground(new java.awt.Color(102, 102, 102));
+        labelNombreMascota.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelNombreMascota.setText(labelNombreMascota.getName());
 
         jLabel1.setText("Fecha visita");
 
@@ -193,10 +207,6 @@ public class FormularioVisita extends javax.swing.JDialog {
         jdFechaVisita.setMinimumSize(new java.awt.Dimension(40, 20));
         jdFechaVisita.setName("jdFechaVisita"); // NOI18N
         jdFechaVisita.setNextFocusableComponent(jTextAreaSintomas);
-
-        labelNombreMascota.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        labelNombreMascota.setForeground(new java.awt.Color(102, 102, 102));
-        labelNombreMascota.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
