@@ -25,9 +25,9 @@ public class ClinicaVeterinaria {
         Cliente cliente = new Cliente(36277295, "Lopez", "Romina", "Casablanca 111", 75666852, "Juan Perez 261552266", mascota, true);
         //cliData.altaCliente(cliente); //Prueba para Agregar un Nuevo Cliente
         Cliente cli1 = cliData.consultarClientesPorDNI(36277295);
-        Mascota masc1 = masData.consultarMascotaPorId(12);
+        Mascota masc1 = masData.consultarMascotaPorId(1);
         
-        Visita visita = new Visita(10,LocalDate.now(), "contado", "fiebre", "Infeccion", 2.4, "1");
+        Visita visita = new Visita(10,LocalDate.now(), "contado", "fiebre", "Infeccion", 500.4, "1");
         TratamientoData tratData = new TratamientoData();
         //cliData.eliminarCliente(2); //Prueba para Eliminar el cliente con ID 2
         //cliData.modificarCliente(cliente);  //Prueba para Modificar los datos de un Cliente
@@ -38,7 +38,7 @@ public class ClinicaVeterinaria {
         
         //System.out.println(cli1);
         
-        visData.registrarVisita(visita, masc1.getIdMascota(),visita.getIdTratamiento() );
+        //visData.registrarVisita(visita, masc1.getIdMascota(),visita.getIdTratamiento());
     }
 
 }
