@@ -1412,6 +1412,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         txtMascotaVisita.setText("");
         txtClienteVisita.setText("");
         historialVisita.setRowCount(0);
+        tablaHistorialVisita.setModel(historialVisita);
     }//GEN-LAST:event_buttonNuevaConsultaHistorialVisitasActionPerformed
 
     private void buttonEliminarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarVisitaActionPerformed
