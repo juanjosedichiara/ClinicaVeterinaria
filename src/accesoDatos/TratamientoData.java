@@ -26,7 +26,7 @@ public class TratamientoData {
             ps.setString(1, tratamiento.getTipo());
             ps.setString(2, tratamiento.getDescripcion());
             ps.setDouble(3, tratamiento.getImporte());
-            ps.setBoolean(4, tratamiento.getEstadoTratamiento());
+            ps.setBoolean(4, true);
 
             int affectedRows = ps.executeUpdate();
 
@@ -67,17 +67,18 @@ public class TratamientoData {
 
     //Modificar datos de un tratamiento en la base de datos 
     public void modificarTratamiento(Tratamiento tratamiento) {
-        String sql = "UPDATE tratamiento SET tipo = ?, descripcion = ?, importe = ?, estadoTratamiento = ? WHERE idTratamiento = ?";
+        String sql = "UPDATE tratamiento SET tipo = ?, descripcion = ?, importe = ? WHERE idTratamiento = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
+            
             ps.setString(1, tratamiento.getTipo());
             ps.setString(2, tratamiento.getDescripcion());
             ps.setDouble(3, tratamiento.getImporte());
-            ps.setBoolean(4, tratamiento.getEstadoTratamiento());
-            ps.setInt(5, tratamiento.getIdTratamiento());
-
+            ps.setInt(4, tratamiento.getIdTratamiento());
+            
             ps.executeUpdate();
             ps.close();
+            
         } catch (SQLException ex) {
             // Registra el error en la consola
             ex.printStackTrace();

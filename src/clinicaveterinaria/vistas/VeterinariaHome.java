@@ -45,6 +45,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     private boolean editandoCliente = false;
     private boolean editandoMascota = false;
+    
     private boolean editandoTratamiento = false;
 
     private int idMascotaSeleccionada;
@@ -95,7 +96,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         cargarClientes();
 
         //MODELO TRATAMIENTO
-        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe"}, 0);
+        tablaTratamiento = new DefaultTableModel(new String[]{"Código","Tipo", "Descripcion", "Importe"}, 0);
         tablaListaTratamientos.setModel(tablaTratamiento);
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
@@ -875,17 +876,17 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         tablaListaTratamientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Tipo", "Descripcion", "Importe"
+                "Código", "Tipo", "Descripcion", "Importe"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -894,7 +895,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         });
         jScrollPane2.setViewportView(tablaListaTratamientos);
         if (tablaListaTratamientos.getColumnModel().getColumnCount() > 0) {
-            tablaListaTratamientos.getColumnModel().getColumn(1).setResizable(false);
+            tablaListaTratamientos.getColumnModel().getColumn(0).setResizable(false);
+            tablaListaTratamientos.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -925,36 +927,37 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         panelTratamientos.setLayout(panelTratamientosLayout);
         panelTratamientosLayout.setHorizontalGroup(
             panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTratamientosLayout.createSequentialGroup()
-                .addContainerGap(271, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(265, 265, 265))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(buttonEliminarTratamiento)
-                .addGap(103, 103, 103)
-                .addComponent(cambiosTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(AgregarTratamiento)
-                .addGap(83, 83, 83))
-            .addGroup(panelTratamientosLayout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addGroup(panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelTratamientosLayout.createSequentialGroup()
+                        .addComponent(buttonEliminarTratamiento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cambiosTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AgregarTratamiento)
+                        .addGap(57, 57, 57))
+                    .addGroup(panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(36, 36, 36))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(267, 267, 267)))))
         );
         panelTratamientosLayout.setVerticalGroup(
             panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTratamientosLayout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addGap(39, 39, 39)
                 .addComponent(jLabel4)
-                .addGap(30, 30, 30)
+                .addGap(43, 43, 43)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addGap(98, 98, 98)
                 .addGroup(panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonEliminarTratamiento)
                     .addComponent(AgregarTratamiento)
-                    .addComponent(cambiosTratamiento))
-                .addContainerGap(70, Short.MAX_VALUE))
+                    .addComponent(cambiosTratamiento)
+                    .addComponent(buttonEliminarTratamiento))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("e", panelTratamientos);
@@ -1309,18 +1312,20 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     //PERTENECE AL PANEL TRATAMIENTOS
     private void cambiosTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiosTratamientoActionPerformed
         int filaSeleccionada = tablaListaTratamientos.getSelectedRow();
+        
         if (filaSeleccionada >= 0) {
+
+            int codigo = (int) tablaTratamiento.getValueAt(filaSeleccionada, 0);
+            String tipo = (String) tablaTratamiento.getValueAt(filaSeleccionada, 1);
+            String descripcion = (String) tablaTratamiento.getValueAt(filaSeleccionada, 2);
+            double importe = (double) tablaTratamiento.getValueAt(filaSeleccionada, 3);
             
-            String tipo = (String) tablaTratamiento.getValueAt(filaSeleccionada, 0);
-            String descripcion = (String) tablaTratamiento.getValueAt(filaSeleccionada, 1);
-            double importe = (Double) tablaTratamiento.getValueAt(filaSeleccionada, 2);
-            
-                editandoTratamiento = true;
-                FormularioTratamiento formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
-                formularioTratamiento.setDatosTratamiento(tipo, descripcion, importe);
-                formularioTratamiento.addTratamientoEventListener(this);
-                formularioTratamiento.setVisible(true);
-             
+            editandoTratamiento = true;
+            FormularioTratamiento formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
+
+            formularioTratamiento.setDatosTratamiento(codigo, tipo, descripcion, importe);
+            formularioTratamiento.addTratamientoEventListener(this); // Registro del oyente
+            formularioTratamiento.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un tratamiento para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1334,9 +1339,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         int filaSeleccionada = tablaListaTratamientos.getSelectedRow();
 
         if (filaSeleccionada >= 0) {
-            String tipoTratamiento = (String) tablaListaTratamientos.getValueAt(filaSeleccionada, 0);
-
-            int idTratamiento = tratamientoData.obtenerIdTratamientoPorTipo(tipoTratamiento);
+            int idTratamiento = (int) tablaListaTratamientos.getValueAt(filaSeleccionada, 0);
 
             if (idTratamiento != -1) {
                 // Eliminar el tratamiento de la base de datos usando el ID
@@ -1625,7 +1628,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         List<Tratamiento> tratamientos = tratamientoData.obtenerTodosLosTratamientos();
 
         for (Tratamiento tratamiento : tratamientos) {
-            Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte(), tratamiento.getEstadoTratamiento()};
+            Object[] fila = {
+                tratamiento.getIdTratamiento(),
+                tratamiento.getTipo(),
+                tratamiento.getDescripcion(), 
+                tratamiento.getImporte()
+            };
             tablaTratamiento.addRow(fila);
         }
        
