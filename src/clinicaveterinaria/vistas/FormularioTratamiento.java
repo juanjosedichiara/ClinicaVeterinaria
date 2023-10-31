@@ -9,10 +9,11 @@ import javax.swing.JOptionPane;
 
 public class FormularioTratamiento extends javax.swing.JFrame {
 
-    private boolean modoNuevo;
+    private boolean editandoTratamiento;
     private TratamientoData tratamientoData;
     private Tratamiento tratamiento;
-
+    private int idTratamiento;
+    
     private List<TratamientoEventListener> listeners = new ArrayList<>();
 
     public void addTratamientoEventListener(TratamientoEventListener listener) {
@@ -25,13 +26,14 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         }
     }
 
-    public FormularioTratamiento(boolean modoNuevo) {
+    public FormularioTratamiento(boolean editandoTratamiento) {
         initComponents();
 
-        this.modoNuevo = modoNuevo;
+        this.editandoTratamiento = editandoTratamiento;
         tratamientoData = new TratamientoData();
+        tratamiento = new Tratamiento();
         this.setLocationRelativeTo(null);
-        verificarEstado(true);
+        verificarEstado();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,7 +48,6 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
-        chekBoxActivo = new javax.swing.JCheckBox();
         buttonCancelar = new javax.swing.JButton();
         buttonConfirmar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -68,8 +69,6 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         txtArea.setWrapStyleWord(true);
         txtArea.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(txtArea);
-
-        chekBoxActivo.setText("Activo");
 
         buttonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/clinicaveterinaria/recursos/huellitas.png"))); // NOI18N
         buttonCancelar.setText("Cancelar");
@@ -96,38 +95,30 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3))
-                                .addGap(43, 43, 43)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(chekBoxActivo)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
                         .addComponent(buttonCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonConfirmar)
-                        .addGap(35, 35, 35)))
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(buttonConfirmar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -135,16 +126,10 @@ public class FormularioTratamiento extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtImporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel2)
-                        .addGap(42, 42, 42)
-                        .addComponent(chekBoxActivo)
-                        .addGap(22, 22, 22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonCancelar)
@@ -172,44 +157,37 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         String descripcion = txtArea.getText();
         String importestr = txtImporte.getText();
 
-        if (tipo.isEmpty() || descripcion.isEmpty() || importestr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         double importe = Double.parseDouble(importestr);
         if (importe >= 100000) {
             JOptionPane.showMessageDialog(this, "El importe no debe superar los 99999.99", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        idTratamiento = tratamientoData.obtenerIdTratamientoPorTipo(tipo);
+        if (tipo.isEmpty() || descripcion.isEmpty() || importestr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }else{
+            
+            if (editandoTratamiento) {
+                
+                tratamiento.setIdTratamiento(idTratamiento);
+                tratamiento.setTipo(tipo);
+                tratamiento.setDescripcion(descripcion);
+                tratamiento.setImporte(importe);
 
-        // Crear un nuevo tratamiento y establecer sus atributos
-        Tratamiento nuevoTratamiento = new Tratamiento();
-        nuevoTratamiento.setTipo(tipo);
-        nuevoTratamiento.setDescripcion(descripcion);
-        nuevoTratamiento.setImporte(importe);
+                tratamientoData.modificarTratamiento(tratamiento);
 
-        //Condicional para cambiar el Estado del Tratamiento
-        if (chekBoxActivo.isSelected()) {
-            nuevoTratamiento.setEstadoTratamiento(true);
-        } else {
-            nuevoTratamiento.setEstadoTratamiento(false);
-        }
-
-        if (modoNuevo) {
-
-            tratamientoData.agregarTratamiento(nuevoTratamiento);
+                JOptionPane.showMessageDialog(this, "Tratamiento modificado con éxito");
+            } else {
+                Tratamiento trat = new Tratamiento (tipo, descripcion, importe);
+                tratamientoData.agregarTratamiento(trat);
+                JOptionPane.showMessageDialog(this, "Tratamiento cargado");
+            }
             notificarActualizacionTratamiento();
-            JOptionPane.showMessageDialog(null, "Tratamiento cargado");
-        } else {
-            nuevoTratamiento.setIdTratamiento(tratamientoData.obtenerIdTratamientoPorTipo(tipo));
-            tratamientoData.modificarTratamiento(nuevoTratamiento);
-            notificarActualizacionTratamiento();
-            JOptionPane.showMessageDialog(null, "Tratamiento modificado con éxito");
+            this.dispose();
         }
-
-        this.dispose();
-
+    
     }//GEN-LAST:event_buttonConfirmarActionPerformed
 
     private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
@@ -220,7 +198,6 @@ public class FormularioTratamiento extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCancelar;
     private javax.swing.JButton buttonConfirmar;
-    private javax.swing.JCheckBox chekBoxActivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,59 +209,14 @@ public class FormularioTratamiento extends javax.swing.JFrame {
     private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables
 
-    public void verificarEstado(boolean modoNuevo) {
-        if (modoNuevo) {
-            // Modo nuevo: Vaciar el formulario
-            txtTipo.setText("");
-            txtArea.setText("");
-            txtImporte.setText("");
-        } else {
-            // Modo edición: Cargar datos del tratamiento seleccionado
-            if (tratamiento != null) {
-                txtTipo.setText(tratamiento.getTipo());
-                txtArea.setText(tratamiento.getDescripcion());
-                txtImporte.setText(String.valueOf(tratamiento.getImporte()));
-                chekBoxActivo.isSelected();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al cargar el tratamiento.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    void setTxtTipo(String tipo) {
+    
+    public void setDatosTratamiento( int idTratamiento, String tipo, String descripcion, double importe){
+        idTratamiento= idTratamiento;
         txtTipo.setText(tipo);
-    }
-
-    void setTxtArea(String descripcion) {
         txtArea.setText(descripcion);
-    }
-
-    void setChekBoxActivo(boolean estado) {
-        if (estado) {
-            chekBoxActivo.isSelected();
-        }
-    }
-
-    void setTxtImporte(double importe) {
         txtImporte.setText(String.valueOf(importe));
     }
-
-    String getTxtTipo() {
-        return txtTipo.getText();
-    }
-
-    String getTxtArea() {
-        return txtArea.getText();
-    }
-
-    double getImporte() {
-        return Double.parseDouble(txtImporte.getText());
-    }
-
-    boolean getEstado() {
-        return chekBoxActivo.isSelected();
-    }
-
+    
     public interface TratamientoEventListener extends EventListener {
 
         void tratamientoActualizado();

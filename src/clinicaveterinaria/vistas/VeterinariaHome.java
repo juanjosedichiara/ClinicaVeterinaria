@@ -13,6 +13,7 @@ import clinicaveterinaria.entidades.Tratamiento;
 import clinicaveterinaria.entidades.Visita;
 import clinicaveterinaria.vistas.FormularioCliente.ClienteEventListener;
 import clinicaveterinaria.vistas.FormularioMascota.MascotaEventListener;
+import clinicaveterinaria.vistas.FormularioTratamiento.TratamientoEventListener;
 import clinicaveterinaria.vistas.FormularioVisita;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -27,7 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener, MascotaEventListener {
+public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener, MascotaEventListener , TratamientoEventListener{
 
     private DefaultTableModel tablaMascota;
     private DefaultTableModel tablaCliente;
@@ -62,10 +63,14 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     @Override
     public void mascotaActualizado() {
-
         cargarMascotas();
     }
 
+    @Override
+    public void tratamientoActualizado(){
+        cargarTratamientos();
+    }
+    
     public VeterinariaHome() {
         initComponents();
 
@@ -90,7 +95,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         cargarClientes();
 
         //MODELO TRATAMIENTO
-        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe", "Estado"}, 0);
+        tablaTratamiento = new DefaultTableModel(new String[]{"Tipo", "Descripcion", "Importe"}, 0);
         tablaListaTratamientos.setModel(tablaTratamiento);
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
@@ -1294,30 +1299,31 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     //PERTENECE AL PANEL TRATAMIENTOS
     private void AgregarTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarTratamientoActionPerformed
-        editandoTratamiento = true;
-        abrirFormularioTratamiento();
-        cargarTratamientos();
+        editandoTratamiento = false;
+        
+        FormularioTratamiento formularioTratamiento = new FormularioTratamiento (editandoTratamiento);
+        formularioTratamiento.addTratamientoEventListener(this);
+        formularioTratamiento.setVisible(true);
     }//GEN-LAST:event_AgregarTratamientoActionPerformed
 
     //PERTENECE AL PANEL TRATAMIENTOS
     private void cambiosTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiosTratamientoActionPerformed
         int filaSeleccionada = tablaListaTratamientos.getSelectedRow();
         if (filaSeleccionada >= 0) {
-            editandoTratamiento = false;
-            String tipoTratamiento = (String) tablaTratamiento.getValueAt(filaSeleccionada, 0);
-            String descripcionTratamiento = (String) tablaTratamiento.getValueAt(filaSeleccionada, 1);
-            double importeTratamiento = (Double) tablaTratamiento.getValueAt(filaSeleccionada, 2);
-            boolean estadoTratamiento = (Boolean) tablaTratamiento.getValueAt(filaSeleccionada, 3);
-
-            int idTratamiento = tratamientoData.obtenerIdTratamientoPorTipo(tipoTratamiento);
-
-            editarTratamiento(idTratamiento, tipoTratamiento, descripcionTratamiento, importeTratamiento, estadoTratamiento);
-
-            //abrirFormularioTratamiento();
+            
+            String tipo = (String) tablaTratamiento.getValueAt(filaSeleccionada, 0);
+            String descripcion = (String) tablaTratamiento.getValueAt(filaSeleccionada, 1);
+            double importe = (Double) tablaTratamiento.getValueAt(filaSeleccionada, 2);
+            
+                editandoTratamiento = true;
+                FormularioTratamiento formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
+                formularioTratamiento.setDatosTratamiento(tipo, descripcion, importe);
+                formularioTratamiento.addTratamientoEventListener(this);
+                formularioTratamiento.setVisible(true);
+             
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona un tratamiento para editar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        cargarTratamientos();
     }//GEN-LAST:event_cambiosTratamientoActionPerformed
 
     private void buttonTratamientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTratamientosActionPerformed
@@ -1622,46 +1628,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte(), tratamiento.getEstadoTratamiento()};
             tablaTratamiento.addRow(fila);
         }
-        ordenarTratamientosAlfabeticamente();
-    }
-
-    private void ordenarTratamientosAlfabeticamente() {
-        List<Tratamiento> tratamientos = tratamientoData.obtenerTodosLosTratamientos();
-        Collections.sort(tratamientos, Comparator.comparing(Tratamiento::getTipo));
-
-        tablaTratamiento.setRowCount(0); // Limpiar la tabla antes de cargar los tratamientos ordenados
-
-        for (Tratamiento tratamiento : tratamientos) {
-            Object[] fila = {tratamiento.getTipo(), tratamiento.getDescripcion(), tratamiento.getImporte(), tratamiento.getEstadoTratamiento()};
-            tablaTratamiento.addRow(fila);
-        }
-
-    }
-
-    private void abrirFormularioTratamiento() {
-        ordenarTratamientosAlfabeticamente();
-        FormularioTratamiento formulario = new FormularioTratamiento(editandoTratamiento);
-        formulario.setVisible(true);
-    }
-
-    private void editarTratamiento(int id, String tipo, String descripcion, double importe, boolean estado) {
-        FormularioTratamiento formulario = new FormularioTratamiento(false);
-        TratamientoData tratData = new TratamientoData();
-
-        formulario.setTxtTipo(tipo);
-        formulario.setTxtArea(descripcion);
-        formulario.setTxtImporte(importe);
-        formulario.setChekBoxActivo(estado);
-        formulario.setVisible(true);
-
-        tipo = formulario.getTxtTipo();
-        descripcion = formulario.getTxtArea();
-        importe = formulario.getImporte();
-        estado = formulario.getEstado();
-
-        tratData.modificarTratamiento(new Tratamiento(id, tipo, descripcion, importe, estado));
-
-        cargarTratamientos();
+       
     }
 
     private void cargarComboClientes() {
