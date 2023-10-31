@@ -31,12 +31,13 @@ public class VisitaData {
         String sql = "INSERT INTO visitas (idMascota, idTratamiento, duracion, fechaVisita, "
                 + "formaPago, sintomas, afeccion, pesoActual) "
                 + "VALUES (?,?,?,?,?,?,?,?)";
+
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, idMascota);
             ps.setInt(2, idTratamiento);
-            ps.setString(3, visita.getDuracion());
+            ps.setInt(3, Integer.parseInt(visita.getDuracion())); //Se parsea a entero
             ps.setDate(4, Date.valueOf(fechaVisita));
             ps.setString(5, visita.getFormaPago());
             ps.setString(6, visita.getSintomas());
@@ -60,42 +61,6 @@ public class VisitaData {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-//LocalDate fechaVisita = visita.getFechaVisita();
-//
-//        String sql = "INSERT INTO visitas (idMascota, idTratamiento, duracion, fechaVisita, "
-//                + "sintomas, afeccion, pesoActual) "
-//                + "VALUES (?,?,?,?,?,?,?)";
-//
-//        try {
-//            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//            if (fechaVisita != null){
-//                java.sql.Date fechaVisitaSQL = java.sql.Date.valueOf(fechaVisita);
-//    }
-//            ps.setInt(1, idMascota);
-//                ps.setInt(2, idTratamiento);
-//                ps.setString(3, visita.getDuracion());
-//                ps.setDate(4, fechaVisitaSQL);
-//                ps.setString(5, visita.getSintomas());
-//                ps.setString(6, visita.getAfeccion());
-//                ps.setDouble(7, visita.getPesoActual());
-//
-//                ps.executeUpdate();
-//
-//                ResultSet rs = ps.getGeneratedKeys();
-//                if (rs.next()) {
-//                    visita.setIdVisita(rs.getInt(1));
-//                    System.out.println("Visita agregada con éxito");
-//                    System.out.println("ID: " + visita.getIdVisita());
-//                }
-//                ps.close();
-//                } else {
-//            // Maneja el caso en el que la fecha de visita es nula
-//            JOptionPane.showMessageDialog(null, "La fecha de visita es nula.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//        } catch (SQLException ex) {
-//            
-//            ex.printStackTrace();}
-//        }
 
     }
 
