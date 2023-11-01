@@ -81,22 +81,42 @@ public class MascotaData {
     }
 
     public void eliminarMascota(int idMascota) {
-        String sql = "DELETE FROM `mascota` WHERE idMascota=?";
+//        String sql = "DELETE FROM `mascota` WHERE idMascota=?";
+//        try {
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            ps.setInt(1, idMascota);
+//            int elimMascota = ps.executeUpdate();
+//
+//            if (elimMascota == 1) {
+//                System.out.println("Mascota eliminada exitosamente.");
+//            } else {
+//                System.out.println("Error al intentar eliminar la mascota");
+//            }
+//            ps.close();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+
+    //PRUEBA DE INACTIVOS: BORRADO LOGICO DE MASCOTAS.
+     String sql = "UPDATE mascota SET estadoMascota = 0 WHERE idMascota = ?";
+
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idMascota);
-            int elimMascota = ps.executeUpdate();
 
-            if (elimMascota == 1) {
-                System.out.println("Mascota eliminada exitosamente.");
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                System.out.println("Mascota eliminada con éxito.");
             } else {
-                System.out.println("Error al intentar eliminar la mascota");
+                System.out.println("No se pudo eliminar la mascota.");
             }
+
             ps.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
+    
     }
 
     public Mascota consultarMascotaPorId(int idMascota) {
@@ -340,5 +360,123 @@ public class MascotaData {
 
         return mascotas;
     }
+
+    public List<Mascota> obtenerMascotasInactivas() {
+    String sql = "SELECT m.*, c.documento AS dniCliente " +
+                 "FROM mascota m " +
+                 "INNER JOIN cliente c ON m.idCliente = c.idCliente " +
+                 "WHERE m.estadoMascota = 0";
+    
+    List<Mascota> mascotasInactivas = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Mascota mascota = new Mascota(
+                    rs.getInt("idMascota"),
+                    rs.getInt("idCliente"),
+                    rs.getString("alias"),
+                    rs.getString("sexo"),
+                    rs.getString("especie"),
+                    rs.getString("raza"),
+                    rs.getString("color"),
+                    rs.getObject("nacimiento", LocalDate.class),
+                    rs.getBoolean("estadoMascota")
+                );
+                mascota.setDocumento(rs.getInt("dniCliente"));
+                mascotasInactivas.add(mascota);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return mascotasInactivas;
+    }
+
+    public int obtenerEstadoMascotaPorId(int idMascota) {
+    String sql = "SELECT estadoMascota FROM mascota WHERE idMascota = ?";
+    int estadoMascota = -1;
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMascota);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                estadoMascota = rs.getInt("estadoMascota");
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return estadoMascota;
+    }
+
+
+    public void activarMascota(int idMascota) {
+    String sql = "UPDATE mascota SET estadoMascota = 1 WHERE idMascota = ?";
+    
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idMascota);
+
+        int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas > 0) {
+                System.out.println("Mascota activada con éxito.");
+            } else {
+                System.out.println("No se pudo activar la mascota.");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public List<Mascota> obtenerMascotasActivas() {
+    String sql = "SELECT m.*, c.documento AS dniCliente " +
+                 "FROM mascota m " +
+                 "INNER JOIN cliente c ON m.idCliente = c.idCliente " +
+                 "WHERE m.estadoMascota = 1";
+    List<Mascota> mascotas = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Mascota mascota = new Mascota(
+                    rs.getInt("idMascota"),
+                    rs.getInt("idCliente"),
+                    rs.getString("alias"),
+                    rs.getString("sexo"),
+                    rs.getString("especie"),
+                    rs.getString("raza"),
+                    rs.getString("color"),
+                    rs.getObject("nacimiento", LocalDate.class),
+                    rs.getBoolean("estadoMascota")
+                );
+                mascota.setDocumento(rs.getInt("dniCliente"));
+                mascotas.add(mascota);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return mascotas;
+    }
+
 
 }
