@@ -24,12 +24,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener, MascotaEventListener , TratamientoEventListener{
+public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventListener, MascotaEventListener, TratamientoEventListener {
 
     private DefaultTableModel tablaMascota;
     private DefaultTableModel tablaCliente;
@@ -46,7 +47,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
     private boolean editandoCliente = false;
     private boolean editandoMascota = false;
-    
+
     private boolean editandoTratamiento = false;
 
     private int idMascotaSeleccionada;
@@ -69,10 +70,10 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     }
 
     @Override
-    public void tratamientoActualizado(){
+    public void tratamientoActualizado() {
         cargarTratamientos();
     }
-    
+
     public VeterinariaHome() {
         initComponents();
 
@@ -97,7 +98,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         cargarClientes();
 
         //MODELO TRATAMIENTO
-        tablaTratamiento = new DefaultTableModel(new String[]{"Código","Tipo", "Descripcion", "Importe"}, 0);
+        tablaTratamiento = new DefaultTableModel(new String[]{"Código", "Tipo", "Descripcion", "Importe"}, 0);
         tablaListaTratamientos.setModel(tablaTratamiento);
         tratamientoData = new TratamientoData();
         formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
@@ -185,6 +186,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         jtFTotal = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jbTerminarVenta = new javax.swing.JButton();
+        jTextDescripcion = new javax.swing.JTextField();
+        jTextCantidad = new javax.swing.JTextField();
+        jTextPrecioUnitario = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         panelPacientes = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -583,7 +590,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                         .addGroup(panelClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3)
                             .addGroup(panelClientesLayout.createSequentialGroup()
-                                .addComponent(eliminarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                .addComponent(eliminarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                                 .addGap(219, 219, 219)
                                 .addComponent(CargarCambiosCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -647,7 +654,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         jtFNroFactura.setEditable(false);
 
         jTablaFacturacion.setBackground(new java.awt.Color(153, 204, 255));
-        jTablaFacturacion.setForeground(new java.awt.Color(255, 255, 255));
         jTablaFacturacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -702,58 +708,89 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
         });
 
+        jTextDescripcion.setToolTipText("Descripcion del Producto");
+
+        jTextCantidad.setToolTipText("Cantidad");
+
+        jTextPrecioUnitario.setToolTipText("Precio Unitario");
+
+        jLabel6.setText("Cantidad:");
+
+        jLabel7.setText("Precio Unitario:");
+
+        jLabel8.setText("Descripción:");
+
         javax.swing.GroupLayout panelFacturacionLayout = new javax.swing.GroupLayout(panelFacturacion);
         panelFacturacion.setLayout(panelFacturacionLayout);
         panelFacturacionLayout.setHorizontalGroup(
             panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFacturacionLayout.createSequentialGroup()
+            .addComponent(jSeparator1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturacionLayout.createSequentialGroup()
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbTerminarVenta)))
+                .addGap(56, 56, 56))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturacionLayout.createSequentialGroup()
                 .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelFacturacionLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jScrollPane5))
-                    .addGroup(panelFacturacionLayout.createSequentialGroup()
-                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelFacturacionLayout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLDomicilio)
+                                    .addComponent(jLCliente))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(panelFacturacionLayout.createSequentialGroup()
-                                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLDomicilio)
-                                            .addComponent(jLCliente))
+                                        .addComponent(jcbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jLDni)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(panelFacturacionLayout.createSequentialGroup()
-                                                .addComponent(jcbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(40, 40, 40)
-                                                .addComponent(jLDni)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jtFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jtFDomicilio)))
-                                    .addGroup(panelFacturacionLayout.createSequentialGroup()
-                                        .addComponent(jLMiFactura)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
-                                        .addComponent(jLFactura))))
+                                        .addComponent(jtFDni, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jtFDomicilio)))
                             .addGroup(panelFacturacionLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLFecha)))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jcbSituacionFiscal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jtFNroFactura)
-                                .addComponent(textFieldFechaNow))
-                            .addComponent(jbAgregarVenta))))
-                .addGap(43, 43, 43))
-            .addComponent(jSeparator1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturacionLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbTerminarVenta)
+                                .addComponent(jLMiFactura)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
+                                .addComponent(jLFactura))))
                     .addGroup(panelFacturacionLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLFecha)))
+                .addGap(18, 18, 18)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jcbSituacionFiscal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jtFNroFactura)
+                    .addComponent(textFieldFechaNow))
+                .addGap(43, 43, 43))
+            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFacturacionLayout.createSequentialGroup()
+                        .addComponent(jScrollPane5)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturacionLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelFacturacionLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(166, 166, 166)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelFacturacionLayout.createSequentialGroup()
+                                .addComponent(jTextCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextDescripcion)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jbAgregarVenta)
+                        .addGap(22, 22, 22))))
         );
         panelFacturacionLayout.setVerticalGroup(
             panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,21 +811,27 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                     .addComponent(jLDni)
                     .addComponent(jtFDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jcbSituacionFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFacturacionLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLDomicilio)
-                            .addComponent(jtFDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelFacturacionLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jbAgregarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLDomicilio)
+                    .addComponent(jtFDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbAgregarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jbTerminarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                .addComponent(jbTerminarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(panelFacturacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -876,7 +919,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                     .addGroup(panelPacientesLayout.createSequentialGroup()
                         .addGap(268, 268, 268)
                         .addComponent(jLabel3)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         panelPacientesLayout.setVerticalGroup(
             panelPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -953,7 +996,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         panelTratamientosLayout.setHorizontalGroup(
             panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTratamientosLayout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(panelTratamientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTratamientosLayout.createSequentialGroup()
                         .addComponent(buttonEliminarTratamiento)
@@ -1083,7 +1126,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                         .addGap(58, 58, 58))
                     .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(30, Short.MAX_VALUE))
+                        .addContainerGap(33, Short.MAX_VALUE))
                     .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(buttonVolverVisita)
@@ -1237,7 +1280,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         txtNombre.setText("");
         txtContacto.setText("");
         DefaultTableModel model = (DefaultTableModel) tablaMascotasCliente.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0);
     }//GEN-LAST:event_buttonRegistraVisitaActionPerformed
 
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
@@ -1348,8 +1391,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     //PERTENECE AL PANEL TRATAMIENTOS
     private void AgregarTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarTratamientoActionPerformed
         editandoTratamiento = false;
-        
-        FormularioTratamiento formularioTratamiento = new FormularioTratamiento (editandoTratamiento);
+
+        FormularioTratamiento formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
         formularioTratamiento.addTratamientoEventListener(this);
         formularioTratamiento.setVisible(true);
     }//GEN-LAST:event_AgregarTratamientoActionPerformed
@@ -1357,18 +1400,18 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     //PERTENECE AL PANEL TRATAMIENTOS
     private void cambiosTratamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiosTratamientoActionPerformed
         int filaSeleccionada = tablaListaTratamientos.getSelectedRow();
-        
+
         if (filaSeleccionada >= 0) {
 
             int codigo = (int) tablaTratamiento.getValueAt(filaSeleccionada, 0);
             String tipo = (String) tablaTratamiento.getValueAt(filaSeleccionada, 1);
             String descripcion = (String) tablaTratamiento.getValueAt(filaSeleccionada, 2);
             double importe = (double) tablaTratamiento.getValueAt(filaSeleccionada, 3);
-            
+
             editandoTratamiento = true;
             FormularioTratamiento formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
-            
-            formularioTratamiento.setDatosTratamiento(codigo,tipo, descripcion, importe);
+
+            formularioTratamiento.setDatosTratamiento(codigo, tipo, descripcion, importe);
             formularioTratamiento.addTratamientoEventListener(this); // Registro del oyente
             formularioTratamiento.setVisible(true);
         } else {
@@ -1407,7 +1450,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void buttonHistorialVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHistorialVisitasActionPerformed
 
         int filaSeleccionada = tablaMascotasCliente.getSelectedRow();
-        if(filaSeleccionada >=0){
+        if (filaSeleccionada >= 0) {
             if (filaSeleccionada != -1) {
                 String alias = (String) tablaMascotasCliente.getValueAt(filaSeleccionada, 0);
                 int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
@@ -1427,8 +1470,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                     JOptionPane.showMessageDialog(null, "No se pudo encontrar la mascota seleccionada.");
                 }
             }
-        }else{
-          JOptionPane.showMessageDialog(null, "Seleccione un paciente para registrar una visita.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un paciente para registrar una visita.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_buttonHistorialVisitasActionPerformed
 
@@ -1437,7 +1480,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     }//GEN-LAST:event_txtClienteVisitaActionPerformed
 
     private void buttonRegistrarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarVisitaActionPerformed
-        
+
         String alias = txtMascotaVisita.getText();
 
         int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
@@ -1479,9 +1522,133 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         txtClienteVisita.setText("");
         txtMascotaVisita.setText("");
         DefaultTableModel model = (DefaultTableModel) tablaHistorialVisita.getModel();
-        model.setRowCount(0); 
-        
+        model.setRowCount(0);
+
     }//GEN-LAST:event_buttonPanelHistorialVisitasActionPerformed
+
+    private void jToggleButtonClientesInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonClientesInactivosActionPerformed
+        if (jToggleButtonClientesInactivos.isSelected()) {
+            cargarClientesInactivos();
+            tablaListaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        int filaSeleccionada = tablaListaClientes.getSelectedRow();
+                        if (filaSeleccionada != -1) {
+                            int documentoCliente = (int) tablaCliente.getValueAt(filaSeleccionada, 2);
+                            int estadoCliente = clienteData.obtenerEstadoClientePorDocumento(documentoCliente);
+                            if (estadoCliente == 0) {
+                                int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar este cliente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                                if (respuesta == JOptionPane.YES_OPTION) {
+                                    clienteData.activarCliente(documentoCliente);
+
+                                    tablaCliente.removeRow(filaSeleccionada);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            });
+
+        } else {
+            cargarClientes();
+        }
+
+    }//GEN-LAST:event_jToggleButtonClientesInactivosActionPerformed
+
+    private void buttonBuscarVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarVisitasActionPerformed
+        String alias = txtMascotaVisita.getText();
+        String documento = txtClienteVisita.getText();
+        int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
+        int idCliente = clienteData.obtenerIdClientePorDNI(Integer.parseInt(documento));
+
+        if (idMascota != -1 && idCliente != -1) {
+            List<Visita> visitas = visitaData.historialDeVisitasPorId(idMascota);
+            DefaultTableModel model = (DefaultTableModel) tablaHistorialVisita.getModel();
+            model.setRowCount(0);
+
+            for (Visita visita : visitas) {
+                String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
+                double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascota);
+
+                model.addRow(new Object[]{
+                    visita.getFechaVisita(),
+                    visita.getSintomas(),
+                    visita.getAfeccion(),
+                    tratamiento,
+                    visita.getDuracion(),
+                    visita.getPesoActual(),
+                    nuevoPesoPromedio
+                });
+
+                txtClienteVisita.setText(documento);
+                txtMascotaVisita.setText(alias);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Mascota o cliente no encontrados.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }//GEN-LAST:event_buttonBuscarVisitasActionPerformed
+
+    private void jToggleButtonPacientesInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonPacientesInactivosActionPerformed
+        if (jToggleButtonPacientesInactivos.isSelected()) {
+            cargarMascotasInactivos();
+            tablaListaMascotas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        int filaSeleccionada = tablaListaMascotas.getSelectedRow();
+                        if (filaSeleccionada != -1) {
+                            String aliasMascota = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
+                            int idMascota = mascotaData.obtenerIdMascotaPorAlias(aliasMascota);
+                            int estadoMascota = mascotaData.obtenerEstadoMascotaPorId(idMascota);
+                            if (estadoMascota == 0) {
+                                int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar al paciente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                                if (respuesta == JOptionPane.YES_OPTION) {
+                                    mascotaData.activarMascota(idMascota);
+
+                                    tablaMascota.removeRow(filaSeleccionada);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            });
+
+        } else {
+            cargarMascotas();
+        }
+    }//GEN-LAST:event_jToggleButtonPacientesInactivosActionPerformed
+
+    private void jbTerminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTerminarVentaActionPerformed
+        double total = sumarTotal();
+        jtFTotal.setText(String.valueOf(total));
+
+        ///ACA HABRIA QUE PONER EL CODIGO PARA QUE GENERE EL PDF
+    }//GEN-LAST:event_jbTerminarVentaActionPerformed
+
+    private void jbAgregarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarVentaActionPerformed
+        try {
+            double cantidad = Double.parseDouble(jTextCantidad.getText());
+            String descripcion = jTextDescripcion.getText();
+            double precioUnitario = Double.parseDouble(jTextPrecioUnitario.getText());
+            double subTotal = cantidad * precioUnitario;
+            tablaFacturacion.addRow(new Object[]{
+                cantidad,
+                descripcion,
+                precioUnitario,
+                subTotal});
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Ingrese números para Cantidad y Precio Unitario");
+        }
+
+        jTextCantidad.setText("");
+        jTextDescripcion.setText("");
+        jTextPrecioUnitario.setText("");
+    }//GEN-LAST:event_jbAgregarVentaActionPerformed
 
     private void jcbClientesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbClientesItemStateChanged
         String clienteSeleccionado = (String) jcbClientes.getSelectedItem();
@@ -1500,113 +1667,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             jtFDomicilio.setText(String.valueOf(cliente.getDireccion()));
         }
     }//GEN-LAST:event_jcbClientesItemStateChanged
-
-    private void jbAgregarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarVentaActionPerformed
-        ////FALTA TERMINAR
-    }//GEN-LAST:event_jbAgregarVentaActionPerformed
-
-    private void jbTerminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTerminarVentaActionPerformed
-        double total = sumarTotal();
-        jtFTotal.setText(String.valueOf(total));
-
-        ///ACA HABRIA QUE PONER EL CODIGO PARA QUE GENERE EL PDF
-    }//GEN-LAST:event_jbTerminarVentaActionPerformed
-
-    private void jToggleButtonClientesInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonClientesInactivosActionPerformed
-        if(jToggleButtonClientesInactivos.isSelected()){
-            cargarClientesInactivos();
-            tablaListaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            @Override
-            public void valueChanged (ListSelectionEvent e){
-                if(!e.getValueIsAdjusting()){
-                    int filaSeleccionada = tablaListaClientes.getSelectedRow();
-                        if(filaSeleccionada != -1){
-                        int documentoCliente = (int) tablaCliente.getValueAt(filaSeleccionada,2);
-                        int estadoCliente = clienteData.obtenerEstadoClientePorDocumento(documentoCliente);
-                        if(estadoCliente == 0){
-                            int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar este cliente?", "Confirmación", JOptionPane.YES_NO_OPTION);
-                            if(respuesta == JOptionPane.YES_OPTION) {
-                               clienteData.activarCliente(documentoCliente); 
-
-                               tablaCliente.removeRow(filaSeleccionada);
-                        }
-
-                    }
-                }
-            }
-        }
-        });
-          
-        }else{
-            cargarClientes();
-        }
-        
-    }//GEN-LAST:event_jToggleButtonClientesInactivosActionPerformed
-
-    private void buttonBuscarVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarVisitasActionPerformed
-        String alias = txtMascotaVisita.getText();
-        String documento = txtClienteVisita.getText();
-        int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
-        int idCliente = clienteData.obtenerIdClientePorDNI(Integer.parseInt(documento));
-        
-        if (idMascota != -1 && idCliente != -1) {
-        List<Visita> visitas = visitaData.historialDeVisitasPorId(idMascota);
-        DefaultTableModel model = (DefaultTableModel) tablaHistorialVisita.getModel();
-        model.setRowCount(0);
-
-        for (Visita visita : visitas) {
-            String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
-            double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascota);
-
-            model.addRow(new Object[]{
-                visita.getFechaVisita(),
-                visita.getSintomas(),
-                visita.getAfeccion(),
-                tratamiento,
-                visita.getDuracion(),
-                visita.getPesoActual(),
-                nuevoPesoPromedio
-            });
-
-            txtClienteVisita.setText(documento);
-            txtMascotaVisita.setText(alias);
-        }
-        }else{
-          JOptionPane.showMessageDialog(this, "Mascota o cliente no encontrados.", "Error", JOptionPane.ERROR_MESSAGE);
-   
-        }
-    }//GEN-LAST:event_buttonBuscarVisitasActionPerformed
-
-    private void jToggleButtonPacientesInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonPacientesInactivosActionPerformed
-        if(jToggleButtonPacientesInactivos.isSelected()){
-            cargarMascotasInactivos();
-            tablaListaMascotas.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-            @Override
-            public void valueChanged (ListSelectionEvent e){
-                if(!e.getValueIsAdjusting()){
-                    int filaSeleccionada = tablaListaMascotas.getSelectedRow();
-                        if(filaSeleccionada != -1){
-                        String aliasMascota = (String) tablaMascota.getValueAt(filaSeleccionada,0);
-                        int idMascota = mascotaData.obtenerIdMascotaPorAlias(aliasMascota);
-                        int estadoMascota= mascotaData.obtenerEstadoMascotaPorId(idMascota);
-                        if(estadoMascota == 0){
-                            int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar al paciente?", "Confirmación", JOptionPane.YES_NO_OPTION);
-                            if(respuesta == JOptionPane.YES_OPTION) {
-                               mascotaData.activarMascota(idMascota); 
-
-                               tablaMascota.removeRow(filaSeleccionada);
-                        }
-
-                    }
-                }
-            }
-        }
-        });
-          
-        }else{
-            cargarMascotas();
-        }
-    }//GEN-LAST:event_jToggleButtonPacientesInactivosActionPerformed
 
     public static void main() {
         /* Set the Nimbus look and feel */
@@ -1675,6 +1735,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1683,6 +1746,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTablaFacturacion;
+    private javax.swing.JTextField jTextCantidad;
+    private javax.swing.JTextField jTextDescripcion;
+    private javax.swing.JTextField jTextPrecioUnitario;
     private javax.swing.JToggleButton jToggleButtonClientesInactivos;
     private javax.swing.JToggleButton jToggleButtonPacientesInactivos;
     private javax.swing.JButton jbAgregarVenta;
@@ -1752,7 +1818,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         }
     }
 
-    private void cargarMascotasInactivos(){
+    private void cargarMascotasInactivos() {
         tablaMascota.setRowCount(0);
         List<Mascota> mascotasInactivos = mascotaData.obtenerMascotasInactivas();
         Collections.sort(mascotasInactivos, Comparator.comparing(Mascota::getAlias));
@@ -1771,6 +1837,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         }
     }
+
     // Método para cargar los clientes en la tabla de clientes
     public void cargarClientes() {
         // Limpia la tabla
@@ -1793,10 +1860,10 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             tablaCliente.addRow(fila);
         }
     }
-    
-    public void cargarClientesInactivos(){
+
+    public void cargarClientesInactivos() {
         tablaCliente.setRowCount(0);
-        
+
         // Obtener la lista de clientes inactivos desde la base de datos
         List<Cliente> clientesInactivos = clienteData.obtenerClientesInactivos();
         Collections.sort(clientesInactivos, Comparator.comparing(Cliente::getApellido));
@@ -1813,7 +1880,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             };
             tablaCliente.addRow(fila);
         }
-        
+
     }
 
     //PERTENECE AL PANEL TRATAMIENTO 
@@ -1825,12 +1892,12 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             Object[] fila = {
                 tratamiento.getIdTratamiento(),
                 tratamiento.getTipo(),
-                tratamiento.getDescripcion(), 
+                tratamiento.getDescripcion(),
                 tratamiento.getImporte()
             };
             tablaTratamiento.addRow(fila);
         }
-       
+
     }
 
     private void cargarComboClientes() {
@@ -1866,10 +1933,10 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 //                if( fila != -1){
 //                    int id = historialVisita.getValueAt(fila,0);
 //                }
-                
+
                 Tratamiento tratamiento = tratamientoData.consultarTratamientoPorId(visita.getIdTratamiento());
-                
-                System.out.println("encoontro: "+ tratamiento);
+
+                System.out.println("encoontro: " + tratamiento);
                 historialVisita.addRow(new Object[]{
                     visita.getFechaVisita(),
                     visita.getSintomas(),
@@ -1950,7 +2017,5 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
         return total;
     }
-
-  
 
 }
