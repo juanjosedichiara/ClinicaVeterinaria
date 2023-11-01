@@ -54,18 +54,38 @@ public class ClienteData {
 
     //Elimina un cliente de la base de datos por su ID.
     public void eliminarCliente(int idCliente) {
-        String sql = "DELETE FROM cliente WHERE idCliente = ?";
+//        String sql = "DELETE FROM cliente WHERE idCliente = ?";
+//
+//        try {
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            ps.setInt(1, idCliente);
+//
+//            int elimCliente = ps.executeUpdate();
+//
+//            if (elimCliente == 1) {
+//                System.out.println("Cliente eliminado exitosamente.");
+//            } else {
+//                System.out.println("Cliente No encontrado en la BD");
+//            }
+//            ps.close();
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+
+
+    //PARA PROBAR INACTIVOS _ BORRADO LOGICO 
+        String sql = "UPDATE cliente SET estadoCliente = 0 WHERE idCliente = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idCliente);
 
-            int elimCliente = ps.executeUpdate();
+            int resultado = ps.executeUpdate();
 
-            if (elimCliente == 1) {
-                System.out.println("Cliente eliminado exitosamente.");
+            if (resultado == 1) {
+                System.out.println("Cliente marcado como inactivo exitosamente.");
             } else {
-                System.out.println("Cliente No encontrado en la BD");
+                System.out.println("Cliente no encontrado en la BD.");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -318,5 +338,77 @@ public class ClienteData {
         return clientes;
 
     }
+         public List<Cliente> obtenerClientesInactivos() {
+        List<Cliente> clientesInactivos = new ArrayList<>();
+        String sql = "SELECT * FROM cliente WHERE estadoCliente = 0";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(rs.getInt("idCliente"));
+                cliente.setDocumento(rs.getInt("documento"));
+                cliente.setApellido(rs.getString("apellido"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setDireccion(rs.getString("direccion"));
+                cliente.setTelefono(rs.getLong("telefono"));
+                cliente.setContacto(rs.getString("contacto"));
+                cliente.setEstadoCliente(rs.getBoolean("estadoCliente"));
+
+                clientesInactivos.add(cliente);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return clientesInactivos;
+    }
+
+        public int obtenerEstadoClientePorDocumento(int documentoCliente) {
+        int estadoCliente = -1; 
+
+        String sql = "SELECT estadoCliente FROM cliente WHERE documento = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, documentoCliente);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                estadoCliente = rs.getInt("estadoCliente");
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return estadoCliente;
+        }
+
+        public void activarCliente(int documentoCliente) {
+        String sql = "UPDATE cliente SET estadoCliente = 1 WHERE documento = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, documentoCliente);
+
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas == 1) {
+                System.out.println("Cliente activado exitosamente.");
+            } else {
+                System.out.println("Cliente no encontrado o ya activo en la BD");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 }
