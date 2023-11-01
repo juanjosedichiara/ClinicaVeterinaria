@@ -66,16 +66,15 @@ public class VisitaData {
 
     //Listar historial de Visitas por Mascota
     public List<Visita> historialDeVisitasPorId(int idMascota) {
-        List<Visita> visita = new ArrayList<>();
-        String sql = "SELECT idVisitas, idTratamiento, fechaVisita,"
-                + "sintomas, afeccion, duracion, pesoActual FROM `visitas` WHERE idMascota = ?";
+    List<Visita> visitas = new ArrayList<>();
+    String sql = "SELECT idVisitas, idTratamiento, fechaVisita, sintomas, afeccion, duracion, pesoActual FROM `visitas` WHERE idMascota = ?";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idMascota);
 
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Visita vis = new Visita();
                 Tratamiento tra = new Tratamiento();
                 vis.setIdVisita(rs.getInt("idVisitas"));
@@ -86,16 +85,16 @@ public class VisitaData {
                 vis.setDuracion(rs.getString("duracion"));
                 vis.setPesoActual(rs.getDouble("pesoActual"));
 
-                visita.add(vis);
+                visitas.add(vis);
             }
             ps.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return visita;
+        return visitas;
     }
+
 
     //Libro Histórico de Visitas de la Veterinaria
     public List<Visita> libroDeVisitas() {
