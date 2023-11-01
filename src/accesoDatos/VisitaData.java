@@ -78,7 +78,7 @@ public class VisitaData {
                 Visita vis = new Visita();
                 Tratamiento tra = new Tratamiento();
                 vis.setIdVisita(rs.getInt("idVisitas"));
-                tra.setIdTratamiento(rs.getInt("idTratamiento"));
+                vis.setIdTratamiento(rs.getInt("idTratamiento"));
                 vis.setFechaVisita(rs.getDate("fechaVisita").toLocalDate());
                 vis.setSintomas(rs.getString("sintomas"));
                 vis.setAfeccion(rs.getString("afeccion"));

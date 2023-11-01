@@ -1367,8 +1367,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             
             editandoTratamiento = true;
             FormularioTratamiento formularioTratamiento = new FormularioTratamiento(editandoTratamiento);
-
-            formularioTratamiento.setDatosTratamiento(codigo, tipo, descripcion, importe);
+            
+            formularioTratamiento.setDatosTratamiento(codigo,tipo, descripcion, importe);
             formularioTratamiento.addTratamientoEventListener(this); // Registro del oyente
             formularioTratamiento.setVisible(true);
         } else {
@@ -1862,13 +1862,19 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             historialVisita.addColumn("Peso Promedio");
 
             for (Visita visita : historialVisitas) {
-                String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
-
+//                int fila = tablaHistorialVisita.getSelectedRow();
+//                if( fila != -1){
+//                    int id = historialVisita.getValueAt(fila,0);
+//                }
+                
+                Tratamiento tratamiento = tratamientoData.consultarTratamientoPorId(visita.getIdTratamiento());
+                
+                System.out.println("encoontro: "+ tratamiento);
                 historialVisita.addRow(new Object[]{
                     visita.getFechaVisita(),
                     visita.getSintomas(),
                     visita.getAfeccion(),
-                    tratamiento,
+                    tratamiento.getTipo(),
                     visita.getDuracion(),
                     visita.getPesoActual(),
                     nuevoPesoPromedio

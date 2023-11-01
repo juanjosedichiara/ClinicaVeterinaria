@@ -17,6 +17,14 @@ public class Tratamiento {
         this.idTratamiento = idTratamiento;
     }
 
+    public Tratamiento(int idTratamiento, String tipo, String descripcion, double importe) {
+        this.idTratamiento = idTratamiento;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.importe = importe;
+    }
+
+    
     public Tratamiento(int idTratamiento, boolean estadoTratamiento) {
         this.idTratamiento = idTratamiento;
         this.estadoTratamiento = estadoTratamiento;

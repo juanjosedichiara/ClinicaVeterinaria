@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class TratamientoData {
 
@@ -76,7 +77,12 @@ public class TratamientoData {
             ps.setDouble(3, tratamiento.getImporte());
             ps.setInt(4, tratamiento.getIdTratamiento());
             
-            ps.executeUpdate();
+            int correcto = ps.executeUpdate();
+            if (correcto == 1){
+                JOptionPane.showMessageDialog(null, "Cargado");
+            }else{
+                JOptionPane.showMessageDialog(null, "No existe");
+            }
             ps.close();
             
         } catch (SQLException ex) {
@@ -100,10 +106,13 @@ public class TratamientoData {
                 tratamientoEncontrado.setTipo(rs.getString("tipo"));
                 tratamientoEncontrado.setDescripcion(rs.getString("descripcion"));
                 tratamientoEncontrado.setEstadoTratamiento(rs.getBoolean("estadoTratamiento"));
+                
             }
             ps.close();
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
+            
         }
 
         return tratamientoEncontrado;
@@ -154,6 +163,8 @@ public class TratamientoData {
 
         return tratamientos;
     }
+    
+    
     
     
 

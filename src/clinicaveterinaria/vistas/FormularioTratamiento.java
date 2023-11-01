@@ -11,7 +11,7 @@ public class FormularioTratamiento extends javax.swing.JFrame {
 
     private boolean editandoTratamiento;
     private TratamientoData tratamientoData;
-    private Tratamiento tratamiento;
+    private Tratamiento tratamiento = null;
     
     
     private List<TratamientoEventListener> listeners = new ArrayList<>();
@@ -202,10 +202,19 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         }
             
                 if (editandoTratamiento) {
-                   // no se, deberia obtener el id. tratamiento = new Tratamiento(int codigo);
+                    
+                   int codigo = Integer.parseInt(txtCodigoTratamiento.getText());
+                   
+                    tratamiento.setIdTratamiento(codigo);
+                    tratamiento.setTipo(tipo);
+                    tratamiento.setDescripcion(descripcion);
+                    tratamiento.setImporte(importe);
+                     
+//                    tratamiento = setDatosTratamiento(codigo,tipo,descripcion,importe);
+                    
                     tratamientoData.modificarTratamiento(tratamiento);
+                    
                     System.out.println("ingresa"+ tratamiento);
-                    JOptionPane.showMessageDialog(this, "Tratamiento modificado con éxito");
                 
                 } else {
                     
@@ -249,7 +258,7 @@ public class FormularioTratamiento extends javax.swing.JFrame {
 
         if(editandoTratamiento){
             System.out.println("id:"+tratamiento);
-            int codigo;
+           
             labelCodigo.setVisible(true);
             txtCodigoTratamiento.setVisible(true);
             txtCodigoTratamiento.setEnabled(false);
@@ -263,11 +272,14 @@ public class FormularioTratamiento extends javax.swing.JFrame {
         }
     }
     
-    public void setDatosTratamiento( int codigo, String tipo, String descripcion, double importe){
+    public Tratamiento setDatosTratamiento( int codigo, String tipo, String descripcion, double importe){
+        
         txtCodigoTratamiento.setText(String.valueOf(codigo));
         txtTipo.setText(tipo);
         txtArea.setText(descripcion);
         txtImporte.setText(String.valueOf(importe));
+    
+      return tratamiento;
     }
     
     public interface TratamientoEventListener extends EventListener {
