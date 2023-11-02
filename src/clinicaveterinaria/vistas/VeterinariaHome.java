@@ -1216,6 +1216,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             model.setRowCount(0);
 
             for (Mascota mascota : mascotas) {
+                int estadoMascota = mascotaData.obtenerEstadoMascotaPorId(mascota.getIdMascota()); 
+               
+                if(estadoMascota == 1){
                 model.addRow(new Object[]{
                     mascota.getAlias(),
                     mascota.getEspecie(),
@@ -1223,6 +1226,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                     mascota.getSexo(),
                     mascota.getColor(),
                     mascota.getNacimiento(),});
+            }
             }
 
         } else {
@@ -1277,10 +1281,13 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
 
             if (idMascota != -1) {
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas eliminar la mascota?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
                 // Llamar al método eliminarMascota 
                 mascotaData.eliminarMascota(idMascota);
                 // Quitar la fila seleccionada de la tabla
                 cargarMascotas();
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró ninguna mascota con el alias: " + alias, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -1518,6 +1525,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             @Override
             public void windowClosed(WindowEvent e) {
                 actualizarTablaHistorialVisitas();
+                cargarTablaHistorial();
             }
         });
 
@@ -1625,34 +1633,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             cargarMascotas();
         }
 
-//        if (jToggleButtonPacientesInactivos.isSelected()) {
-//            cargarMascotasInactivos();
-//            tablaListaMascotas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//                @Override
-//                public void valueChanged(ListSelectionEvent e) {
-//                    if (!e.getValueIsAdjusting()) {
-//                        int filaSeleccionada = tablaListaMascotas.getSelectedRow();
-//                        if (filaSeleccionada != -1) {
-//                            String aliasMascota = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
-//                            int idMascota = mascotaData.obtenerIdMascotaPorAlias(aliasMascota);
-//                            int estadoMascota = mascotaData.obtenerEstadoMascotaPorId(idMascota);
-//                            if (estadoMascota == 0) {
-//                                int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar al paciente?", "Confirmación", JOptionPane.YES_NO_OPTION);
-//                                if (respuesta == JOptionPane.YES_OPTION) {
-//                                    mascotaData.activarMascota(idMascota);
-//
-//                                    tablaMascota.removeRow(filaSeleccionada);
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                }
-//            });
-//
-//        } else {
-//            cargarMascotas();
-//        }
     }//GEN-LAST:event_jToggleButtonPacientesInactivosActionPerformed
 
     private void jbTerminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTerminarVentaActionPerformed
@@ -1946,7 +1926,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void cargarTablaHistorial() {
 
         if (idMascotaSeleccionada != -1) {
-            double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascotaSeleccionada);
+           // double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascotaSeleccionada);
             String alias = aliasMascotaSeleccionada;
 
             List<Visita> historialVisitas = visitaData.historialDeVisitasPorId(idMascotaSeleccionada);
@@ -1959,15 +1939,17 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             historialVisita.addColumn("Duracion");
             historialVisita.addColumn("Peso actual");
             historialVisita.addColumn("Peso Promedio");
+            
+             double sumaPesos = 0.0;
+             int contadorVisitas = 0;
 
             for (Visita visita : historialVisitas) {
-//                int fila = tablaHistorialVisita.getSelectedRow();
-//                if( fila != -1){
-//                    int id = historialVisita.getValueAt(fila,0);
-//                }
 
                 Tratamiento tratamiento = tratamientoData.consultarTratamientoPorId(visita.getIdTratamiento());
 
+                sumaPesos += visita.getPesoActual();
+                contadorVisitas++;
+            
                 System.out.println("encoontro: " + tratamiento);
                 historialVisita.addRow(new Object[]{
                     visita.getFechaVisita(),
@@ -1976,7 +1958,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                     tratamiento.getTipo(),
                     visita.getDuracion(),
                     visita.getPesoActual(),
-                    nuevoPesoPromedio
+                   // nuevoPesoPromedio
+                    (contadorVisitas == historialVisitas.size()) ? (sumaPesos / contadorVisitas) : ""
+
                 });
                 txtClienteVisita.setText(documentoCliente);
                 txtMascotaVisita.setText(alias);

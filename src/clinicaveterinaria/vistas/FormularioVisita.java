@@ -11,15 +11,11 @@ import clinicaveterinaria.entidades.Tratamiento;
 import clinicaveterinaria.entidades.Visita;
 import com.toedter.calendar.JDateChooser;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
