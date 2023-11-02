@@ -73,6 +73,37 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     public void tratamientoActualizado() {
         cargarTratamientos();
     }
+    
+    private ListSelectionListener mascotaSelectionListener = new ListSelectionListener() {
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            int filaSeleccionada = tablaListaMascotas.getSelectedRow();
+            if (filaSeleccionada != -1) {
+                String aliasMascota = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
+                int idMascota = mascotaData.obtenerIdMascotaPorAlias(aliasMascota);
+                int estadoMascota = mascotaData.obtenerEstadoMascotaPorId(idMascota);
+                if (estadoMascota == 0) {
+                    int documento = (int) tablaMascota.getValueAt(filaSeleccionada, 6);
+
+                    int estadoCliente = clienteData.obtenerEstadoClientePorDocumento(documento);
+                    
+                    if(estadoCliente== 0){
+                        JOptionPane.showMessageDialog(null, "El dueño de esta mascota aún no está activo. No se puede activar la mascota.");
+                    } else {
+                        int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar al paciente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                        if (respuesta == JOptionPane.YES_OPTION) {
+                            mascotaData.activarMascota(idMascota);
+
+                            tablaMascota.removeRow(filaSeleccionada);
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
 
     public VeterinariaHome() {
         initComponents();
@@ -1285,6 +1316,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     //PERTENECE A LA TABLA/LISTA DE MASCOTAS/PACIENTES: 
     private void buttonPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPacientesActionPerformed
         tabbedPane.setSelectedComponent(panelPacientes);
+        
+        jToggleButtonPacientesInactivos.setSelected(false);
     }//GEN-LAST:event_buttonPacientesActionPerformed
 
     private void buttonOtraConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOtraConsultaActionPerformed
@@ -1334,6 +1367,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     //PERTENECE AL PANEL CLIENTE: 
     private void buttonClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClientesActionPerformed
         tabbedPane.setSelectedComponent(panelClientes);
+        jToggleButtonClientesInactivos.setSelected(false);
     }//GEN-LAST:event_buttonClientesActionPerformed
 
     //PERTENECE A CLIENTE: 
@@ -1361,7 +1395,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                     }
                 } else {
                     // Hay mascotas asociadas, mostrar confirmación
-                    int confirmacion = JOptionPane.showConfirmDialog(this, "Este cliente tiene mascotas asociadas. ¿Desea eliminar al cliente y sus mascotas?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "Este cliente tiene mascotas asociadas. ¿Desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
                     if (confirmacion == JOptionPane.YES_OPTION) {
                         Cliente cliente = clienteData.consultarClientePorId(idCliente);
@@ -1579,35 +1613,46 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
     }//GEN-LAST:event_buttonBuscarVisitasActionPerformed
 
+    
+    
     private void jToggleButtonPacientesInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonPacientesInactivosActionPerformed
         if (jToggleButtonPacientesInactivos.isSelected()) {
             cargarMascotasInactivos();
-            tablaListaMascotas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-                    if (!e.getValueIsAdjusting()) {
-                        int filaSeleccionada = tablaListaMascotas.getSelectedRow();
-                        if (filaSeleccionada != -1) {
-                            String aliasMascota = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
-                            int idMascota = mascotaData.obtenerIdMascotaPorAlias(aliasMascota);
-                            int estadoMascota = mascotaData.obtenerEstadoMascotaPorId(idMascota);
-                            if (estadoMascota == 0) {
-                                int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar al paciente?", "Confirmación", JOptionPane.YES_NO_OPTION);
-                                if (respuesta == JOptionPane.YES_OPTION) {
-                                    mascotaData.activarMascota(idMascota);
-
-                                    tablaMascota.removeRow(filaSeleccionada);
-                                }
-
-                            }
-                        }
-                    }
-                }
-            });
-
+            tablaListaMascotas.getSelectionModel().addListSelectionListener(mascotaSelectionListener);
+        
         } else {
+            tablaListaMascotas.getSelectionModel().removeListSelectionListener(mascotaSelectionListener);
             cargarMascotas();
         }
+
+//        if (jToggleButtonPacientesInactivos.isSelected()) {
+//            cargarMascotasInactivos();
+//            tablaListaMascotas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//                @Override
+//                public void valueChanged(ListSelectionEvent e) {
+//                    if (!e.getValueIsAdjusting()) {
+//                        int filaSeleccionada = tablaListaMascotas.getSelectedRow();
+//                        if (filaSeleccionada != -1) {
+//                            String aliasMascota = (String) tablaMascota.getValueAt(filaSeleccionada, 0);
+//                            int idMascota = mascotaData.obtenerIdMascotaPorAlias(aliasMascota);
+//                            int estadoMascota = mascotaData.obtenerEstadoMascotaPorId(idMascota);
+//                            if (estadoMascota == 0) {
+//                                int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea activar al paciente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+//                                if (respuesta == JOptionPane.YES_OPTION) {
+//                                    mascotaData.activarMascota(idMascota);
+//
+//                                    tablaMascota.removeRow(filaSeleccionada);
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//            });
+//
+//        } else {
+//            cargarMascotas();
+//        }
     }//GEN-LAST:event_jToggleButtonPacientesInactivosActionPerformed
 
     private void jbTerminarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTerminarVentaActionPerformed

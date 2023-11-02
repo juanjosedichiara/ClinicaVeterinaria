@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 //MÉTODOS PARA INTERACTUAR CON LA BASE DE DATOS DE CLIENTE
 public class ClienteData {
@@ -95,7 +96,7 @@ public class ClienteData {
 
     //Elimina una Mascota de la BD y cambia estado a false en tabla Cliente 
     public void eliminarClienteConMascota(Cliente cliente, Mascota mascota) {
-         String sql1 = "DELETE FROM mascota WHERE idMascota = ?";
+         String sql1 = "UPDATE mascota SET estadoMascota = 0 WHERE idMascota = ?";
             String sql2 = "UPDATE cliente SET estadoCliente = 0 WHERE idCliente = ?";
 
             try {
@@ -111,7 +112,7 @@ public class ClienteData {
                 ps2.executeUpdate();
                 ps2.close();
 
-                System.out.println("Se eliminó la Mascota y se cambió el estado del Cliente exitosamente.");
+                System.out.println("Se cambió el estado del Cliente y sus mascotas exitosamente.");
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -362,6 +363,8 @@ public class ClienteData {
 
             if (rs.next()) {
                 estadoCliente = rs.getInt("estadoCliente");
+            }else{
+                estadoCliente=-1;
             }
 
             rs.close();

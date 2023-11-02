@@ -236,8 +236,8 @@ public class FormularioMascota extends javax.swing.JFrame {
         if (!dniClienteText.isEmpty()) {
             int dniCliente = Integer.parseInt(dniClienteText);
             idCliente = clienteData.obtenerIdClientePorDNI(dniCliente);
-
-            if (idCliente > 0) {
+            int estadoCliente = clienteData.obtenerEstadoClientePorDocumento(dniCliente);
+            if (estadoCliente == 1 && idCliente>0 ) {
 
                 String alias = txtAlias.getText();
                 String sexo = txtSexo.getText();
@@ -269,7 +269,7 @@ public class FormularioMascota extends javax.swing.JFrame {
                     this.dispose();
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "El DNI del cliente no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El DNI del cliente no existe en la base de datos o esta inactivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, complete el campo 'Documento dueño'.", "Error", JOptionPane.ERROR_MESSAGE);
