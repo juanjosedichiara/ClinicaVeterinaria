@@ -215,7 +215,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         jScrollPane7 = new javax.swing.JScrollPane();
         tablaHistorialVisita = new javax.swing.JTable();
         buttonVolverVisita = new javax.swing.JButton();
-        buttonEliminarVisita = new javax.swing.JButton();
         buttonRegistrarVisita = new javax.swing.JButton();
         buttonNuevaConsultaHistorialVisitas = new javax.swing.JButton();
         buttonBuscarVisitas = new javax.swing.JButton();
@@ -1075,13 +1074,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
         });
 
-        buttonEliminarVisita.setText("Eliminar");
-        buttonEliminarVisita.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEliminarVisitaActionPerformed(evt);
-            }
-        });
-
         buttonRegistrarVisita.setText("Registrar visita");
         buttonRegistrarVisita.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1126,15 +1118,13 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                         .addGap(58, 58, 58))
                     .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(33, Short.MAX_VALUE))
+                        .addContainerGap(30, Short.MAX_VALUE))
                     .addGroup(panelRegistrarVisitaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(buttonVolverVisita)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(buttonNuevaConsultaHistorialVisitas)
-                        .addGap(127, 127, 127)
-                        .addComponent(buttonEliminarVisita)
-                        .addGap(106, 106, 106))))
+                        .addGap(302, 302, 302))))
         );
         panelRegistrarVisitaLayout.setVerticalGroup(
             panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1153,7 +1143,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 .addGap(44, 44, 44)
                 .addGroup(panelRegistrarVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonVolverVisita)
-                    .addComponent(buttonEliminarVisita)
                     .addComponent(buttonNuevaConsultaHistorialVisitas))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
@@ -1181,7 +1170,8 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         Cliente cliente = clienteData.consultarClientesPorDNI(dni);
 
         //Devolver los datos del cliente. 
-        if (cliente.getDocumento() != 0) {
+        if (cliente.getDocumento() != 0 && cliente.getEstadoCliente()== true) {
+            
             txtNombre.setText(cliente.getNombre());
             txtApellido.setText(cliente.getApellido());
             txtDireccion.setText(cliente.getDireccion());
@@ -1205,7 +1195,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
             }
 
         } else {
-            int nuevoCliente = JOptionPane.showConfirmDialog(this, "Cliente no encontrado. ¿Desea agregar un Nuevo Cliente?");
+            int nuevoCliente = JOptionPane.showConfirmDialog(this, "Cliente inactivo o inexistente. ¿Desea agregar un Nuevo Cliente?");
 
             if (nuevoCliente == 0) {
                 tabbedPane.setSelectedComponent(panelClientes);
@@ -1364,6 +1354,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
                 if (mascotas.isEmpty()) {
                     // No hay mascotas asociadas, mostrar confirmación para eliminar al cliente
                     int confirmacionCliente = JOptionPane.showConfirmDialog(this, "¿Desea eliminar al cliente?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                    
                     if (confirmacionCliente == JOptionPane.YES_OPTION) {
                         clienteData.eliminarCliente(idCliente);
                         cargarClientes();
@@ -1377,8 +1368,9 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
 
                         for (Mascota mascota : mascotas) {
                             clienteData.eliminarClienteConMascota(cliente, mascota);
-                            cargarClientes();
+                            
                         }
+                        cargarClientes();
                     }
                 }
             } else {
@@ -1506,13 +1498,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tablaHistorialVisita.setModel(historialVisita);
     }//GEN-LAST:event_buttonNuevaConsultaHistorialVisitasActionPerformed
 
-    private void buttonEliminarVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarVisitaActionPerformed
-        // DEBE ELIMINAR LA VISITA SELECCIONADA DE LA TABLA Y LA BASE DE DATOS 
-        //TOMA LA FILA SELECCIONADA PARA ELIMINARLA
-        //LLAMAR AL METODO ELIMINIAR VISITA DE VISITADATA
-        //USAR METODO CARGARTABLAHISTORIAL ESTA ABAJO
-    }//GEN-LAST:event_buttonEliminarVisitaActionPerformed
-
     private void buttonVolverVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVolverVisitaActionPerformed
         tabbedPane.setSelectedComponent(panelNuevaVisita);
     }//GEN-LAST:event_buttonVolverVisitaActionPerformed
@@ -1560,35 +1545,38 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private void buttonBuscarVisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarVisitasActionPerformed
         String alias = txtMascotaVisita.getText();
         String documento = txtClienteVisita.getText();
-        int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
-        int idCliente = clienteData.obtenerIdClientePorDNI(Integer.parseInt(documento));
+        if(!alias.isEmpty() && !documento.isEmpty()){
+            int idMascota = mascotaData.obtenerIdMascotaPorAlias(alias);
+            int idCliente = clienteData.obtenerIdClientePorDNI(Integer.parseInt(documento));
 
-        if (idMascota != -1 && idCliente != -1) {
-            List<Visita> visitas = visitaData.historialDeVisitasPorId(idMascota);
-            DefaultTableModel model = (DefaultTableModel) tablaHistorialVisita.getModel();
-            model.setRowCount(0);
+            if (idMascota != -1 && idCliente != -1) {
+                List<Visita> visitas = visitaData.historialDeVisitasPorId(idMascota);
+                DefaultTableModel model = (DefaultTableModel) tablaHistorialVisita.getModel();
+                model.setRowCount(0);
 
-            for (Visita visita : visitas) {
-                String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
-                double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascota);
+                for (Visita visita : visitas) {
+                    String tratamiento = obtenerNombreTratamientoPorId(visita.getIdTratamiento());
+                    double nuevoPesoPromedio = mascotaData.actualizarPesoPromedio(idMascota);
 
-                model.addRow(new Object[]{
-                    visita.getFechaVisita(),
-                    visita.getSintomas(),
-                    visita.getAfeccion(),
-                    tratamiento,
-                    visita.getDuracion(),
-                    visita.getPesoActual(),
-                    nuevoPesoPromedio
-                });
+                    model.addRow(new Object[]{
+                        visita.getFechaVisita(),
+                        visita.getSintomas(),
+                        visita.getAfeccion(),
+                        tratamiento,
+                        visita.getDuracion(),
+                        visita.getPesoActual(),
+                        nuevoPesoPromedio
+                    });
 
-                txtClienteVisita.setText(documento);
-                txtMascotaVisita.setText(alias);
+                    txtClienteVisita.setText(documento);
+                    txtMascotaVisita.setText(alias);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Mascota o cliente no encontrados.", "Error", JOptionPane.ERROR_MESSAGE);
+             }
+        }else{
+                JOptionPane.showMessageDialog(this, "Debe llenar ambos campos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Mascota o cliente no encontrados.", "Error", JOptionPane.ERROR_MESSAGE);
-
-        }
     }//GEN-LAST:event_buttonBuscarVisitasActionPerformed
 
     private void jToggleButtonPacientesInactivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonPacientesInactivosActionPerformed
@@ -1708,7 +1696,6 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
     private javax.swing.JButton buttonCargarPaciente;
     private javax.swing.JButton buttonClientes;
     private javax.swing.JButton buttonEliminarTratamiento;
-    private javax.swing.JButton buttonEliminarVisita;
     private javax.swing.JButton buttonFacturacion;
     private javax.swing.JButton buttonGuardarCambios;
     private javax.swing.JButton buttonHistorialVisitas;
@@ -1844,7 +1831,7 @@ public class VeterinariaHome extends javax.swing.JFrame implements ClienteEventL
         tablaCliente.setRowCount(0);
 
         // Obtener la lista de clientes desde la base de datos
-        List<Cliente> clientes = clienteData.obtenerTodosLosClientes();
+        List<Cliente> clientes = clienteData.obtenerClientesActivos();
         Collections.sort(clientes, Comparator.comparing(Cliente::getApellido));
         // Agregar cada cliente a la tabla
         for (Cliente cliente : clientes) {

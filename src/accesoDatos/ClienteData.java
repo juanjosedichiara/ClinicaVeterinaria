@@ -95,68 +95,27 @@ public class ClienteData {
 
     //Elimina una Mascota de la BD y cambia estado a false en tabla Cliente 
     public void eliminarClienteConMascota(Cliente cliente, Mascota mascota) {
-        String sql = "UPDATE cliente SET estadoCliente= false WHERE idCliente = ?";
-        String sql1 = "DELETE FROM mascota WHERE idMascota= ?";
-//        int confirmacion;
-//
-//        try {
-//            confirmacion = JOptionPane.showConfirmDialog(null, "¿Desea eliminar las mascotas asociadas al cliente?");
-//
-//            if (confirmacion == 0) { 
-//                // Si el usuario confirma
-//                // Elimina al cliente (Borrado Logico)
-//                PreparedStatement ps = con.prepareStatement(sql);
-//                ps.setInt(1, cliente.getIdCliente());
-//                ps.executeUpdate();
-//                ps.close();
-//
-//                // Elimina las mascotas asociadas al cliente
-//                PreparedStatement ps1 = con.prepareStatement(sql1);
-//                ps1.setInt(1, cliente.getIdCliente());
-//                ps1.executeUpdate();
-//                ps1.close();
-//
-//                 System.out.println("Se eliminó al Cliente y se cambió el estado de sus Mascotas exitosamente.");
-//            
-//            } else if (confirmacion == 1) { 
-//                // Si el usuario no desea eliminar las mascotas
-//                // Solo elimina al cliente
-//                PreparedStatement ps = con.prepareStatement(sql);
-//                ps.setInt(1, cliente.getIdCliente());
-//                ps.executeUpdate();
-//                ps.close();
-//
-//                System.out.println("Cliente eliminado exitosamente. No se eliminaron las mascotas asociadas.");
-//            
-//            } else {
-//                System.out.println("Operación cancelada.");
-//            }
-//        
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
+         String sql1 = "DELETE FROM mascota WHERE idMascota = ?";
+            String sql2 = "UPDATE cliente SET estadoCliente = 0 WHERE idCliente = ?";
 
-        // CREO QUE DEBEMOS USAR ESTE METODO
-        // LA CONFIRMACION DEBERIAMOS AGREGARLA EN LOS BOTONES DE VISTAS. 
-        //POR ESO COMENTE EL ANTERIOR CODIGO.. PROBAR AMBOS.
-        try {
-            // Elimina al cliente (Borrado Logico)
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, cliente.getIdCliente());
-            ps.executeUpdate();
-            ps.close();
+            try {
+                // Elimina físicamente a la mascota
+                PreparedStatement ps1 = con.prepareStatement(sql1);
+                ps1.setInt(1, mascota.getIdMascota());
+                ps1.executeUpdate();
+                ps1.close();
 
-            // Elimina una Mascota (DELETE)
-            PreparedStatement ps1 = con.prepareStatement(sql1);
-            ps1.setInt(1, mascota.getIdMascota());
-            ps1.executeUpdate();
-            ps1.close();
+                // Cambia el estado del cliente a 0 (inactivo)
+                PreparedStatement ps2 = con.prepareStatement(sql2);
+                ps2.setInt(1, cliente.getIdCliente());
+                ps2.executeUpdate();
+                ps2.close();
 
-            System.out.println("Se eliminó al Cliente y se cambió el estado de sus Mascotas exitosamente.");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
+                System.out.println("Se eliminó la Mascota y se cambió el estado del Cliente exitosamente.");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            
     }
 
     //Modifica los datos de un cliente en la base de datos.
@@ -310,6 +269,31 @@ public class ClienteData {
 
     }
 
+    public List<Cliente> obtenerClientesActivos() {
+        List<Cliente> clientes = new ArrayList<>();
+        String sql = "SELECT * FROM cliente WHERE estadoCliente = 1";
+
+        try {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Cliente cliente = new Cliente();
+                    cliente.setIdCliente(rs.getInt("idCliente"));
+                    cliente.setApellido(rs.getString("apellido"));
+                    cliente.setNombre(rs.getString("nombre"));
+                    cliente.setDocumento(rs.getInt("documento"));
+                    cliente.setDireccion(rs.getString("direccion"));
+                    cliente.setTelefono(rs.getLong("telefono"));
+                    cliente.setContacto(rs.getString("contacto"));
+                    clientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientes;
+    }
+
+    
     //Obtiene todos los clientes de la base de datos.
     public List<Cliente> obtenerTodosLosClientes() {
         List<Cliente> clientes = new ArrayList<>();
